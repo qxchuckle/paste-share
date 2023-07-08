@@ -4,12 +4,15 @@ import App from './App.vue'
 const app = createApp(App)
 
 // 导入并使用pinia
+// 导入并使用pinia
 import { createPinia } from 'pinia'
 app.use(createPinia())
+import useUserStore from './stores/UserStore'
+const userStore = useUserStore();
 
 // axios
 import axios from 'axios';
-axios.defaults.baseURL = 'https://b.qcqx.cn';
+axios.defaults.baseURL = 'http://127.0.0.1:3000';
 // 拦截器
 axios.interceptors.request.use((config)=>{
   config.headers.token = userStore.token;
