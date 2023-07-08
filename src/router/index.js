@@ -11,6 +11,8 @@ import useUserStore from '../stores/UserStore'
 const Home = () => import('../views/Home.vue')
 const Share = () => import('../views/Share.vue')
 const Login = () => import('../views/Login.vue')
+const Admin = () => import('../views/Admin.vue')
+const Register = () => import('../views/Register.vue')
 
 // 路由配置
 const routes = [
@@ -18,18 +20,41 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    children: []
+    meta: {
+      title: '粘贴分享|主页'
+    },
   },
   {
     path: '/s/:id',
     name: 'Share',
     component: Share,
-    children: []
+    meta: {
+      title: '粘贴分享|分享详情'
+    },
   },
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: {
+      title: '粘贴分享|登陆'
+    },
+  },
+  {
+    path: '/reg',
+    name: 'Register',
+    component: Register,
+    meta: {
+      title: '粘贴分享|注册'
+    },
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
+    meta: {
+      title: '粘贴分享|管理'
+    },
   },
 ];
 
@@ -61,9 +86,20 @@ router.beforeEach((to) => {
           localStorage.removeItem("token");
         }
       }
-    }).catch((err) => { })
+    }).catch((err) => {
+
+    }).finally(() => {
+      userStore.isCompleteLogin = true;
+    })
+  } else {
+    userStore.isCompleteLogin = true;
   }
 })
 
+router.afterEach((to, from) => {
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  }
+})
 
 export default router

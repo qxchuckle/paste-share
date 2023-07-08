@@ -4,7 +4,6 @@ import App from './App.vue'
 const app = createApp(App)
 
 // 导入并使用pinia
-// 导入并使用pinia
 import { createPinia } from 'pinia'
 app.use(createPinia())
 import useUserStore from './stores/UserStore'
@@ -34,6 +33,5 @@ app.provide('message', message);
 app.provide('notification', notification);
 app.provide('dialog', dialog);
 app.provide('loadingBar', loadingBar);
-
 
 app.mount('#app')

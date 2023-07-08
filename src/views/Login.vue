@@ -116,10 +116,7 @@ const login = async () => {
 
 <style lang="scss" scoped>
 #login-panel {
-  position: relative;
   max-width: 500px;
   margin: 0 auto;
-  top: 50%;
-  transform: translateY(-50%);
 }
 </style>

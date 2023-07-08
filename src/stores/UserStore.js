@@ -7,6 +7,7 @@ export default defineStore('UserStore', {
       token: localStorage.getItem("token") || "",
       username: localStorage.getItem("username") || "",
       isLogin: false,
+      isCompleteLogin: false,
     }
   },
   // 对状态的操作

@@ -1,39 +1,41 @@
 <template>
-  <n-form class="info_form" :rules="rules" :model="info" ref="formRef" label-placement="left" label-width="auto"
-    require-mark-placement="right-hanging">
-    <n-form-item path="title" label="标题" size="large">
-      <n-input v-model:value="info.title" placeholder="请输入标题" @keydown.enter.prevent />
-    </n-form-item>
-    <n-form-item path="language" label="语言" size="large">
-      <n-select class="select" v-model:value="info.language" :options="select_options" />
-    </n-form-item>
-    <n-form-item path="password_switch" label="加密" size="large">
-      <n-switch :rail-style="railStyle" v-model:value="password_switch" size="large">
-        <template #checked>
-          有密码
-        </template>
-        <template #unchecked>
-          无密码
-        </template>
-      </n-switch>
-    </n-form-item>
-    <n-form-item path="password" label="密码" size="large" v-show="password_switch">
-      <n-input class="password" v-model:value="info.password" placeholder="请输入密码" autosize @keydown.enter.prevent />
-    </n-form-item>
-    <n-form-item path="content" label="内容" size="large">
-      <n-input v-model:value="info.content" type="textarea" @keydown.tab.prevent="addTab" placeholder="粘贴或输入文本、代码"
-        :autosize="{
-          minRows: 12
-        }" />
-    </n-form-item>
-    <n-space justify="center">
-      <n-button @click="submit()" size="large">创建 提交</n-button>
-    </n-space>
-  </n-form>
+  <n-spin :show="loadAddShare">
+    <n-form class="info_form" :rules="rules" :model="info" ref="formRef" label-placement="left" label-width="auto"
+      require-mark-placement="right-hanging">
+      <n-form-item path="title" label="标题" size="large">
+        <n-input v-model:value="info.title" placeholder="请输入标题" @keydown.enter.prevent />
+      </n-form-item>
+      <n-form-item path="language" label="语言" size="large">
+        <n-select class="select" v-model:value="info.language" :options="select_options" />
+      </n-form-item>
+      <n-form-item path="password_switch" label="加密" size="large">
+        <n-switch :rail-style="railStyle" v-model:value="password_switch" size="large">
+          <template #checked>
+            有密码
+          </template>
+          <template #unchecked>
+            无密码
+          </template>
+        </n-switch>
+      </n-form-item>
+      <n-form-item path="password" label="密码" size="large" v-show="password_switch">
+        <n-input class="password" type="password" show-password-on="click" v-model:value="info.password" placeholder="请输入密码" autosize @keydown.enter.prevent />
+      </n-form-item>
+      <n-form-item path="content" label="内容" size="large">
+        <n-input v-model:value="info.content" type="textarea" @keydown.tab.prevent="addTab" placeholder="粘贴或输入文本、代码"
+          :autosize="{
+            minRows: 12
+          }" />
+      </n-form-item>
+      <n-space justify="center">
+        <n-button @click="submit()" size="large">创建 提交 分享</n-button>
+      </n-space>
+    </n-form>
+  </n-spin>
 </template>
 
 <script setup>
-import { ref, reactive, inject, onMounted, computed,nextTick } from "vue"
+import { ref, reactive, inject, onMounted, computed, nextTick } from "vue"
 import { storeToRefs } from 'pinia'
 const axios = inject("axios");
 const message = inject('message');
@@ -41,6 +43,7 @@ import { useRouter, useRoute } from "vue-router"
 const router = useRouter()
 const route = useRoute()
 
+const loadAddShare = ref(false);
 const formRef = ref(null);
 const info = ref({
   title: "",
@@ -96,11 +99,27 @@ const select_options = [
   },
   {
     label: "C/C++",
-    value: "c",
+    value: "cpp",
   },
   {
     label: "JavaScript",
     value: "javascript",
+  },
+  {
+    label: "Json",
+    value: "json",
+  },
+  {
+    label: "Python",
+    value: "python",
+  },
+  {
+    label: "Java",
+    value: "java",
+  },
+  {
+    label: "GO",
+    value: "go",
   },
 ]
 
@@ -112,9 +131,34 @@ function submit() {
     }
   }).then(() => {
     if (!fromAble) return;
-    console.log(info.value);
-  }).then(() => {
-    message.success("提交成功");
+    // console.log(info.value);
+    loadAddShare.value = true;
+    axios({
+      url: '/api/share/add',
+      method: 'post',
+      data: {
+        ...info.value
+      },
+      timeout: 5000
+    }).then(res => {
+      loadAddShare.value = false;
+      let result = res.data;
+      // console.log(result.data.share_id);
+      if (result.code === '0000') {
+        message.success(result.msg);
+        router.push({
+          name: 'Share',
+          params: {
+            id: result.data.share_id,
+          }
+        })
+      } else {
+        message.error(result.msg);
+      }
+    }).catch(err => {
+      message.error("出错了");
+      loadAddShare.value = false;
+    })
   }).catch(() => {
     message.error("请检查输入框");
   })
