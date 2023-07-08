@@ -9,6 +9,7 @@
           <n-tag type="success">{{ share_info.language ? share_info.language : "Text" }}</n-tag>
           <n-tag> {{ dayjs(Number(share_info.time)).format("YYYY-MM-DD HH:MM") }} </n-tag>
           <n-button type="primary" size="small" @click="copy()">复制</n-button>
+          <n-button type="info" size="small" @click="shareFun()">分享</n-button>
         </n-space>
         <n-divider />
         <div v-if="!share_info.language">
@@ -158,6 +159,15 @@ const copy = async () => {
     message.success("复制成功");
   } catch (e) {
     message.error("复制失败");
+  }
+}
+
+const shareFun = async () => {
+  try {
+    await toClipboard(window.location.href);
+    message.success("分享链接已复制");
+  } catch (e) {
+    message.error("分享链接复制失败");
   }
 }
 
