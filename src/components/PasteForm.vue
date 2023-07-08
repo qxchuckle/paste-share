@@ -1,7 +1,7 @@
 <template>
   <n-spin :show="loadAddShare">
     <n-form class="info_form" :rules="rules" :model="info" ref="formRef" label-placement="left" label-width="auto"
-      require-mark-placement="right-hanging">
+      require-mark-placement="right-hanging" autocomplete="off">
       <n-form-item path="title" label="标题" size="large">
         <n-input v-model:value="info.title" placeholder="请输入标题" @keydown.enter.prevent />
       </n-form-item>
@@ -132,7 +132,7 @@ function submit() {
     if (!fromAble) return;
     // console.log(info.value);
     loadAddShare.value = true;
-    if(!password_switch){
+    if(!password_switch.value){
       info.value.password = ""
     }
     axios({

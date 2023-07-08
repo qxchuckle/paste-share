@@ -27,7 +27,7 @@
         </n-config-provider>
       </div>
       <n-form class="info_form" :rules="rules" :model="info" ref="formRef" label-placement="left" label-width="auto"
-        require-mark-placement="right-hanging" v-if="!isShow">
+        require-mark-placement="right-hanging" v-if="!isShow" autocomplete="off">
         <n-form-item path="password">
           <n-input class="password" size="large" type="password" show-password-on="click" v-model:value="info.password"
             placeholder="请输入密码" autosize @keydown.enter.prevent />

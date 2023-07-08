@@ -16,7 +16,7 @@
         </template>
       </n-card>
       <template #description>
-        登陆中
+        注册中
       </template>
     </n-spin>
   </div>
