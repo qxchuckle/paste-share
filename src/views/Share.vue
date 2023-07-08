@@ -200,7 +200,7 @@ const shareFun = async () => {
 
     @media screen and (max-width:600px) {
       .password {
-        min-width: 100%;
+        width: 100%;
       }
     }
   }
