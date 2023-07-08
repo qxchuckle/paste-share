@@ -7,6 +7,8 @@
 Vue3前端：Vue3 + Vite + Vue Router + Pinia + Naive UI + axios + sass + highlight.js + vue-clipboard3  
 NodeJS后端：Express + MongoDB + Mongoose + shortid + jsonwebtoken
 
+前端:[paste-share](https://github.com/qxchuckle/paste-share)，后端：[paste-share-server](https://github.com/qxchuckle/paste-share-server)
+
 ## 功能
 1. 注册、登录、自动登录，区分多用户和游客，Token控制会话  
 2. 游客也能粘贴分享内容，注册登录后能查看自己所分享的所有内容  
