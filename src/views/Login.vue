@@ -24,20 +24,17 @@
 </template>
 
 <script setup>
-import { ref, reactive, inject,onMounted } from "vue"
+import { ref, reactive, inject } from "vue"
 // 导入路由器和路由
 import { useRouter, useRoute } from "vue-router"
 const router = useRouter()
 const route = useRoute()
 // pinia操作
-import { storeToRefs } from 'pinia'
 import useUserStore from '../stores/UserStore'
 const userStore = useUserStore();
 // 注入
 const axios = inject("axios");
 const message = inject('message');
-const loadingBar = inject('loadingBar');
-
 
 let rules = {
   username: [

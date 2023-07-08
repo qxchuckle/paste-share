@@ -41,9 +41,8 @@
 </template>
 
 <script setup>
-import { ref, reactive, inject, onMounted, computed } from "vue"
+import { ref, inject, onMounted, computed } from "vue"
 import dayjs from 'dayjs';
-import { storeToRefs } from 'pinia'
 const axios = inject("axios");
 const message = inject('message');
 import { useRouter, useRoute } from "vue-router"

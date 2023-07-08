@@ -40,8 +40,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, inject, onMounted, computed } from "vue"
-import { storeToRefs } from 'pinia'
+import { ref } from "vue"
 // 导入路由器和路由
 import { useRouter, useRoute } from "vue-router"
 const router = useRouter()

@@ -35,8 +35,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, inject, onMounted, computed, nextTick } from "vue"
-import { storeToRefs } from 'pinia'
+import { ref, inject, computed, nextTick } from "vue"
 const axios = inject("axios");
 const message = inject('message');
 import { useRouter, useRoute } from "vue-router"

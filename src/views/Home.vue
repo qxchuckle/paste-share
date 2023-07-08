@@ -5,13 +5,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, inject, onMounted, computed } from "vue"
-import { storeToRefs } from 'pinia'
-const axios = inject("axios");
-const message = inject('message');
 import PasteForm from '../components/PasteForm.vue';
-
-
 </script>
 
 <style lang="scss" scoped>

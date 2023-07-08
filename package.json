@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@highlightjs/vue-plugin": "^2.1.0",
     "axios": "^1.4.0",
     "dayjs": "^1.11.9",
     "highlight.js": "^11.8.0",
