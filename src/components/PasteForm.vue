@@ -132,6 +132,9 @@ function submit() {
     if (!fromAble) return;
     // console.log(info.value);
     loadAddShare.value = true;
+    if(!password_switch){
+      info.value.password = ""
+    }
     axios({
       url: '/api/share/add',
       method: 'post',
