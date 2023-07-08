@@ -35,8 +35,6 @@ const route = useRoute()
 // 注入
 const axios = inject("axios");
 const message = inject('message');
-const loadingBar = inject('loadingBar');
-
 
 let rules = {
   username: [
@@ -57,7 +55,7 @@ const user = reactive({
 })
 let spinShow = ref(false);
 // 登陆
-const login = async () => {
+const register = async () => {
   let formAble = true;
   try {
     // 表单规则验证
@@ -80,6 +78,9 @@ const login = async () => {
 
     if (result.code === '0000') {
       message.success(result.msg);
+      router.push({
+        name: 'Login',
+      })
     } else {
       message.error(result.msg);
     }

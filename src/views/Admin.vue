@@ -41,7 +41,6 @@ onMounted(() => {
     const result = res.data;
     if (result.code === '0000') {
       shareList.value = result.data.shareList;
-      console.log(shareList.value[1]);
     } else {
       message.error("身份校验失败，请重新登陆");
       userStore.token = "";
