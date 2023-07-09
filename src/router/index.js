@@ -70,7 +70,7 @@ router.beforeEach((to) => {
   const userStore = useUserStore();
   if (userStore.token && !userStore.isLogin && localStorage.getItem("remember") == '1') {
     // 当没有处于登陆状态且有token，且之前登陆时勾选了记住并自动登录，则进行自动登录
-    axios.post('/api/autoLogin', {
+    axios.post('/api/autoLogin', {}, {
       timeout: 5000
     }).then((res) => {
       const result = res.data;

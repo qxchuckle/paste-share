@@ -31,6 +31,9 @@
         <n-button @click="submit()" size="large">创建 提交 分享</n-button>
       </n-space>
     </n-form>
+    <template #description>
+      创建分享中
+    </template>
   </n-spin>
 </template>
 

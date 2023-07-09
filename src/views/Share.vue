@@ -38,6 +38,9 @@
         <n-button @click="submit()" size="large">提交密码</n-button>
       </n-space>
     </div>
+    <template #description>
+      加载中
+    </template>
   </n-spin>
 </template>
 

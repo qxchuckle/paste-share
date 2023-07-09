@@ -13,6 +13,9 @@
         </div>
       </div>
     </div>
+    <template #description>
+      加载中
+    </template>
   </n-spin>
 </template>
 

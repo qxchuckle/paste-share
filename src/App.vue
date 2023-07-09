@@ -27,6 +27,9 @@
         <!-- <div>快速 · 轻量 · 高效 · 稳定</div> -->
       </div>
     </div>
+    <template #description>
+      加载中
+    </template>
   </n-spin>
   <n-drawer v-model:show="drawer_active" :width="500" :placement="placement">
     <n-drawer-content title="关于本站">
