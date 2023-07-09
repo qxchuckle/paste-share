@@ -31,7 +31,7 @@
         require-mark-placement="right-hanging" v-if="!isShow" autocomplete="off">
         <n-form-item path="password">
           <n-input class="password" size="large" type="password" show-password-on="click" v-model:value="info.password"
-            placeholder="请输入密码" autosize @keydown.enter.prevent />
+            placeholder="请输入密码" autosize @keydown.enter.prevent maxlength="15" show-count clearable/>
         </n-form-item>
       </n-form>
       <n-space justify="center" v-if="!isShow">

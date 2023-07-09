@@ -4,11 +4,11 @@
       <n-card title="注册">
         <n-form :rules="rules" :model="user" ref="formRef">
           <n-form-item path="username" label="用户名">
-            <n-input v-model:value="user.username" placeholder="输入用户名" @keydown.enter.prevent />
+            <n-input v-model:value="user.username" placeholder="输入用户名" @keydown.enter.prevent maxlength="15" show-count clearable/>
           </n-form-item>
           <n-form-item path="password" label="密码">
             <n-input v-model:value="user.password" placeholder="输入密码" type="password" show-password-on="click"
-              @keydown.enter.prevent />
+              @keydown.enter.prevent maxlength="18" show-count clearable/>
           </n-form-item>
         </n-form>
         <template #footer>
