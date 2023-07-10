@@ -24,7 +24,7 @@
       <n-form-item path="content" label="内容" size="large">
         <n-input v-model:value="info.content" type="textarea" @keydown.tab.prevent="addTab" placeholder="粘贴或输入文本、代码"
           :autosize="{
-            minRows: 10
+            minRows: 9
           }" maxlength="9999" show-count/>
       </n-form-item>
       <n-space justify="center">

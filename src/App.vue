@@ -24,7 +24,7 @@
       <n-divider />
       <div id="footer">
         <div>@轻笑Chuckle</div>
-        <!-- <div>快速 · 轻量 · 高效 · 稳定</div> -->
+        <div>项目：<a href="https://github.com/qxchuckle/paste-share" target='_blank'>qxchuckle/paste-share</a></div>
       </div>
     </div>
     <template #description>
@@ -144,6 +144,13 @@ const toAdmin = () => {
     font-size: 14px;
     line-height: 20px;
     padding-bottom: 5px;
+    transition: all 0.2s;
+    a{
+      color: rgb(150, 150, 150);
+      &:hover{
+        color: rgb(40, 149, 213);
+      }
+    }
   }
 }
 </style>
