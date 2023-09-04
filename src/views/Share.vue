@@ -10,6 +10,7 @@
           <n-tag> {{ dayjs(Number(share_info.time)).format("YYYY-MM-DD HH:MM") }} </n-tag>
           <n-button type="primary" size="small" @click="copy()">复制</n-button>
           <n-button type="info" size="small" @click="shareFun()">分享</n-button>
+          <n-button size="small" @click="showModal = true">二维码</n-button>
         </n-space>
         <n-divider />
         <div v-if="!share_info.language">
@@ -31,12 +32,20 @@
         require-mark-placement="right-hanging" v-if="!isShow" autocomplete="off">
         <n-form-item path="password">
           <n-input class="password" size="large" type="password" show-password-on="click" v-model:value="info.password"
-            placeholder="请输入密码" autosize @keydown.enter.prevent maxlength="15" show-count clearable/>
+            placeholder="请输入密码" autosize @keydown.enter.prevent maxlength="15" show-count clearable />
         </n-form-item>
       </n-form>
       <n-space justify="center" v-if="!isShow">
         <n-button @click="submit()" size="large">提交密码</n-button>
       </n-space>
+      <n-modal v-model:show="showModal" preset="dialog" transform-origin="center">
+        <template #header>
+          <div>{{ share_info.title || '当前分享' }}的二维码</div>
+        </template>
+        <n-space justify="center">
+          <qrcode-vue :value="currentURL" :size="200"></qrcode-vue>
+        </n-space>
+      </n-modal>
     </div>
     <template #description>
       加载中
@@ -54,6 +63,7 @@ const router = useRouter()
 const route = useRoute()
 import useClipboard from 'vue-clipboard3';
 const { toClipboard } = useClipboard();
+import QrcodeVue from 'qrcode.vue'
 
 // 代码高亮
 import hljs from 'highlight.js/lib/core'
@@ -74,7 +84,9 @@ hljs.registerLanguage('markdown', markdown)
 hljs.registerLanguage('go', go)
 
 const loadShare = ref(true);
-const isShow = ref(true)
+const isShow = ref(true);
+const currentURL = window.location.href;
+const showModal = ref(false);
 
 const share_info = ref({
   title: '',
