@@ -84,6 +84,7 @@ router.beforeEach((to) => {
         // 如果出错则删除本地token
         if (localStorage.getItem("token")) {
           localStorage.removeItem("token");
+          userStore.token = "";
         }
       }
     }).catch((err) => {
