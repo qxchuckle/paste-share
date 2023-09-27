@@ -76,6 +76,7 @@ router.beforeEach((to) => {
       const result = res.data;
       if (result.code === '0000' && result.data.username) {
         userStore.username = result.data.username;
+        userStore.userType = result.data.userType;
         userStore.isLogin = true;
         if (localStorage.getItem("username") !== userStore.username) {
           localStorage.setItem("username", userStore.username);

@@ -84,6 +84,7 @@ const login = async () => {
       userStore.$patch(state => {
         state.username = result.data.username;
         state.token = result.data.token;
+        state.userType = result.data.userType;
         state.isLogin = true;
       });
       // 记住我

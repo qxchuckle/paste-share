@@ -48,6 +48,7 @@ onMounted(() => {
       message.error("身份校验失败，请重新登陆");
       userStore.token = "";
       userStore.username = "";
+      userStore.userType = "";
       userStore.isLogin = false;
       localStorage.removeItem("token");
       localStorage.removeItem("username");

@@ -6,6 +6,7 @@ export default defineStore('UserStore', {
     return {
       token: localStorage.getItem("token") || "",
       username: localStorage.getItem("username") || "",
+      userType: "",
       isLogin: false,
       isCompleteLogin: false,
     }

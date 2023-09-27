@@ -43,26 +43,29 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref } from "vue";
 // 导入路由器和路由
-import { useRouter, useRoute } from "vue-router"
-const router = useRouter()
-const route = useRoute()
+import { useRouter, useRoute } from "vue-router";
+const message = inject('message');
+const router = useRouter();
+const route = useRoute();
 const drawer_active = ref(false);
 const placement = ref("bottom");
 const activate = (place) => {
   drawer_active.value = true;
   placement.value = place;
 };
-import useUserStore from './stores/UserStore'
+import useUserStore from './stores/UserStore';
 const userStore = useUserStore();
 
 const logout = () => {
   userStore.token = "";
   userStore.username = "";
+  userStore.userType = "";
   userStore.isLogin = false;
   localStorage.removeItem("token");
   localStorage.removeItem("username");
+  message.success("已登出");
 }
 
 const toHome = () => {
