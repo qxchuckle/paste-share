@@ -1,52 +1,46 @@
 <template>
   <n-spin :show="loadShare">
-    <div class="share-container">
-      <div class="content" v-if="isShow">
-        <n-space justify="center" v-if="share_info.title">
-          <div class="title">{{ share_info.title }}</div>
-        </n-space>
-        <n-space justify="center">
-          <n-tag type="success">{{ share_info.language ? share_info.language : "Text" }}</n-tag>
-          <n-tag> {{ dayjs(Number(share_info.time)).format("YYYY-MM-DD HH:MM") }} </n-tag>
-          <n-button type="primary" size="small" @click="copy()">复制</n-button>
-          <n-button type="info" size="small" @click="shareFun()">分享</n-button>
-          <n-button size="small" @click="showModal = true">二维码</n-button>
-        </n-space>
-        <n-divider />
-        <div v-if="!share_info.language">
-          <p>{{ share_info.content }}</p>
+    <n-layout>
+      <div class="share-container">
+        <div class="content" v-if="isShow && isShare">
+          <n-space justify="center" v-if="share_info.title">
+            <div class="title">{{ share_info.title }}</div>
+          </n-space>
+          <n-space justify="center">
+            <n-tag type="success">{{ share_info.language ? share_info.language : "Text" }}</n-tag>
+            <n-tag> {{ dayjs(Number(share_info.time)).format("YYYY-MM-DD HH:MM") }} </n-tag>
+            <n-button type="primary" size="small" @click="copy()">复制</n-button>
+            <n-button type="info" size="small" @click="shareFun()">分享</n-button>
+            <n-button size="small" @click="showModal = true">二维码</n-button>
+          </n-space>
+          <n-card size="small" style="margin-top: 15px;">
+            <div v-if="!share_info.language">
+              <p class="text">{{ share_info.content }}</p>
+            </div>
+            <Code :language="share_info.language" :content="share_info.content"></Code>
+          </n-card>
         </div>
-        <n-config-provider :hljs="hljs" style="overflow: auto">
-          <n-code :code="share_info.content" show-line-numbers language="javascript"
-            v-if="share_info.language == 'javascript'" />
-          <n-code :code="share_info.content" show-line-numbers language="json" v-if="share_info.language == 'json'" />
-          <n-code :code="share_info.content" show-line-numbers language="cpp" v-if="share_info.language == 'cpp'" />
-          <n-code :code="share_info.content" show-line-numbers language="python" v-if="share_info.language == 'python'" />
-          <n-code :code="share_info.content" show-line-numbers language="java" v-if="share_info.language == 'java'" />
-          <n-code :code="share_info.content" show-line-numbers language="markdown"
-            v-if="share_info.language == 'markdown'" />
-          <n-code :code="share_info.content" show-line-numbers language="go" v-if="share_info.language == 'go'" />
-        </n-config-provider>
-      </div>
-      <n-form class="info_form" :rules="rules" :model="info" ref="formRef" label-placement="left" label-width="auto"
-        require-mark-placement="right-hanging" v-if="!isShow" autocomplete="off">
-        <n-form-item path="password">
-          <n-input class="password" size="large" type="password" show-password-on="click" v-model:value="info.password"
-            placeholder="请输入密码" autosize @keydown.enter.prevent maxlength="15" show-count clearable />
-        </n-form-item>
-      </n-form>
-      <n-space justify="center" v-if="!isShow">
-        <n-button @click="submit()" size="large">提交密码</n-button>
-      </n-space>
-      <n-modal v-model:show="showModal" preset="dialog" transform-origin="center">
-        <template #header>
-          <div>{{ share_info.title || '当前分享' }}的二维码</div>
-        </template>
-        <n-space justify="center">
-          <qrcode-vue :value="currentURL" :size="200"></qrcode-vue>
+        <n-empty description="没有该分享" v-if="!isShow && !isShare"></n-empty>
+        <n-form class="info_form" :rules="rules" :model="info" ref="formRef" label-placement="left" label-width="auto"
+          require-mark-placement="right-hanging" v-if="!isShow && isShare" autocomplete="off">
+          <n-form-item path="password">
+            <n-input class="password" size="large" type="password" show-password-on="click" v-model:value="info.password"
+              placeholder="请输入密码" autosize @keydown.enter.prevent maxlength="15" show-count clearable />
+          </n-form-item>
+        </n-form>
+        <n-space justify="center" v-if="!isShow && isShare">
+          <n-button @click="submit()" size="large">提交密码</n-button>
         </n-space>
-      </n-modal>
-    </div>
+        <n-modal v-model:show="showModal" preset="dialog" transform-origin="center">
+          <template #header>
+            <div>{{ share_info.title || '当前分享' }}的二维码</div>
+          </template>
+          <n-space justify="center">
+            <qrcode-vue :value="currentURL" :size="200"></qrcode-vue>
+          </n-space>
+        </n-modal>
+      </div>
+    </n-layout>
     <template #description>
       加载中
     </template>
@@ -54,36 +48,20 @@
 </template>
 
 <script setup>
-import { ref, inject, onMounted, computed } from "vue"
+import { ref, inject, onMounted, computed } from "vue";
 import dayjs from 'dayjs';
 const axios = inject("axios");
 const message = inject('message');
-import { useRouter, useRoute } from "vue-router"
-const router = useRouter()
-const route = useRoute()
+import { useRouter, useRoute } from "vue-router";
+const router = useRouter();
+const route = useRoute();
 import useClipboard from 'vue-clipboard3';
 const { toClipboard } = useClipboard();
-import QrcodeVue from 'qrcode.vue'
-
-// 代码高亮
-import hljs from 'highlight.js/lib/core'
-import javascript from 'highlight.js/lib/languages/javascript'
-import json from 'highlight.js/lib/languages/json'
-import cpp from 'highlight.js/lib/languages/cpp'
-import python from 'highlight.js/lib/languages/python'
-import java from 'highlight.js/lib/languages/java'
-import markdown from 'highlight.js/lib/languages/markdown'
-import go from 'highlight.js/lib/languages/go'
-// 注册代码高亮
-hljs.registerLanguage('javascript', javascript)
-hljs.registerLanguage('json', json)
-hljs.registerLanguage('cpp', cpp)
-hljs.registerLanguage('python', python)
-hljs.registerLanguage('java', java)
-hljs.registerLanguage('markdown', markdown)
-hljs.registerLanguage('go', go)
+import QrcodeVue from 'qrcode.vue';
+import Code from '../components/Code.vue';
 
 const loadShare = ref(true);
+const isShare = ref(true);
 const isShow = ref(true);
 const currentURL = window.location.href;
 const showModal = ref(false);
@@ -116,6 +94,9 @@ onMounted(() => {
       share_info.value.content = result.data.content;
       share_info.value.language = result.data.language;
     } else {
+      if (result.code === "3000") {
+        isShare.value = false;
+      }
       isShow.value = false;
     }
   }).catch(() => { });
@@ -197,11 +178,19 @@ const shareFun = async () => {
 
   .content {
     width: 100%;
+
+    .text {
+      white-space: break-spaces;
+      word-break: break-all;
+      word-wrap: break-word;
+      text-overflow: ellipsis;
+      margin: 0;
+    }
   }
 
   .title {
     font-size: 24px;
-    color: #363636;
+    color: var(--n-text-color);
   }
 
   .info_form {

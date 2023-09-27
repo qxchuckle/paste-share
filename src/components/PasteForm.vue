@@ -108,6 +108,10 @@ const select_options = [
     value: "javascript",
   },
   {
+    label: "TypeScript",
+    value: "typescript",
+  },
+  {
     label: "Json",
     value: "json",
   },
@@ -122,6 +126,18 @@ const select_options = [
   {
     label: "GO",
     value: "go",
+  },
+  {
+    label: "Rust",
+    value: "rust",
+  },
+  {
+    label: "CSS",
+    value: "css",
+  },
+  {
+    label: "Yaml",
+    value: "yaml",
   },
 ]
 

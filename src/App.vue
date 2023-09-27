@@ -1,49 +1,58 @@
 <template>
-  <n-spin :show="!userStore.isCompleteLogin">
-    <div class="main">
-      <div id="nav">
-        <n-space class="title-box">
-          <n-gradient-text class="title" type="info" @click="toHome()">粘贴分享</n-gradient-text>
-          <n-button @click="activate('bottom')">
-            关于
-          </n-button>
-        </n-space>
-        <div class="login-reg" v-if="!userStore.isLogin">
-          <n-button class="btn" @click="toLogin()">登陆</n-button>
-          <n-button class="btn" @click="toReg()">注册</n-button>
-        </div>
-        <n-space class="user" v-if="userStore.isLogin">
-          <div class="username">{{ userStore.username }}</div>
-          <n-button class="btn" @click="toAdmin()">管理</n-button>
-          <n-button class="btn" @click="logout()">登出</n-button>
-        </n-space>
-      </div>
-      <div class="router-view-box">
-        <router-view :key="$route.fullPath"></router-view>
-      </div>
-      <n-divider />
-      <div id="footer">
-        <div>@轻笑Chuckle</div>
-        <div>项目：<a href="https://github.com/qxchuckle/paste-share" target='_blank'>qxchuckle/paste-share</a></div>
-      </div>
-    </div>
-    <template #description>
-      加载中
-    </template>
-  </n-spin>
-  <n-drawer v-model:show="drawer_active" :width="500" :placement="placement">
-    <n-drawer-content title="关于本站">
-      <p>本站是快捷方便的文本、代码粘贴分享平台</p>
-      <p>1、目的：跨设备、远程进行文本、代码的传输与展示（起初只是为了在qq群里发代码不刷屏）</p>
-      <p>2、分享的内容会在7天后自动销毁，请勿用于保存重要信息</p>
-      <p>3、密码请自行记住，存入数据库中的密码经过了md5加密，除非密码简单，否则除了你没有其他人能知道密码</p>
-      <p>4、语言可以选择纯文本或多种语言的代码高亮</p>
-    </n-drawer-content>
-  </n-drawer>
+  <n-config-provider :theme="theme">
+    <n-layout>
+      <n-spin :show="!userStore.isCompleteLogin">
+        <n-layout-content>
+          <div class="main">
+            <div id="nav">
+              <n-space class="title-box">
+                <n-gradient-text class="title" type="info" @click="toHome()">粘贴分享</n-gradient-text>
+                <n-button @click="activate('bottom')">
+                  关于
+                </n-button>
+              </n-space>
+              <div class="login-reg" v-if="!userStore.isLogin">
+                <n-button class="btn" @click="toLogin()">登陆</n-button>
+                <n-button class="btn" @click="toReg()">注册</n-button>
+              </div>
+              <n-space class="user" v-if="userStore.isLogin">
+                <div class="username">{{ userStore.username }}</div>
+                <n-button class="btn" @click="toAdmin()">管理</n-button>
+                <n-button class="btn" @click="logout()">登出</n-button>
+              </n-space>
+            </div>
+            <n-divider style="margin: 0 0 15px 0;max-width: 810px;"></n-divider>
+            <div class="router-view-box">
+              <router-view :key="$route.fullPath"></router-view>
+            </div>
+            <n-divider />
+            <div id="footer">
+              <div>@轻笑Chuckle</div>
+              <div>项目：<a href="https://github.com/qxchuckle/paste-share" target='_blank'>qxchuckle/paste-share</a></div>
+            </div>
+          </div>
+        </n-layout-content>
+        <template #description>
+          加载中
+        </template>
+      </n-spin>
+      <RightSide @emit="rightSideEmit"></RightSide>
+      <n-drawer v-model:show="drawer_active" :width="500" :placement="placement">
+        <n-drawer-content title="关于本站">
+          <p>本站是快捷方便的文本、代码粘贴分享平台</p>
+          <p>1、目的：跨设备、远程进行文本、代码的传输与展示</p>
+          <p>2、分享内容会在7天后自动销毁，请勿用于保存重要信息</p>
+          <p>3、分享密码经过加密传输与保存，请自行妥善保存</p>
+          <p>4、语言可以选择纯文本或多种语言的代码高亮</p>
+        </n-drawer-content>
+      </n-drawer>
+    </n-layout>
+  </n-config-provider>
 </template>
 
 <script setup>
 import { ref } from "vue";
+import RightSide from "./components/RightSide.vue";
 // 导入路由器和路由
 import { useRouter, useRoute } from "vue-router";
 const message = inject('message');
@@ -92,6 +101,10 @@ const toAdmin = () => {
   })
 }
 
+const theme = ref(null);
+function rightSideEmit(value){
+  theme.value = value;
+}
 
 </script>
 
@@ -102,6 +115,8 @@ const toAdmin = () => {
   flex-wrap: nowrap;
   width: 100%;
   min-height: 100vh;
+  color: var(--n-text-color);
+  align-items: center;
 
   .router-view-box {
     width: 100%;
@@ -112,9 +127,7 @@ const toAdmin = () => {
     max-width: 800px;
     margin: 0 auto;
     height: 100%;
-    border-bottom: 1px solid rgb(239, 239, 245);
     padding: 10px;
-    margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -134,7 +147,6 @@ const toAdmin = () => {
     .user {
       .username {
         font-size: 16px;
-        color: #363636;
         line-height: 33px;
       }
     }
@@ -148,9 +160,11 @@ const toAdmin = () => {
     line-height: 20px;
     padding-bottom: 5px;
     transition: all 0.2s;
-    a{
+
+    a {
       color: rgb(150, 150, 150);
-      &:hover{
+
+      &:hover {
         color: rgb(40, 149, 213);
       }
     }
