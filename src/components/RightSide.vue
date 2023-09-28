@@ -22,10 +22,10 @@
         <n-space vertical align="center">
           自动切换
           <n-switch v-model:value="autoSwitchTheme" @update:value="themeSwitch" />
-          <n-button @click="dark">
+          <n-button @click="darkBtn">
             深色
           </n-button>
-          <n-button @click="light">
+          <n-button @click="lightBtn">
             浅色
           </n-button>
         </n-space>
@@ -46,27 +46,30 @@ function themeSwitch() {
   localStorage.setItem("autoSwitchTheme", autoSwitchTheme.value);
 }
 
-onMounted(() => {
-  const currentHour = new Date().getHours();
-  // 检查当前小时是否在晚上6点到第二天6点之间
-  if (autoSwitchTheme.value && (currentHour >= 18 || currentHour < 6)) {
-    theme.value = darkTheme;
-    emit('emit', theme.value);
-  }
-})
-
-
-function dark() {
+// 切换为黑夜模式
+function switchDark() {
   theme.value = darkTheme;
   emit('emit', theme.value);
 }
 
-function light() {
-  theme.value = null;
-  emit('emit', theme.value);
+onMounted(() => {
+  const currentHour = new Date().getHours();
+  // 检查当前小时是否在晚上6点到第二天6点之间
+  if (localStorage.getItem("theme") === "dark" || (autoSwitchTheme.value && (currentHour >= 18 || currentHour < 6))) {
+    switchDark();
+  }
+})
+
+function darkBtn() {
+  switchDark()
+  localStorage.setItem("theme", "dark");
 }
 
-
+function lightBtn() {
+  theme.value = null;
+  localStorage.setItem("theme", "light");
+  emit('emit', theme.value);
+}
 
 </script>
 

@@ -37,13 +37,15 @@
         </template>
       </n-spin>
       <RightSide @emit="rightSideEmit"></RightSide>
-      <n-drawer v-model:show="drawer_active" :width="500" :placement="placement">
+      <n-drawer v-model:show="drawer_active" :default-height="230" :placement="placement">
         <n-drawer-content title="关于本站">
-          <p>本站是快捷方便的文本、代码粘贴分享平台</p>
-          <p>1、目的：跨设备、远程进行文本、代码的传输与展示</p>
-          <p>2、分享内容会在7天后自动销毁，请勿用于保存重要信息</p>
-          <p>3、分享密码经过加密传输与保存，请自行妥善保存</p>
-          <p>4、语言可以选择纯文本或多种语言的代码高亮</p>
+          <n-space vertical>
+            <span>本站是快捷方便的文本、代码粘贴分享平台</span>
+            <span>1、目的：跨设备、远程进行文本、代码的传输与展示</span>
+            <span>2、分享内容会在7天后自动销毁，请勿用于保存重要信息</span>
+            <span>3、分享密码经过加密传输与保存，请自行妥善保存</span>
+            <span>4、语言可以选择纯文本或多种语言的代码高亮</span>
+          </n-space>
         </n-drawer-content>
       </n-drawer>
     </n-layout>
@@ -102,7 +104,7 @@ const toAdmin = () => {
 }
 
 const theme = ref(null);
-function rightSideEmit(value){
+function rightSideEmit(value) {
   theme.value = value;
 }
 

@@ -7,11 +7,16 @@
             <div class="title">{{ share_info.title }}</div>
           </n-space>
           <n-space justify="center">
-            <n-tag type="success">{{ share_info.language ? share_info.language : "Text" }}</n-tag>
-            <n-tag> {{ dayjs(Number(share_info.time)).format("YYYY-MM-DD HH:MM") }} </n-tag>
-            <n-button type="primary" size="small" @click="copy()">复制</n-button>
-            <n-button type="info" size="small" @click="shareFun()">分享</n-button>
-            <n-button size="small" @click="showModal = true">二维码</n-button>
+            <n-space justify="center">
+              <n-tag type="success">{{ share_info.language ? share_info.language : "Text" }}</n-tag>
+              <n-tag> {{ dayjs(Number(share_info.time)).format("YYYY-MM-DD") }} </n-tag>
+              <n-tag type="info"> 访问量 {{ visits }} </n-tag>
+            </n-space>
+            <n-space justify="center">
+              <n-button type="primary" size="small" @click="copy()">复制</n-button>
+              <n-button type="info" size="small" @click="shareFun()">分享</n-button>
+              <n-button type="success" size="small" @click="showModal = true">二维码</n-button>
+            </n-space>
           </n-space>
           <n-card size="small" style="margin-top: 15px;">
             <div v-if="!share_info.language">
@@ -36,7 +41,9 @@
             <div>{{ share_info.title || '当前分享' }}的二维码</div>
           </template>
           <n-space justify="center">
-            <qrcode-vue :value="currentURL" :size="200"></qrcode-vue>
+            <div class="qrcode">
+              <qrcode-vue :value="currentURL" :size="200"></qrcode-vue>
+            </div>
           </n-space>
         </n-modal>
       </div>
@@ -72,10 +79,22 @@ const share_info = ref({
   content: '',
   language: '',
   share_id: '',
+  visits: '',
 });
 const formRef = ref(null);
 const info = ref({
   password: "",
+})
+
+// 访问量，大于1000则显示K
+const visits = computed(() => {
+  let num = share_info.value.visits;
+  if(num > 1000){
+    num = (num / 1000).toFixed(2);
+    return `${num}K`;
+  }else{
+    return num;
+  }
 })
 
 onMounted(() => {
@@ -93,6 +112,7 @@ onMounted(() => {
       share_info.value.time = result.data.time;
       share_info.value.content = result.data.content;
       share_info.value.language = result.data.language;
+      share_info.value.visits = result.data.visits;
     } else {
       if (result.code === "3000") {
         isShare.value = false;
@@ -134,6 +154,7 @@ function submit() {
         share_info.value.time = result.data.time;
         share_info.value.content = result.data.content;
         share_info.value.language = result.data.language;
+        share_info.value.visits = result.data.visits;
         isShow.value = true;
       } else {
         loadShare.value = false;
@@ -209,4 +230,19 @@ const shareFun = async () => {
     }
   }
 }
+
+.qrcode {
+  padding: 5px;
+  border-radius: 8px;
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+
 </style>
