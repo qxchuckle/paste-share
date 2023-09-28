@@ -8,11 +8,12 @@ const { message } = createDiscreteApi(
 import useUserStore from '../stores/UserStore'
 
 // 路由懒加载
-const Home = () => import('../views/Home.vue')
-const Share = () => import('../views/Share.vue')
-const Login = () => import('../views/Login.vue')
-const Admin = () => import('../views/Admin.vue')
-const Register = () => import('../views/Register.vue')
+const Home = () => import('../views/Home.vue');
+const Share = () => import('../views/Share.vue');
+const Login = () => import('../views/Login.vue');
+const Admin = () => import('../views/Admin.vue');
+const Register = () => import('../views/Register.vue');
+const NotFount = () => import('../views/NotFount.vue');
 
 // 路由配置
 const routes = [
@@ -56,6 +57,14 @@ const routes = [
       title: '粘贴分享|管理'
     },
   },
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFount',
+    component: NotFount,
+    meta: {
+      title: '粘贴分享|404'
+    },
+  }
 ];
 
 // 创建路由并暴露其返回值

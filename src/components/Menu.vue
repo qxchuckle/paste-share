@@ -141,12 +141,7 @@ const activate = (place) => {
 };
 
 const logout = () => {
-  userStore.token = "";
-  userStore.username = "";
-  userStore.userType = "";
-  userStore.isLogin = false;
-  localStorage.removeItem("token");
-  localStorage.removeItem("username");
+  userStore.logout();
   message.success("已登出");
 }
 

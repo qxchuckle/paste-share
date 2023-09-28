@@ -12,7 +12,16 @@ export default defineStore('UserStore', {
     }
   },
   // 对状态的操作
-  actions: {},
+  actions: {
+    logout() {
+      this.token = "";
+      this.username = "";
+      this.userType = "";
+      this.isLogin = false;
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+    }
+  },
   // 相当于计算属性，传入一个store的state作为参数
   getters: {}
 });
