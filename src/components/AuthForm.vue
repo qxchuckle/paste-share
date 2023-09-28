@@ -28,11 +28,10 @@
 
 <script setup>
 const { config } = defineProps(['config']);
-import { ref, reactive, inject } from "vue"
+import { ref, reactive, inject } from "vue";
 // 导入路由器和路由
-import { useRouter, useRoute } from "vue-router"
-const router = useRouter()
-const route = useRoute()
+import { useRouter } from "vue-router";
+const router = useRouter();
 // pinia操作
 import useUserStore from '../stores/UserStore'
 const userStore = useUserStore();
@@ -70,14 +69,8 @@ const submit = async () => {
       }
     })
     // 发送请求
-    let apiPath;
-    if (config.type === 'login') {
-      apiPath = "/api/login";
-    } else if (config.type === 'reg') {
-      apiPath = "/api/reg";
-    }
     spinShow.value = true;
-    const res = await axios.post(apiPath, {
+    const res = await axios.post(config.apiPath, {
       username: user.username,
       password: user.password
     }, {
@@ -90,11 +83,7 @@ const submit = async () => {
 
     if (result.code === '0000') {
       // 处理结果
-      if (config.type === 'login') {
-        loginResultHandle(result);
-      } else if (config.type === 'reg') {
-        regResultHandle(result);
-      }
+      config.resultHandle(result, user);
     } else {
       message.error(result.msg);
     }
@@ -103,36 +92,6 @@ const submit = async () => {
     message.error("请检查输入框");
   }
 };
-
-function loginResultHandle(result) {
-  message.success(result.msg);
-  userStore.$patch(state => {
-    state.username = result.data.username;
-    state.token = result.data.token;
-    state.userType = result.data.userType;
-    state.isLogin = true;
-  });
-  // 记住我
-  if (user.remember) {
-    localStorage.setItem("username", user.username);
-    localStorage.setItem("token", result.data.token);
-    localStorage.setItem("remember", user.remember ? 1 : 0);
-  } else {
-    localStorage.removeItem("username");
-    localStorage.removeItem("token");
-    localStorage.removeItem("remember");
-  }
-  router.push({
-    name: 'Home',
-  })
-}
-
-function regResultHandle(result) {
-  message.success(result.msg);
-  router.push({
-    name: 'Login',
-  })
-}
 
 </script>
 

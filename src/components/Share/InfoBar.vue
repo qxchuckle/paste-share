@@ -15,6 +15,7 @@
 </template>
 
 <script setup>
+import { ref, inject, computed } from "vue";
 import dayjs from 'dayjs';
 import useClipboard from 'vue-clipboard3';
 const message = inject('message');
@@ -46,7 +47,7 @@ const copy = async () => {
 
 const shareFun = async () => {
   try {
-    await toClipboard(window.location.href);
+    await toClipboard(`${share_info.value.title} ${window.location.href}`);
     message.success("分享链接已复制");
   } catch (e) {
     message.error("分享链接复制失败");

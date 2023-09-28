@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { h, computed, onMounted } from "vue";
+import { h, computed, onMounted, inject } from "vue";
 import { NAvatar, NIcon, NText } from "naive-ui";
 const message = inject('message');
 import useUserStore from '../stores/UserStore';
