@@ -18,14 +18,14 @@
 </template>
 
 <script setup>
-import { h, computed } from "vue";
+import { h, computed, onMounted } from "vue";
 import { NAvatar, NIcon, NText } from "naive-ui";
 const message = inject('message');
 import useUserStore from '../stores/UserStore';
 const userStore = useUserStore();
 import { useRouter } from "vue-router";
 const router = useRouter();
-import { ReaderOutline, HomeOutline, NavigateOutline, LogOutOutline } from '@vicons/ionicons5';
+import { ReaderOutline, HomeOutline, NavigateOutline, LogOutOutline, SettingsOutline } from '@vicons/ionicons5';
 
 const userType = computed(() => {
   let type = "游客";
@@ -72,7 +72,7 @@ function renderCustomHeader() {
     ]
   );
 }
-const options = [
+const options = ref([
   {
     key: "header",
     type: "render",
@@ -102,7 +102,19 @@ const options = [
     icon: renderIcon(LogOutOutline),
     key: "logout"
   }
-]
+])
+
+onMounted(() => {
+  if (userStore.userType === 'admin' || userStore.userType === 'super') {
+    const e = {
+      label: "管理后台",
+      icon: renderIcon(SettingsOutline),
+      key: "admin"
+    }
+    options.value.splice(-1, 0, e);
+  }
+})
+
 
 function handleSelect(key) {
   switch (key) {
@@ -114,6 +126,9 @@ function handleSelect(key) {
       break;
     case 'about':
       activate('bottom');
+      break;
+    case 'admin':
+      toAdmin();
       break;
     case 'logout':
       logout();
@@ -130,6 +145,12 @@ const toHome = () => {
 const toList = () => {
   router.push({
     name: 'List',
+  })
+}
+
+const toAdmin = () => {
+  router.push({
+    name: 'Admin',
   })
 }
 
@@ -151,6 +172,7 @@ const logout = () => {
 .badge {
   cursor: pointer;
 }
+
 @media screen and (max-width:800px) {
   .badge {
     margin-right: 8px;

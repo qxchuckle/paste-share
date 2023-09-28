@@ -8,12 +8,13 @@ const { message } = createDiscreteApi(
 import useUserStore from '../stores/UserStore'
 
 // 路由懒加载
+const NotFount = () => import('../views/NotFount.vue');
 const Home = () => import('../views/Home.vue');
 const Share = () => import('../views/Share.vue');
 const Login = () => import('../views/Login.vue');
 const List = () => import('../views/List.vue');
 const Register = () => import('../views/Register.vue');
-const NotFount = () => import('../views/NotFount.vue');
+const Admin = () => import('../views/Admin.vue');
 
 // 路由配置
 const routes = [
@@ -55,6 +56,14 @@ const routes = [
     component: List,
     meta: {
       title: '粘贴分享|分享列表'
+    },
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
+    meta: {
+      title: '粘贴分享|管理后台'
     },
   },
   {
