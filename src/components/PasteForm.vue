@@ -3,29 +3,33 @@
     <n-form class="info_form" :rules="rules" :model="info" ref="formRef" label-placement="left" label-width="auto"
       require-mark-placement="right-hanging" autocomplete="off">
       <n-form-item path="title" label="标题" size="large">
-        <n-input v-model:value="info.title" placeholder="请输入标题" @keydown.enter.prevent maxlength="20" show-count clearable/>
+        <n-input v-model:value="info.title" placeholder="请输入标题" @keydown.enter.prevent maxlength="20" show-count
+          clearable />
       </n-form-item>
       <n-form-item path="language" label="语言" size="large">
         <n-select class="select" v-model:value="info.language" :options="select_options" />
       </n-form-item>
-      <n-form-item path="password_switch" label="加密" size="large">
-        <n-switch :rail-style="railStyle" v-model:value="password_switch" size="large">
-          <template #checked>
-            有密码
-          </template>
-          <template #unchecked>
-            无密码
-          </template>
-        </n-switch>
-      </n-form-item>
-      <n-form-item path="password" label="密码" size="large" v-show="password_switch">
-        <n-input class="password" type="password" show-password-on="click" v-model:value="info.password" placeholder="请输入密码" autosize @keydown.enter.prevent maxlength="15" show-count clearable/>
-      </n-form-item>
+      <div class="password-box">
+        <n-form-item path="password_switch" label="加密" size="large">
+          <n-switch :rail-style="railStyle" v-model:value="password_switch" size="large">
+            <template #checked>
+              有密码
+            </template>
+            <template #unchecked>
+              无密码
+            </template>
+          </n-switch>
+        </n-form-item>
+        <n-form-item class="password-label" path="password" label="密码" size="large" v-show="password_switch">
+          <n-input class="password" type="password" show-password-on="click" v-model:value="info.password"
+            placeholder="请输入密码" autosize @keydown.enter.prevent maxlength="15" show-count clearable />
+        </n-form-item>
+      </div>
       <n-form-item path="content" label="内容" size="large">
         <n-input v-model:value="info.content" type="textarea" @keydown.tab.prevent="addTab" placeholder="粘贴或输入文本、代码"
           :autosize="{
             minRows: 9
-          }" maxlength="9999" show-count/>
+          }" maxlength="9999" show-count />
       </n-form-item>
       <n-space justify="center">
         <n-button @click="submit()" size="large">创建 提交 分享</n-button>
@@ -151,7 +155,7 @@ function submit() {
     if (!fromAble) return;
     // console.log(info.value);
     loadAddShare.value = true;
-    if(!password_switch.value){
+    if (!password_switch.value) {
       info.value.password = ""
     }
     axios({
@@ -210,14 +214,33 @@ function addTab(event) {
 <style lang="scss" scoped>
 .info_form {
 
+  .password-box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .password-label {
+    margin-left: 25px;
+  }
+
   .password {
     min-width: 300px;
   }
 
   @media screen and (max-width:600px) {
+    .password-label {
+      margin-left: 0;
+    }
+
+    .password-box {
+      display: block;
+    }
+
     .password {
       min-width: 100%;
     }
   }
+
 }
 </style>
