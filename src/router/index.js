@@ -11,7 +11,7 @@ import useUserStore from '../stores/UserStore'
 const Home = () => import('../views/Home.vue');
 const Share = () => import('../views/Share.vue');
 const Login = () => import('../views/Login.vue');
-const Admin = () => import('../views/Admin.vue');
+const List = () => import('../views/List.vue');
 const Register = () => import('../views/Register.vue');
 const NotFount = () => import('../views/NotFount.vue');
 
@@ -50,11 +50,11 @@ const routes = [
     },
   },
   {
-    path: '/admin',
-    name: 'Admin',
-    component: Admin,
+    path: '/List',
+    name: 'List',
+    component: List,
     meta: {
-      title: '粘贴分享|管理'
+      title: '粘贴分享|分享列表'
     },
   },
   {

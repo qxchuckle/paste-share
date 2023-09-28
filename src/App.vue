@@ -12,7 +12,7 @@
                 <n-button class="btn" @click="toLogin()">登陆</n-button>
                 <n-button class="btn" @click="toReg()">注册</n-button>
               </div>
-              <n-space class="user" v-if="userStore.isLogin">
+              <n-space v-if="userStore.isLogin">
                 <Menu></Menu>
               </n-space>
             </div>
@@ -104,13 +104,6 @@ function rightSideEmit(value) {
     .login-reg {
       .btn {
         margin-left: 10px;
-      }
-    }
-
-    .user {
-      .username {
-        font-size: 16px;
-        line-height: 33px;
       }
     }
   }

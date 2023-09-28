@@ -1,7 +1,7 @@
 <template>
-  <n-spin :show="loadAdmin">
+  <n-spin :show="loadList">
     <n-layout>
-      <div class="admin-container">
+      <div class="list-container">
         <n-empty description="你什么也找不到" v-if="!shareList.length"></n-empty>
         <div class="card-box" v-if="shareList.length">
           <n-card v-for="(item, index) in shareList" class="share-card" @click="toShare(item)" size="small" hoverable>
@@ -33,17 +33,17 @@ const route = useRoute()
 import useUserStore from '../stores/UserStore'
 const userStore = useUserStore();
 
-const loadAdmin = ref(false);
+const loadList = ref(false);
 const shareList = ref([]);
 
 onMounted(() => {
-  loadAdmin.value = true;
+  loadList.value = true;
   const options = {
     method: 'GET',
     url: '/api/share',
   };
   axios.request(options).then(res => {
-    loadAdmin.value = false;
+    loadList.value = false;
     const result = res.data;
     if (result.code === '0000') {
       shareList.value = result.data.shareList;
@@ -70,7 +70,7 @@ const toShare = (item) => {
 </script>
 
 <style lang="scss" scoped>
-.admin-container {
+.list-container {
   max-width: 800px;
   margin: 0 auto;
   padding: 0 10px;

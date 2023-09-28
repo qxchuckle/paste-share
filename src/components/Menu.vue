@@ -88,12 +88,12 @@ const options = [
     key: "home"
   },
   {
-    label: "管理",
+    label: "我的分享",
     icon: renderIcon(ReaderOutline),
-    key: "admin"
+    key: "list"
   },
   {
-    label: "关于",
+    label: "关于本站",
     icon: renderIcon(NavigateOutline),
     key: "about"
   },
@@ -109,8 +109,8 @@ function handleSelect(key) {
     case 'home':
       toHome();
       break;
-    case 'admin':
-      toAdmin();
+    case 'list':
+      toList();
       break;
     case 'about':
       activate('bottom');
@@ -127,9 +127,9 @@ const toHome = () => {
   })
 }
 
-const toAdmin = () => {
+const toList = () => {
   router.push({
-    name: 'Admin',
+    name: 'List',
   })
 }
 
