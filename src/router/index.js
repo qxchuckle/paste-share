@@ -13,8 +13,9 @@ const NotFount = () => import('../views/NotFount.vue');
 const Home = () => import('../views/Home.vue');
 const Share = () => import('../views/Share.vue');
 const Login = () => import('../views/Login.vue');
-const List = () => import('../views/List.vue');
 const Register = () => import('../views/Register.vue');
+const List = () => import('../views/List.vue');
+const Modify = () => import('../views/Modify.vue');
 const Admin = () => import('../views/Admin.vue');
 const Overview = () => import('../views/DashBoard/Overview.vue');
 const ShareList = () => import('../views/DashBoard/ShareList.vue');
@@ -60,6 +61,14 @@ const routes = [
     component: List,
     meta: {
       title: '粘贴分享|分享列表'
+    },
+  },
+  {
+    path: '/modify',
+    name: 'Modify',
+    component: Modify,
+    meta: {
+      title: '粘贴分享|修改分享'
     },
   },
   {

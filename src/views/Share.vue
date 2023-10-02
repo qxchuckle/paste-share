@@ -42,6 +42,8 @@ const share_info = ref({
   language: '',
   share_id: '',
   visits: '',
+  owner_name: '', // 记录当前分享所有者
+  password: '',
 });
 const formRef = ref(null);
 const info = ref({
@@ -64,6 +66,7 @@ onMounted(() => {
       share_info.value.content = result.data.content;
       share_info.value.language = result.data.language;
       share_info.value.visits = result.data.visits;
+      share_info.value.owner_name = result.data.owner_name;
     } else {
       if (result.code === "3000") {
         isShare.value = false;
@@ -106,6 +109,8 @@ function submit() {
         share_info.value.content = result.data.content;
         share_info.value.language = result.data.language;
         share_info.value.visits = result.data.visits;
+        share_info.value.owner_name = result.data.owner_name;
+        share_info.value.password = info.value.password; // 保存用户输入的正确密码，用户修改时展示
         isShow.value = true;
       } else {
         loadShare.value = false;

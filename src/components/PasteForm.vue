@@ -32,22 +32,27 @@
           }" maxlength="9999" show-count />
       </n-form-item>
       <n-space justify="center">
-        <n-button @click="submit()" size="large">创建 提交 分享</n-button>
+        <n-button @click="submit()" size="large">{{ config.buttonText }}</n-button>
       </n-space>
     </n-form>
     <template #description>
-      创建分享中
+      {{ config.descriptionText }}
     </template>
   </n-spin>
 </template>
 
 <script setup>
-import { ref, inject, computed, nextTick } from "vue"
+import { ref, inject, computed, nextTick, onMounted, onBeforeUnmount } from "vue"
 const axios = inject("axios");
 const message = inject('message');
 import { useRouter, useRoute } from "vue-router"
 const router = useRouter()
 const route = useRoute()
+const { config } = defineProps(['config']);
+import useShareStore from '../stores/ShareStore'
+const shareStore = useShareStore();
+import useUserStore from '../stores/UserStore';
+const userStore = useUserStore();
 
 const loadAddShare = ref(false);
 const formRef = ref(null);
@@ -58,6 +63,18 @@ const info = ref({
   content: "",
 })
 const password_switch = ref(false);
+
+onMounted(() => {
+  if (config.shareInfo) {
+    info.value.title = config.shareInfo.title;
+    info.value.language = config.shareInfo.language;
+    info.value.password = config.shareInfo.password;
+    info.value.content = config.shareInfo.content;
+    if (config.shareInfo.password) {
+      password_switch.value = true;
+    }
+  }
+})
 
 const rules = computed(() => {
   return {
@@ -146,6 +163,12 @@ const select_options = [
 ]
 
 function submit() {
+  // 如果是修改模式，要判断分享的修改权限
+  if(config.type === "modify" && shareStore.share_info.owner_name !== userStore.username){
+    message.error("没有修改权限");
+    toList();
+    return;
+  }
   let fromAble = true;
   formRef.value?.validate((errors) => {
     if (errors) {
@@ -159,10 +182,11 @@ function submit() {
       info.value.password = ""
     }
     axios({
-      url: '/api/share/add',
+      url: config.apiPath,
       method: 'post',
       data: {
-        ...info.value
+        ...info.value,
+        share_id: config.shareInfo ? config.shareInfo.share_id : "",
       },
       timeout: 5000
     }).then(res => {
@@ -207,7 +231,11 @@ function addTab(event) {
   });
 }
 
-
+const toList = () => {
+  router.push({
+    name: 'List',
+  })
+}
 
 </script>
 

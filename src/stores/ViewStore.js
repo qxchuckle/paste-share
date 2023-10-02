@@ -11,7 +11,7 @@ export default defineStore('ViewStore', {
   },
   // 对状态的操作
   actions: {
-    getView: async function () {
+    async getView() {
       try {
         const res = await axios.get('/api/view', {}, {
           timeout: 5000

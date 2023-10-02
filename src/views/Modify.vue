@@ -6,13 +6,15 @@
 
 <script setup>
 import PasteForm from '../components/PasteForm.vue';
+import useShareStore from '../stores/ShareStore'
+const shareStore = useShareStore();
 
 const config = {
-  type: "create",
-  buttonText: "创建 提交 分享",
-  descriptionText: "创建中",
-  apiPath: "/api/share/add",
-  shareInfo: null,
+  type: "modify",
+  buttonText: "确认修改",
+  descriptionText: "修改中",
+  apiPath: "/api/share/modify",
+  shareInfo: shareStore.share_info
 }
 
 </script>
