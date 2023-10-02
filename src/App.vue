@@ -8,6 +8,9 @@
               <div id="nav">
                 <n-space class="title-box">
                   <n-gradient-text class="title" type="info" @click="toHome()">粘贴分享</n-gradient-text>
+                  <n-tag :bordered="false" type="info">
+                    {{ route.meta.title }}
+                  </n-tag>
                 </n-space>
                 <div class="login-reg" v-if="!userStore.isLogin">
                   <n-button class="btn" @click="toLogin()">登陆</n-button>
@@ -24,7 +27,8 @@
             <n-layout-footer style="width: 100%;" bordered>
               <div id="footer">
                 <div style="margin-right: 8px;">@轻笑Chuckle</div>
-                <div>项目: <a href="https://github.com/qxchuckle/paste-share" target='_blank'>qxchuckle/paste-share</a></div>
+                <div>项目: <a href="https://github.com/qxchuckle/paste-share" target='_blank'>qxchuckle/paste-share</a>
+                </div>
               </div>
             </n-layout-footer>
           </div>
@@ -43,8 +47,9 @@ import { ref } from "vue";
 import RightSide from "./components/RightSide.vue";
 import Menu from "./components/Menu.vue";
 // 导入路由器和路由
-import { useRouter } from "vue-router";
-const router = useRouter();
+import { useRouter, useRoute } from "vue-router"
+const router = useRouter()
+const route = useRoute()
 import useUserStore from './stores/UserStore';
 const userStore = useUserStore();
 
@@ -100,6 +105,10 @@ function rightSideEmit(value) {
     justify-content: space-between;
     width: 100%;
     box-sizing: border-box;
+
+    .title-box{
+      align-items: center;
+    }
 
     .title {
       font-size: 22px;

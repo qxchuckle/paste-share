@@ -28,7 +28,7 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: {
-      title: '粘贴分享|主页'
+      title: '主页'
     },
   },
   {
@@ -36,7 +36,7 @@ const routes = [
     name: 'Share',
     component: Share,
     meta: {
-      title: '粘贴分享|分享详情'
+      title: '分享详情'
     },
   },
   {
@@ -44,7 +44,7 @@ const routes = [
     name: 'Login',
     component: Login,
     meta: {
-      title: '粘贴分享|登陆'
+      title: '登陆'
     },
   },
   {
@@ -52,7 +52,7 @@ const routes = [
     name: 'Register',
     component: Register,
     meta: {
-      title: '粘贴分享|注册'
+      title: '注册'
     },
   },
   {
@@ -60,7 +60,7 @@ const routes = [
     name: 'List',
     component: List,
     meta: {
-      title: '粘贴分享|分享列表'
+      title: '分享列表'
     },
   },
   {
@@ -68,7 +68,7 @@ const routes = [
     name: 'Modify',
     component: Modify,
     meta: {
-      title: '粘贴分享|修改分享'
+      title: '修改分享'
     },
   },
   {
@@ -76,7 +76,7 @@ const routes = [
     name: 'Admin',
     component: Admin,
     meta: {
-      title: '粘贴分享|管理后台'
+      title: '管理后台'
     },
     beforeEnter: async (to, from) => {
       const userType = await autoLogin();
@@ -97,7 +97,7 @@ const routes = [
         name: 'Overview',
         component: Overview,
         meta: {
-          title: '管理后台|概览'
+          title: '概览'
         },
       },
       {
@@ -105,7 +105,7 @@ const routes = [
         name: 'ShareList',
         component: ShareList,
         meta: {
-          title: '管理后台|分享列表'
+          title: '分享列表'
         },
       },
       {
@@ -113,7 +113,7 @@ const routes = [
         name: 'UserList',
         component: UserList,
         meta: {
-          title: '管理后台|用户列表'
+          title: '用户列表'
         },
       }
     ]
@@ -123,7 +123,7 @@ const routes = [
     name: 'NotFount',
     component: NotFount,
     meta: {
-      title: '粘贴分享|404'
+      title: '404'
     },
   }
 ];
@@ -142,7 +142,7 @@ router.beforeEach(async (to) => {
 
 router.afterEach((to, from) => {
   if (to.meta.title) {
-    document.title = to.meta.title;
+    document.title = `粘贴分享|${to.meta.title}`;
   }
 })
 
