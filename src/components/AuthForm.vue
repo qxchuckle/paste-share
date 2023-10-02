@@ -100,5 +100,7 @@ const submit = async () => {
   max-width: 510px;
   margin: 0 auto;
   padding: 0 5px;
+  width: 100%;
+  margin-top: 20px;
 }
 </style>

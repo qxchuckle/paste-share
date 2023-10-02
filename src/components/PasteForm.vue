@@ -213,6 +213,7 @@ function addTab(event) {
 
 <style lang="scss" scoped>
 .info_form {
+  margin: 15px 0;
 
   .password-box {
     display: flex;

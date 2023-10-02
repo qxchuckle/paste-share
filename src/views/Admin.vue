@@ -1,10 +1,9 @@
 <template>
-  <div>
-    43243
-  </div>
+  <DashBoard></DashBoard>
 </template>
 
 <script setup>
+import DashBoard from '../components/Admin/DashBoard.vue';
 
 </script>
 

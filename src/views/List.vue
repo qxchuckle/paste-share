@@ -75,6 +75,7 @@ const toShare = (item) => {
   margin: 0 auto;
   padding: 0 10px;
   height: 100%;
+  margin-top: 10px;
 
   .card-box {
     display: flex;
