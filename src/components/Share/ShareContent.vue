@@ -24,7 +24,7 @@ const { share_info, isShare, isShow } = toRefs(props);
 <style lang="scss" scoped>
 .content {
   width: 100%;
-  margin-top: 10px;
+  margin: 10px 0 15px;
 
   .title {
     font-size: 24px;
