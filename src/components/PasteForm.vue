@@ -215,7 +215,6 @@ function submit() {
 
 // 让textarea框增加tab缩进效果，两个空格
 function addTab(event) {
-  console.log(event);
   const { selectionStart, selectionEnd } = event.target;
   const value = info.value.content;
 

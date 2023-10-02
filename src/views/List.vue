@@ -2,7 +2,13 @@
   <n-spin :show="loadList">
     <n-layout>
       <div class="list-container">
-        <n-empty description="你什么也找不到" v-if="!shareList.length"></n-empty>
+        <n-empty description="你什么也找不到" v-if="!shareList.length" style="padding: 10px 0;">
+          <template #extra>
+            <n-button @click="toHome">
+              去创建分享
+            </n-button>
+          </template>
+        </n-empty>
         <div class="card-box" v-if="shareList.length">
           <n-card v-for="(item, index) in shareList" class="share-card" @click="toShare(item)" size="small" hoverable>
             <div class="title">标题：{{ item.title ? item.title : '无' }}</div>
@@ -66,6 +72,11 @@ const toShare = (item) => {
   })
 }
 
+const toHome = () => {
+  router.push({
+    name: 'Home',
+  })
+}
 
 </script>
 

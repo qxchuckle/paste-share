@@ -32,10 +32,10 @@
               </div>
             </n-layout-footer>
           </div>
-          <template #description>
-            加载中
-          </template>
         </n-layout>
+        <template #description>
+          加载中
+        </template>
       </n-spin>
       <RightSide @emit="rightSideEmit"></RightSide>
     </n-layout>
@@ -106,7 +106,7 @@ function rightSideEmit(value) {
     width: 100%;
     box-sizing: border-box;
 
-    .title-box{
+    .title-box {
       align-items: center;
     }
 

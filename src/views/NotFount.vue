@@ -23,5 +23,6 @@ function toHome() {
   max-width: 500px;
   margin: 0 auto;
   position: relative;
+  padding: 20px 0;
 }
 </style>
