@@ -2,6 +2,11 @@
   <n-spin :show="loadList" style="width: 100%;">
     <n-layout>
       <div class="list-container">
+        <div class="search">
+          <n-input v-model:value="keyword" placeholder="请输入关键字，可搜索标题、内容" style="flex: 1;"></n-input>
+          <n-button type="primary" ghost @click="search" style="margin-left: 10px;">搜索</n-button>
+          <n-button type="primary" ghost @click="reLoad" style="margin-left: 10px;">重置</n-button>
+        </div>
         <n-empty description="你什么也找不到" v-if="!shareList.length" style="padding: 10px 0;">
           <template #extra>
             <n-button @click="toHome">
@@ -21,6 +26,9 @@
           </n-card>
         </div>
       </div>
+      <n-space justify="center" style="margin-bottom: 10px;">
+        <n-pagination @update:page="loadShareList" v-model:page="page" :page-count="pageCount" />
+      </n-space>
     </n-layout>
     <template #description>
       加载中
@@ -29,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref, inject, onMounted } from "vue"
+import { ref, inject, onMounted, computed } from "vue"
 import { formatDateTime } from '../utils';
 const axios = inject("axios");
 const message = inject('message');
@@ -43,24 +51,7 @@ const loadList = ref(false);
 const shareList = ref([]);
 
 onMounted(() => {
-  loadList.value = true;
-  const options = {
-    method: 'GET',
-    url: '/api/share',
-  };
-  axios.request(options).then(res => {
-    loadList.value = false;
-    const result = res.data;
-    if (result.code === '0000') {
-      shareList.value = result.data.shareList;
-    } else {
-      message.error("身份校验失败，请重新登陆");
-      userStore.logout();
-      router.push({
-        name: 'Login',
-      })
-    }
-  }).catch(() => { });
+  loadShareList();
 })
 
 const toShare = (item) => {
@@ -78,6 +69,53 @@ const toHome = () => {
   })
 }
 
+const page = ref(1); // 当前受控页
+const shareSize = ref(1); // 分享总数
+const pageCount = computed(() => {
+  return Math.ceil(shareSize.value / shareNum.value);
+}); // 总页数
+const shareNum = ref(20); // 每页显示的分享数量
+const keyword = ref(""); // 搜索关键字
+
+const loadShareList = (newPage) => {
+  loadList.value = true;
+  const options = {
+    method: 'GET',
+    url: '/api/share',
+    params: {
+      page: newPage || 1,
+      shareNum: shareNum.value,
+      keyword: keyword.value,
+    },
+  };
+  axios.request(options).then(res => {
+    loadList.value = false;
+    const result = res.data;
+    if (result.code === '0000') {
+      shareList.value = result.data.shareList;
+      shareSize.value = result.data.shareSize;
+    } else {
+      message.error("身份校验失败，请重新登陆");
+      userStore.logout();
+      router.push({
+        name: 'Login',
+      })
+    }
+  }).catch(() => { });
+}
+
+const search = () => {
+  loadShareList();
+}
+
+const reLoad = () => {
+  keyword.value = "";
+  page.value = 1;
+  loadShareList();
+}
+
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -87,6 +125,12 @@ const toHome = () => {
   padding: 0 10px;
   height: 100%;
   margin-top: 10px;
+
+  .search {
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+  }
 
   .card-box {
     display: flex;

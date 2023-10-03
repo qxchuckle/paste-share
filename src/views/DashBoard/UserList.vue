@@ -50,6 +50,7 @@ const columns = computed(() => {
       title: "序号",
       key: "num",
       width: 80,
+      fixed: 'left',
       ellipsis: {
         tooltip: true
       },
