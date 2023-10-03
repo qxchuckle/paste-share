@@ -155,6 +155,7 @@ const columns = computed(() => {
               h(NButton, {
                 type: "error",
                 size: "small",
+                secondary: true,
               }, {
                 default: () => "删除",
               })
@@ -163,6 +164,7 @@ const columns = computed(() => {
         const toAction = h(NButton, {
           type: "info",
           size: "small",
+          secondary: true,
           onClick: () => toShare(row.id)
         }, {
           default: () => "查看",

@@ -102,7 +102,11 @@ const deleteShare = async () => {
     if (result.code === '0000') {
       // 处理结果
       message.success(result.msg);
-      toList();
+      if(router.options.history.state.back.includes("admin")){
+        router.go(-1);
+      }else{
+        toList();
+      }
     } else {
       message.error(result.msg);
     }
