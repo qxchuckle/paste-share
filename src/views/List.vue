@@ -1,5 +1,5 @@
 <template>
-  <n-spin :show="loadList">
+  <n-spin :show="loadList" style="width: 100%;">
     <n-layout>
       <div class="list-container">
         <n-empty description="你什么也找不到" v-if="!shareList.length" style="padding: 10px 0;">
@@ -15,7 +15,7 @@
             <div class="content">内容：{{ item.content }}</div>
             <n-space align="center" class="info">
               <div>语言：{{ item.language ? item.language : 'Text' }}</div>
-              <div>时间：{{ dayjs(Number(item.time)).format("YYYY-MM-DD HH:MM") }}</div>
+              <div>时间：{{ formatDateTime(item.time) }}</div>
             </n-space>
             <div class="floor">{{ index + 1 }}</div>
           </n-card>
@@ -30,7 +30,7 @@
 
 <script setup>
 import { ref, inject, onMounted } from "vue"
-import dayjs from 'dayjs';
+import { formatDateTime } from '../utils';
 const axios = inject("axios");
 const message = inject('message');
 import { useRouter, useRoute } from "vue-router"

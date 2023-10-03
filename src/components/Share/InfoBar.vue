@@ -2,11 +2,11 @@
   <n-space justify="center">
     <n-space justify="center">
       <n-tag type="success">{{ share_info.language ? share_info.language : "Text" }}</n-tag>
-      <n-tag> {{ dayjs(Number(share_info.time)).format("YYYY-MM-DD") }} </n-tag>
+      <n-tag> {{ formatDateTime(share_info.time) }} </n-tag>
       <n-tag type="info"> 访问量 {{ visits }} </n-tag>
     </n-space>
     <n-space justify="center">
-      <n-popconfirm :negative-text="null" @positive-click="deleteShare" positive-text="确认" v-if="allowControl">
+      <n-popconfirm :negative-text="null" @positive-click="deleteShare" positive-text="确认" v-if="allowControl || allowDelete">
         <template #trigger>
           <div>
             <n-button type="error" size="small">删除</n-button>
@@ -32,7 +32,7 @@
 
 <script setup>
 import { ref, inject, computed } from "vue";
-import dayjs from 'dayjs';
+import { formatDateTime } from '../../utils'
 import useClipboard from 'vue-clipboard3';
 const message = inject('message');
 const { toClipboard } = useClipboard();
@@ -62,6 +62,13 @@ const visits = computed(() => {
 const allowControl = computed(() => {
   if (userStore.username && share_info.value.owner_name) {
     return share_info.value.owner_name === userStore.username;
+  }
+  return false;
+})
+
+const allowDelete = computed(() => {
+  if(userStore.userType === "super" || userStore.userType === "admin"){
+    return true;
   }
   return false;
 })

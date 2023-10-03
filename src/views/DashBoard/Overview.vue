@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div style="padding: 5px 10px">
     <n-space>
       <n-card>
         <n-statistic label="用户总数" tabular-nums>
@@ -39,9 +39,13 @@ const router = useRouter()
 const route = useRoute()
 import useViewStore from '../../stores/ViewStore'
 const viewStore = useViewStore();
+import { useLoadingBar } from 'naive-ui'
+const loadingBar = useLoadingBar();
 
-onBeforeMount(() => {
-  viewStore.getView();
+onBeforeMount(async () => {
+  loadingBar.start();
+  await viewStore.getView();
+  loadingBar.finish();
 });
 
 

@@ -1,5 +1,5 @@
 <template>
-  <n-spin :show="loadShare">
+  <n-spin :show="loadShare" style="width: 100%;">
     <n-layout>
       <div class="share-container">
         <ShareContent :share_info="share_info" :isShare="isShare" :isShow="isShow"></ShareContent>

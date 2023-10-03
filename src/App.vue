@@ -1,43 +1,45 @@
 <template>
   <n-config-provider :theme="theme">
     <n-layout>
-      <n-spin :show="!userStore.isCompleteLogin">
-        <n-layout>
-          <div class="main">
-            <n-layout-header bordered>
-              <div id="nav">
-                <n-space class="title-box">
-                  <n-gradient-text class="title" type="info" @click="toHome()">粘贴分享</n-gradient-text>
-                  <n-tag :bordered="false" type="info">
-                    {{ route.meta.title }}
-                  </n-tag>
-                </n-space>
-                <div class="login-reg" v-if="!userStore.isLogin">
-                  <n-button class="btn" @click="toLogin()">登陆</n-button>
-                  <n-button class="btn" @click="toReg()">注册</n-button>
+      <n-loading-bar-provider>
+        <n-spin :show="!userStore.isCompleteLogin">
+          <n-layout>
+            <div class="main">
+              <n-layout-header bordered>
+                <div id="nav">
+                  <n-space class="title-box">
+                    <n-gradient-text class="title" type="info" @click="toHome()">粘贴分享</n-gradient-text>
+                    <n-tag :bordered="false" type="info">
+                      {{ route.meta.title }}
+                    </n-tag>
+                  </n-space>
+                  <div class="login-reg" v-if="!userStore.isLogin">
+                    <n-button class="btn" @click="toLogin()">登陆</n-button>
+                    <n-button class="btn" @click="toReg()">注册</n-button>
+                  </div>
+                  <n-space v-if="userStore.isLogin">
+                    <Menu></Menu>
+                  </n-space>
                 </div>
-                <n-space v-if="userStore.isLogin">
-                  <Menu></Menu>
-                </n-space>
+              </n-layout-header>
+              <div class="router-view-box">
+                <router-view></router-view>
               </div>
-            </n-layout-header>
-            <div class="router-view-box">
-              <router-view></router-view>
+              <n-layout-footer style="width: 100%;" bordered>
+                <div id="footer">
+                  <div style="margin-right: 8px;">@轻笑Chuckle</div>
+                  <div>项目: <a href="https://github.com/qxchuckle/paste-share" target='_blank'>qxchuckle/paste-share</a>
+                  </div>
+                </div>
+              </n-layout-footer>
             </div>
-            <n-layout-footer style="width: 100%;" bordered>
-              <div id="footer">
-                <div style="margin-right: 8px;">@轻笑Chuckle</div>
-                <div>项目: <a href="https://github.com/qxchuckle/paste-share" target='_blank'>qxchuckle/paste-share</a>
-                </div>
-              </div>
-            </n-layout-footer>
-          </div>
-        </n-layout>
-        <template #description>
-          加载中
-        </template>
-      </n-spin>
-      <RightSide @emit="rightSideEmit"></RightSide>
+          </n-layout>
+          <template #description>
+            加载中
+          </template>
+        </n-spin>
+        <RightSide @emit="rightSideEmit"></RightSide>
+      </n-loading-bar-provider>
     </n-layout>
   </n-config-provider>
 </template>
@@ -93,14 +95,15 @@ function rightSideEmit(value) {
     flex: 1;
     display: flex;
     height: 100%;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
   }
 
   #nav {
     max-width: 800px;
     margin: 0 auto;
     height: 100%;
-    padding: 10px;
+    padding: 10px 10px 5px;
     display: flex;
     justify-content: space-between;
     width: 100%;
