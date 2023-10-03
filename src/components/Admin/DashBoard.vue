@@ -16,12 +16,10 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, h, onBeforeUnmount } from "vue"
+import { ref, onMounted, h, onBeforeUnmount } from "vue"
 let collapsed = ref(false);
-import useUserStore from '../../stores/UserStore'
-const userStore = useUserStore();
 import { NIcon } from "naive-ui";
-import { BookOutline, HomeOutline, BookmarksOutline, ExitOutline } from "@vicons/ionicons5";
+import { BarChartOutline, List, PeopleOutline } from "@vicons/ionicons5";
 import { useRouter, useRoute, RouterLink } from "vue-router"
 const router = useRouter()
 const route = useRoute()
@@ -60,7 +58,7 @@ const menuOptions = [
       { default: () => "数据概览" }
     ),
     key: "Overview",
-    icon: renderIcon(BookOutline)
+    icon: renderIcon(BarChartOutline)
   },
   {
     label: () => h(
@@ -73,7 +71,7 @@ const menuOptions = [
       { default: () => "分享列表" }
     ),
     key: "ShareList",
-    icon: renderIcon(BookOutline)
+    icon: renderIcon(List)
   },
   {
     label: () => h(
@@ -86,7 +84,7 @@ const menuOptions = [
       { default: () => "用户列表" }
     ),
     key: "UserList",
-    icon: renderIcon(BookOutline)
+    icon: renderIcon(PeopleOutline)
   }
 ];
 

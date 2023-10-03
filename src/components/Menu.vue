@@ -163,6 +163,7 @@ const activate = (place) => {
 
 const logout = () => {
   userStore.logout();
+  toHome();
   message.success("已登出");
 }
 

@@ -9,9 +9,8 @@
 import { ref, inject, onMounted, onBeforeMount, h, computed, onBeforeUnmount } from "vue"
 const axios = inject("axios");
 const message = inject('message');
-import { useRouter, useRoute } from "vue-router"
+import { useRouter } from "vue-router"
 const router = useRouter()
-const route = useRoute()
 import useViewStore from '../../stores/ViewStore'
 const viewStore = useViewStore();
 import { useLoadingBar, NButton, NPopconfirm, NSpace } from 'naive-ui'
@@ -131,28 +130,19 @@ const columns = computed(() => {
 })
 
 const data = computed(() => {
-  return viewStore.users.map((item, index) => {
-    let type;
-    switch (item.userType) {
-      case 'admin':
-        type = '管理员';
-        break;
-      case 'super':
-        type = '超级管理员';
-        break;
-      case 'user':
-        type = '普通用户';
-        break;
-    }
-    return {
-      num: index + 1,
-      username: item.username,
-      type: type,
-      createTime: formatDateTime(item.createTime),
-      lastLoginTime: formatDateTime(item.lastLoginTime),
-    }
-  })
-})
+  const userTypeMap = {
+    admin: '管理员',
+    super: '超级管理员',
+    user: '普通用户',
+  };
+  return viewStore.users.map((item, index) => ({
+    num: index + 1,
+    username: item.username,
+    type: userTypeMap[item.userType] || '未知类型',
+    createTime: formatDateTime(item.createTime),
+    lastLoginTime: formatDateTime(item.lastLoginTime),
+  }));
+});
 
 const deleteUser = async (username) => {
   // try {
@@ -169,7 +159,7 @@ const deleteUser = async (username) => {
   //     message.error(result.msg);
   //   }
   // } catch (error) {
-    message.info(username);
+  message.info(username);
   // }
   // loadingBar.start();
   // await viewStore.getShares();

@@ -9,9 +9,8 @@
 import { ref, inject, onMounted, onBeforeMount, h, computed, onBeforeUnmount, nextTick } from "vue"
 const axios = inject("axios");
 const message = inject('message');
-import { useRouter, useRoute } from "vue-router"
+import { useRouter } from "vue-router"
 const router = useRouter()
-const route = useRoute()
 import useViewStore from '../../stores/ViewStore'
 const viewStore = useViewStore();
 import { useLoadingBar, NButton, NPopconfirm, NSpace } from 'naive-ui'
