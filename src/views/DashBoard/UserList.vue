@@ -112,6 +112,7 @@ const columns = computed(() => {
               h(NButton, {
                 type: "error",
                 size: "small",
+                secondary: true,
               }, {
                 default: () => "删除",
               })

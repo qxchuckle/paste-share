@@ -1,12 +1,12 @@
 <template>
   <div style="padding: 0 10px">
     <n-data-table :columns="columns" :bordered="false" :single-line="false" :data="data" :pagination="pagination"
-      size="small" :max-height="maxHeight" :scroll-x="1000"/>
+      size="small" :max-height="maxHeight" :scroll-x="1000" />
   </div>
 </template>
 
 <script setup>
-import { ref, inject, onMounted, onBeforeMount, h, computed,onBeforeUnmount } from "vue"
+import { ref, inject, onMounted, onBeforeMount, h, computed, onBeforeUnmount, nextTick } from "vue"
 const axios = inject("axios");
 const message = inject('message');
 import { useRouter, useRoute } from "vue-router"
@@ -27,8 +27,10 @@ onBeforeMount(async () => {
 const maxHeight = ref(500);
 
 function changeTableSize() {
-  const screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-  maxHeight.value = screenHeight - 180;
+  nextTick(() => {
+    const screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    maxHeight.value = screenHeight - 180;
+  });
 }
 
 onMounted(() => {
@@ -75,12 +77,10 @@ const columns = computed(() => {
       ellipsis: {
         tooltip: true
       },
-      filterOptions: viewStore.shareLanguages.map((item) => {
-        return {
-          label: `${item || "纯文本"}`,
-          value: `${item || "纯文本"}`
-        }
-      }),
+      filterOptions: viewStore.shareLanguages.map(item => ({
+        label: item || "纯文本",
+        value: item || "纯文本"
+      })),
       filter(value, row) {
         return row.language === value;
       }
@@ -119,12 +119,10 @@ const columns = computed(() => {
       ellipsis: {
         tooltip: true
       },
-      filterOptions: viewStore.shareUsernames.map((item) => {
-        return {
-          label: `${item || "游客"}`,
-          value: `${item || "游客"}`
-        }
-      }),
+      filterOptions: viewStore.shareUsernames.map(item => ({
+        label: item || "游客",
+        value: item || "游客"
+      })),
       filter(value, row) {
         return row.user === value;
       }

@@ -49,34 +49,37 @@ export default defineStore('ViewStore', {
   // 相当于计算属性，传入一个store的state作为参数
   getters: {
     // 获取有创建过分享的用户名列表，用于数据列表过滤
-    shareUsernames(state){
-      return [...new Set(state.shares.map((item)=>{
-        return item.user.username;
-      }))]
+    shareUsernames(state) {
+      return state.shares.reduce((result, item) => {
+        if (!result.includes(item.user.username)) {
+          result.push(item.user.username);
+        }
+        return result;
+      }, []);
     },
     // 获取现有分类涉及到的语言类型列表，用于数据列表过滤
-    shareLanguages(state){
-      return [...new Set(state.shares.map((item)=>{
-        return item.language;
-      }))]
+    shareLanguages(state) {
+      return state.shares.reduce((result, item) => {
+        if (!result.includes(item.language)) {
+          result.push(item.language);
+        }
+        return result;
+      }, []);
     },
     // 获取存在的用户类型
-    userTypes(state){
-      return [...new Set(state.users.map((item)=>{
-        let type;
-        switch (item.userType) {
-          case 'admin':
-            type = '管理员';
-            break;
-          case 'super':
-            type = '超级管理员';
-            break;
-          case 'user':
-            type = '普通用户';
-            break;
+    userTypes(state) {
+      const typeMap = {
+        'admin': '管理员',
+        'super': '超级管理员',
+        'user': '普通用户',
+      };
+      return state.users.reduce((result, item) => {
+        const userType = typeMap[item.userType];
+        if (userType && !result.includes(userType)) {
+          result.push(userType);
         }
-        return type;
-      }))]
+        return result;
+      }, []);
     },
   }
 });
