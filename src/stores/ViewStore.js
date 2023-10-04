@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios';
+import { formatDateTime } from '../utils'
 
 export default defineStore('ViewStore', {
   // 状态
@@ -48,6 +49,38 @@ export default defineStore('ViewStore', {
   },
   // 相当于计算属性，传入一个store的state作为参数
   getters: {
+    // 获取分享的总访问量
+    totalVisits(state) {
+      return state.shares.reduce((result, item) => {
+        return result + item.visits;
+      }, 0);
+    },
+    // 获取活跃用户信息
+    activeUsers(state) {
+      const judgmentDays = 30;
+      const thirtyDaysAgo = Date.now() - (judgmentDays * 24 * 60 * 60 * 1000);
+      return state.users.map((item) => {
+        if (Number(item.lastLoginTime) > thirtyDaysAgo) {
+          return item;
+        }
+      });
+    },
+    // 获取游客分享数
+    numberOfTouristShares(state) {
+      return state.shares.reduce((result, item) => {
+        return item.user.username === "" ? result + 1 : result;
+      }, 0);
+    },
+    // 获取最近创建的分享信息
+    activeShares(state) {
+      const judgmentDays = 30;
+      const thirtyDaysAgo = Date.now() - (judgmentDays * 24 * 60 * 60 * 1000);
+      return state.shares.map((item) => {
+        if (Number(item.time) > thirtyDaysAgo) {
+          return item;
+        }
+      });
+    },
     // 获取有创建过分享的用户名列表，用于数据列表过滤
     shareUsernames(state) {
       return state.shares.reduce((result, item) => {
@@ -81,6 +114,21 @@ export default defineStore('ViewStore', {
         return result;
       }, []);
     },
+    // 按以天为基准，分类所有分享
+    sharesByDay(state) {
+      const categorizedShares = {};
+      state.shares.forEach((share) => {
+        const formattedDate = formatDateTime(share.time, 'YYYY-MM-DD');
+        if (!categorizedShares[formattedDate]) {
+          categorizedShares[formattedDate] = {
+            day: formattedDate,
+            shares: [],
+          };
+        }
+        categorizedShares[formattedDate].shares.push(share);
+      })
+      return Object.values(categorizedShares);
+    }
   }
 });
 

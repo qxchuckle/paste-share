@@ -7,7 +7,7 @@
           :default-value="route.name" />
       </n-layout-sider>
       <n-layout-content class="main">
-        <n-scrollbar style="max-height: calc(100vh - 100px)" trigger="none">
+        <n-scrollbar style="max-height: calc(100vh - 100px)" trigger="none" :x-scrollable="false">
           <router-view :key="$route.fullPath"></router-view>
         </n-scrollbar>
       </n-layout-content>
@@ -100,7 +100,7 @@ const menuOptions = [
 
   .main {
     width: 100%;
-    padding: 5px 10px;
+    padding: 5px 0px 5px 10px;
     overflow-y: auto;
   }
 }
