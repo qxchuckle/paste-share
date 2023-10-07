@@ -5,21 +5,20 @@ import { createDiscreteApi } from 'naive-ui'
 const { message } = createDiscreteApi(
   ['message']
 )
-import useUserStore from '../stores/UserStore'
-import useViewStore from '../stores/ViewStore'
+import useUserStore from '@/stores/UserStore'
 
 // 路由懒加载
-const NotFount = () => import('../views/NotFount.vue');
-const Home = () => import('../views/Home.vue');
-const Share = () => import('../views/Share.vue');
-const Login = () => import('../views/Login.vue');
-const Register = () => import('../views/Register.vue');
-const List = () => import('../views/List.vue');
-const Modify = () => import('../views/Modify.vue');
-const Admin = () => import('../views/Admin.vue');
-const Overview = () => import('../views/DashBoard/Overview.vue');
-const ShareList = () => import('../views/DashBoard/ShareList.vue');
-const UserList = () => import('../views/DashBoard/UserList.vue');
+const NotFount = () => import('@/views/NotFount.vue');
+const Home = () => import('@/views/Home.vue');
+const Share = () => import('@/views/Share.vue');
+const Login = () => import('@/views/Login.vue');
+const Register = () => import('@/views/Register.vue');
+const List = () => import('@/views/List.vue');
+const Modify = () => import('@/views/Modify.vue');
+const Admin = () => import('@/views/Admin.vue');
+const Overview = () => import('@/views/DashBoard/Overview.vue');
+const ShareList = () => import('@/views/DashBoard/ShareList.vue');
+const UserList = () => import('@/views/DashBoard/UserList.vue');
 
 // 路由配置
 const routes = [
