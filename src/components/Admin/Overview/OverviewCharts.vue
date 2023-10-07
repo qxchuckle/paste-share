@@ -1,13 +1,13 @@
 <template>
   <div class="charts-box">
     <SharesByDayChart></SharesByDayChart>
-    <sharesByLanguageChart></sharesByLanguageChart>
+    <SharesByLanguageChart></SharesByLanguageChart>
   </div>
 </template>
 
 <script setup>
 import SharesByDayChart from "@/components/Admin/Overview/Charts/SharesByDayChart.vue"
-import sharesByLanguageChart from "@/components/Admin/Overview/Charts/sharesByLanguageChart.vue";
+import SharesByLanguageChart from "@/components/Admin/Overview/Charts/SharesByLanguageChart.vue";
 </script>
 
 <style lang="scss" scoped>
