@@ -10,7 +10,6 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
 const { title,suffix,number } = defineProps(['title', 'suffix', 'number']);
 
 </script>

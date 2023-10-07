@@ -7,7 +7,7 @@
 
 <script setup>
 import { onBeforeMount } from "vue"
-import useViewStore from '../../stores/ViewStore'
+import useViewStore from '@/stores/ViewStore'
 const viewStore = useViewStore();
 import { useLoadingBar } from 'naive-ui'
 const loadingBar = useLoadingBar();

@@ -46,7 +46,7 @@ const option = computed(() => {
     ],
     series: [
       {
-        name: 'Direct',
+        name: '分享数',
         type: 'bar',
         barWidth: '60%',
         data: viewStore.sharesByLanguage.map(item => item.shares.length)
