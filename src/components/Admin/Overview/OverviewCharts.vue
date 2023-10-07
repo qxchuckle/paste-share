@@ -1,23 +1,21 @@
 <template>
   <div class="charts-box">
     <SharesByDayChart></SharesByDayChart>
+    <sharesByLanguageChart></sharesByLanguageChart>
   </div>
 </template>
 
 <script setup>
 import SharesByDayChart from "@/components/Admin/Overview/Charts/SharesByDayChart.vue"
+import sharesByLanguageChart from "@/components/Admin/Overview/Charts/sharesByLanguageChart.vue";
 </script>
 
 <style lang="scss" scoped>
 .charts-box {
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
-
-  .chart {
-    height: 400px;
-    min-width: 800px;
-  }
+  align-content: center;
 }
 </style>

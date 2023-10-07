@@ -1,6 +1,6 @@
 <template>
   <n-scrollbar x-scrollable>
-    <v-chart class="chart" :option="option" autoresize />
+    <v-chart class="chart" :option="option" autoresize/>
   </n-scrollbar>
 </template>
 
@@ -14,5 +14,6 @@ const { option } = defineProps(['option']);
 .chart {
   height: 400px;
   min-width: 800px;
+  margin-bottom: 10px;
 }
 </style>
