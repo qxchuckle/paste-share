@@ -1,6 +1,6 @@
 // 导入创建路由必要的方法
 import { createRouter, createWebHashHistory } from "vue-router";
-import axios from 'axios';
+import { sendRequest } from '@/utils'
 import { createDiscreteApi } from 'naive-ui'
 const { message } = createDiscreteApi(
   ['message']
@@ -150,10 +150,7 @@ const autoLogin = async () => {
   if (userStore.token && !userStore.isLogin && localStorage.getItem("remember") == '1') {
     // 当没有处于登陆状态且有token，且之前登陆时勾选了记住并自动登录，则进行自动登录
     try {
-      const res = await axios.post('/api/autoLogin', {}, {
-        timeout: 5000
-      });
-      const result = res.data;
+      const result = await sendRequest.post('/api/autoLogin');
       if (result.code === '0000' && result.data.username) {
         userStore.username = result.data.username;
         userStore.userType = result.data.userType;

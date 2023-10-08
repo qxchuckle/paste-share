@@ -4,7 +4,6 @@
 
 <script setup>
 import { ref, inject, h, computed, onBeforeMount } from "vue"
-const axios = inject("axios");
 const message = inject('message');
 import { useRouter } from "vue-router"
 const router = useRouter()
@@ -12,7 +11,7 @@ import useViewStore from '@/stores/ViewStore'
 const viewStore = useViewStore();
 import { useLoadingBar, NButton, NPopconfirm, NSpace } from 'naive-ui'
 const loadingBar = useLoadingBar();
-import { formatDateTime } from '@/utils'
+import { formatDateTime, sendRequest } from '@/utils'
 import DataTable from "@/components/Admin/DataTable.vue";
 
 onBeforeMount(async () => {
@@ -195,12 +194,9 @@ const data = computed(() => {
 
 const deleteShare = async (id) => {
   try {
-    const res = await axios.post("/api/share/delete", {
+    const result = await sendRequest.post("/api/share/delete", {
       share_id: id
-    }, {
-      timeout: 5000
     });
-    let result = res.data;
     if (result.code === '0000') {
       // 处理结果
       message.success(result.msg);

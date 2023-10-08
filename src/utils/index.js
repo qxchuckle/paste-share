@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export function formatDateTime(timestamp, format = 'YYYY-MM-DD HH:MM', precision = 'minute') {
   // 将时间戳转换为日期对象
   var date = new Date(Number(timestamp));
@@ -38,4 +40,27 @@ export function formatDateTime(timestamp, format = 'YYYY-MM-DD HH:MM', precision
     .replace('MM', minutes);
 
   return formattedDate;
+}
+
+export const sendRequest = {
+  async get(url, option = { timeout: 5000 }) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await axios.get(url, option);
+        resolve(res.data);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+  async post(url, data = {}, option = { timeout: 5000 }) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await axios.post(url, data, option);
+        resolve(res.data);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 }

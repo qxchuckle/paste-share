@@ -4,15 +4,14 @@
 
 <script setup>
 import { ref, inject, h, computed, onBeforeMount } from "vue"
-const axios = inject("axios");
 const message = inject('message');
-import { useRouter } from "vue-router"
-const router = useRouter()
 import useViewStore from '@/stores/ViewStore'
 const viewStore = useViewStore();
-import { useLoadingBar, NButton, NPopconfirm, NSpace } from 'naive-ui'
+import useUserStore from "@/stores/UserStore";
+const userStore = useUserStore();
+import { useLoadingBar, NButton, NPopconfirm, NSpace, NTag } from 'naive-ui'
 const loadingBar = useLoadingBar();
-import { formatDateTime } from '@/utils'
+import { formatDateTime, sendRequest } from '@/utils'
 import DataTable from "@/components/Admin/DataTable.vue";
 
 onBeforeMount(async () => {
@@ -24,6 +23,12 @@ const getData = async () => {
   await viewStore.getUsers();
   loadingBar.finish();
 }
+
+const userTypeMap = {
+  admin: '管理员',
+  super: '超级管理员',
+  user: '普通用户',
+};
 
 const pagination = ref({
   page: 1,
@@ -64,6 +69,26 @@ const columns = computed(() => {
       ellipsis: {
         tooltip: true
       },
+      render(row) {
+        let type = "";
+        if (row.type === userTypeMap["super"]) {
+          type = "info";
+        } else if (row.type === userTypeMap["admin"]) {
+          type = "success";
+        }
+        return h(
+          NTag,
+          {
+            style: {
+              marginRight: "6px"
+            },
+            type
+          },
+          {
+            default: () => row.type
+          }
+        );
+      },
       filterOptions: viewStore.userTypes.map((item) => {
         return {
           label: `${item}`,
@@ -93,13 +118,13 @@ const columns = computed(() => {
     {
       title: "操作",
       key: "actions",
-      width: 135,
+      width: 160,
       render(row) {
         const deleteAction = h(
           NPopconfirm,
           {
             positiveText: "确认",
-            onPositiveClick: () => deleteUser(row.username),
+            onPositiveClick: () => deleteUser(row),
             negativeText: null,
           },
           {
@@ -114,10 +139,59 @@ const columns = computed(() => {
               })
           }
         );
-        const space = h(
-          NSpace, {}, () => [
+        const setAdminAction = h(
+          NPopconfirm,
+          {
+            positiveText: "确认",
+            onPositiveClick: () => setAdmin(row),
+            negativeText: null,
+          },
+          {
+            default: () => "是否设置该用户为管理员",
+            trigger: () =>
+              h(NButton, {
+                type: "info",
+                size: "small",
+                secondary: true,
+              }, {
+                default: () => "设置管理",
+              })
+          }
+        );
+        const removeAdminAction = h(
+          NPopconfirm,
+          {
+            positiveText: "确认",
+            onPositiveClick: () => removeAdmin(row),
+            negativeText: null,
+          },
+          {
+            default: () => "是否移除该管理员",
+            trigger: () =>
+              h(NButton, {
+                type: "info",
+                size: "small",
+                secondary: true,
+              }, {
+                default: () => "移除管理",
+              })
+          }
+        );
+        let assembly = [];
+        if ((row.type !== userTypeMap["super"]) && ((userStore.userType === "super") || (userStore.userType === "admin" && row.type !== userTypeMap["admin"]))) {
+          assembly = [
             deleteAction
           ]
+        }
+        if (userStore.userType === "super" && row.type !== userTypeMap["super"]) {
+          if (row.type === userTypeMap["admin"]) {
+            assembly.push(removeAdminAction)
+          } else {
+            assembly.push(setAdminAction)
+          }
+        }
+        const space = h(
+          NSpace, {}, () => assembly
         )
         return space
       }
@@ -126,11 +200,6 @@ const columns = computed(() => {
 })
 
 const data = computed(() => {
-  const userTypeMap = {
-    admin: '管理员',
-    super: '超级管理员',
-    user: '普通用户',
-  };
   return viewStore.users.map((item, index) => ({
     num: index + 1,
     username: item.username,
@@ -140,25 +209,54 @@ const data = computed(() => {
   }));
 });
 
-const deleteUser = async (username) => {
-  // try {
-  //   const res = await axios.post("/api/share/delete", {
-  //     share_id: id
-  //   }, {
-  //     timeout: 5000
-  //   });
-  //   let result = res.data;
-  //   if (result.code === '0000') {
-  //     // 处理结果
-  //     message.success(result.msg);
-  //   } else {
-  //     message.error(result.msg);
-  //   }
-  // } catch (error) {
-  message.info(username);
-  // }
-  // await getData();
+const deleteUser = (user) => {
+  sendRequest.post("/api/user/delete", {
+    username: user.username
+  }).then((result) => {
+    if (result.code === '0000') {
+      // 处理结果
+      message.success(result.msg);
+      getData();
+    } else {
+      message.error(result.msg);
+    }
+  }).catch((err) => {
+    message.error("删除失败");
+  });
 }
+
+const setAdmin = (user) => {
+  sendRequest.post("/api/user/setAdmin", {
+    username: user.username
+  }).then((result) => {
+    if (result.code === '0000') {
+      // 处理结果
+      message.success(result.msg);
+      getData();
+    } else {
+      message.error(result.msg);
+    }
+  }).catch((err) => {
+    message.error("设置失败");
+  });
+}
+
+const removeAdmin = (user) => {
+  sendRequest.post("/api/user/removeAdmin", {
+    username: user.username
+  }).then((result) => {
+    if (result.code === '0000') {
+      // 处理结果
+      message.success(result.msg);
+      getData();
+    } else {
+      message.error(result.msg);
+    }
+  }).catch((err) => {
+    message.error("移除失败");
+  });
+}
+
 
 </script>
 

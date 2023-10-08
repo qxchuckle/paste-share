@@ -42,17 +42,16 @@
 </template>
 
 <script setup>
-import { ref, inject, computed, nextTick, onMounted, onBeforeUnmount } from "vue"
-const axios = inject("axios");
+import { ref, inject, computed, nextTick, onMounted } from "vue"
 const message = inject('message');
-import { useRouter, useRoute } from "vue-router"
+import { useRouter } from "vue-router"
 const router = useRouter()
-const route = useRoute()
 const { config } = defineProps(['config']);
-import useShareStore from '../stores/ShareStore'
+import useShareStore from '@/stores/ShareStore'
 const shareStore = useShareStore();
-import useUserStore from '../stores/UserStore';
+import useUserStore from '@/stores/UserStore';
 const userStore = useUserStore();
+import { sendRequest } from '@/utils'
 
 const loadAddShare = ref(false);
 const formRef = ref(null);
@@ -164,7 +163,7 @@ const select_options = [
 
 function submit() {
   // 如果是修改模式，要判断分享的修改权限
-  if(config.type === "modify" && shareStore.share_info.owner_name !== userStore.username){
+  if (config.type === "modify" && shareStore.share_info.owner_name !== userStore.username) {
     message.error("没有修改权限");
     toList();
     return;
@@ -181,18 +180,11 @@ function submit() {
     if (!password_switch.value) {
       info.value.password = ""
     }
-    axios({
-      url: config.apiPath,
-      method: 'post',
-      data: {
-        ...info.value,
-        share_id: config.shareInfo ? config.shareInfo.share_id : "",
-      },
-      timeout: 5000
-    }).then(res => {
+    sendRequest.post(config.apiPath, {
+      ...info.value,
+      share_id: config.shareInfo ? config.shareInfo.share_id : "",
+    }).then(result => {
       loadAddShare.value = false;
-      let result = res.data;
-      // console.log(result.data.share_id);
       if (result.code === '0000') {
         message.success(result.msg);
         router.push({

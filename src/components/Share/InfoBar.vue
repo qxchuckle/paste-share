@@ -32,20 +32,19 @@
 
 <script setup>
 import { ref, inject, computed } from "vue";
-import { formatDateTime } from '../../utils'
+import { formatDateTime, sendRequest } from '@/utils'
 import useClipboard from 'vue-clipboard3';
 const message = inject('message');
 const { toClipboard } = useClipboard();
 const props = defineProps(['share_info']);
 const { share_info } = toRefs(props);
-import QRCode from './QRCode.vue';
+import QRCode from '@/components/Share/QRCode.vue';
 const showModal = ref(false);
-import useUserStore from '../../stores/UserStore'
+import useUserStore from '@/stores/UserStore'
 const userStore = useUserStore();
-const axios = inject("axios");
 import { useRouter } from "vue-router";
 const router = useRouter();
-import useShareStore from '../../stores/ShareStore'
+import useShareStore from '@/stores/ShareStore'
 const shareStore = useShareStore();
 
 // 访问量，大于1000则显示K
@@ -93,12 +92,9 @@ const shareFun = async () => {
 
 const deleteShare = async () => {
   try {
-    const res = await axios.post("/api/share/delete", {
+    const result = await sendRequest.post("/api/share/delete", {
       share_id: share_info.value.share_id
-    }, {
-      timeout: 5000
     });
-    let result = res.data;
     if (result.code === '0000') {
       // 处理结果
       message.success(result.msg);

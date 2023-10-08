@@ -29,15 +29,9 @@
 <script setup>
 const { config } = defineProps(['config']);
 import { ref, reactive, inject } from "vue";
-// 导入路由器和路由
-import { useRouter } from "vue-router";
-const router = useRouter();
-// pinia操作
-import useUserStore from '../stores/UserStore'
-const userStore = useUserStore();
 // 注入
-const axios = inject("axios");
 const message = inject('message');
+import { sendRequest } from '@/utils'
 
 let rules = {
   username: [
@@ -70,14 +64,10 @@ const submit = async () => {
     })
     // 发送请求
     spinShow.value = true;
-    const res = await axios.post(config.apiPath, {
+    const result = await sendRequest.post(config.apiPath, {
       username: user.username,
       password: user.password
-    }, {
-      timeout: 5000
     });
-
-    let result = res.data;
     spinShow.value = false;
     // console.log(result);
 

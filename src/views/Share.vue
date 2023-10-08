@@ -24,12 +24,11 @@
 
 <script setup>
 import { ref, inject, onMounted, computed } from "vue";
-const axios = inject("axios");
 const message = inject('message');
-import { useRouter, useRoute } from "vue-router";
-const router = useRouter();
+import { useRoute } from "vue-router";
 const route = useRoute();
-import ShareContent from '../components/Share/ShareContent.vue';
+import ShareContent from '@/components/Share/ShareContent.vue';
+import { sendRequest } from '@/utils'
 
 const loadShare = ref(true);
 const isShare = ref(true);
@@ -52,14 +51,10 @@ const info = ref({
 
 onMounted(() => {
   share_info.value.share_id = route.params.id;
-  const options = {
-    method: 'GET',
-    url: '/api/share/one',
-    params: { share_id: share_info.value.share_id, password: '' },
-  };
-  axios.request(options).then(res => {
+  sendRequest.get('/api/share/one', {
+    params: { share_id: share_info.value.share_id, password: '' }
+  }).then(result => {
     loadShare.value = false;
-    const result = res.data;
     if (result.data) {
       share_info.value.title = result.data.title;
       share_info.value.time = result.data.time;
@@ -73,7 +68,9 @@ onMounted(() => {
       }
       isShow.value = false;
     }
-  }).catch(() => { });
+  }).catch(() => {
+    message.error("获取分享出错");
+  });
 })
 
 const rules = computed(() => {
@@ -93,16 +90,11 @@ function submit() {
     }
   }).then(() => {
     if (!fromAble) return;
-    // console.log(info.value);
     loadShare.value = true;
-    const options = {
-      method: 'GET',
-      url: '/api/share/one',
-      params: { share_id: share_info.value.share_id, password: info.value.password },
-    };
-    axios.request(options).then(res => {
+    sendRequest.get('/api/share/one', {
+      params: { share_id: share_info.value.share_id, password: info.value.password }
+    }).then(result => {
       loadShare.value = false;
-      const result = res.data;
       if (result.data) {
         share_info.value.title = result.data.title;
         share_info.value.time = result.data.time;
@@ -151,5 +143,4 @@ function submit() {
     }
   }
 }
-
 </style>

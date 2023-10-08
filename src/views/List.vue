@@ -38,13 +38,11 @@
 
 <script setup>
 import { ref, inject, onMounted, computed } from "vue"
-import { formatDateTime } from '../utils';
-const axios = inject("axios");
+import { formatDateTime, sendRequest } from '@/utils'
 const message = inject('message');
-import { useRouter, useRoute } from "vue-router"
+import { useRouter } from "vue-router"
 const router = useRouter()
-const route = useRoute()
-import useUserStore from '../stores/UserStore'
+import useUserStore from '@/stores/UserStore'
 const userStore = useUserStore();
 
 const loadList = ref(false);
@@ -79,18 +77,14 @@ const keyword = ref(""); // 搜索关键字
 
 const loadShareList = (newPage) => {
   loadList.value = true;
-  const options = {
-    method: 'GET',
-    url: '/api/share',
+  sendRequest.get('/api/share', {
     params: {
       page: newPage || 1,
       shareNum: shareNum.value,
       keyword: keyword.value,
     },
-  };
-  axios.request(options).then(res => {
+  }).then(result => {
     loadList.value = false;
-    const result = res.data;
     if (result.code === '0000') {
       shareList.value = result.data.shareList;
       shareSize.value = result.data.shareSize;
@@ -101,7 +95,9 @@ const loadShareList = (newPage) => {
         name: 'Login',
       })
     }
-  }).catch(() => { });
+  }).catch(() => {
+    message.error("获取列表出错");
+  });
 }
 
 const search = () => {
