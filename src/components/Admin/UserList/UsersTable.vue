@@ -150,7 +150,7 @@ const columns = computed(() => {
             default: () => "是否设置该用户为管理员",
             trigger: () =>
               h(NButton, {
-                type: "info",
+                type: "success",
                 size: "small",
                 secondary: true,
               }, {
@@ -169,7 +169,7 @@ const columns = computed(() => {
             default: () => "是否移除该管理员",
             trigger: () =>
               h(NButton, {
-                type: "info",
+                type: "warning",
                 size: "small",
                 secondary: true,
               }, {
@@ -200,7 +200,15 @@ const columns = computed(() => {
 })
 
 const data = computed(() => {
-  return viewStore.users.map((item, index) => ({
+  const userTypePriority = {
+    super: 2,
+    admin: 1,
+  };
+  return viewStore.users.sort((a, b) => {
+    const priorityA = userTypePriority[a.userType] || 0;
+    const priorityB = userTypePriority[b.userType] || 0;
+    return priorityB - priorityA;
+  }).map((item, index) => ({
     num: index + 1,
     username: item.username,
     type: userTypeMap[item.userType] || '未知类型',

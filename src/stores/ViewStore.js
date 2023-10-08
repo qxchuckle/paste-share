@@ -1,5 +1,9 @@
 import { defineStore } from 'pinia'
 import { formatDateTime, sendRequest } from '@/utils'
+import { createDiscreteApi } from 'naive-ui'
+const { message } = createDiscreteApi(
+  ['message']
+)
 
 export default defineStore('ViewStore', {
   // 状态
@@ -17,24 +21,36 @@ export default defineStore('ViewStore', {
         if (result.code === '0000') {
           this.shares = result.data.shares;
           this.users = result.data.users;
+        }else{
+          message.error(result.msg);
         }
-      } catch (err) { }
+      } catch (err) {
+        message.error("获取数据出错");
+      }
     },
     async getShares() {
       try {
         const result = await sendRequest.get('/api/view/shares');
         if (result.code === '0000') {
           this.shares = result.data.shares;
+        }else{
+          message.error(result.msg);
         }
-      } catch (err) { }
+      } catch (err) {
+        message.error("获取数据出错");
+      }
     },
     async getUsers() {
       try {
         const result = await sendRequest.get('/api/view/users');
         if (result.code === '0000') {
           this.users = result.data.users;
+        }else{
+          message.error(result.msg);
         }
-      } catch (err) { }
+      } catch (err) {
+        message.error("获取数据出错");
+      }
     }
   },
   // 相当于计算属性，传入一个store的state作为参数
