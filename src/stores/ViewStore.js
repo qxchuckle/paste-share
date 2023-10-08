@@ -129,6 +129,21 @@ export default defineStore('ViewStore', {
       })
       return Object.values(categorizedShares);
     },
+    // 以月为基准，分类所有分享
+    sharesByMonth(state) {
+      const categorizedShares = {};
+      state.shares.forEach((share) => {
+        const formattedDate = formatDateTime(share.time, 'YYYY-MM');
+        if (!categorizedShares[formattedDate]) {
+          categorizedShares[formattedDate] = {
+            month: formattedDate,
+            shares: [],
+          };
+        }
+        categorizedShares[formattedDate].shares.push(share);
+      })
+      return Object.values(categorizedShares);
+    },
     // 按语言类型分类所有分享
     sharesByLanguage(state) {
       const categorizedShares = {};

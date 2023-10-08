@@ -26,8 +26,18 @@ const getData = async () => {
 }
 
 const pagination = ref({
-  pageSize: 20
-},);
+  page: 1,
+  pageSize: 20,
+  showSizePicker: true,
+  pageSizes: [10, 20, 30, 40, 50, 60],
+  onChange: (page) => {
+    pagination.value.page = page
+  },
+  onUpdatePageSize: (pageSize) => {
+    pagination.value.pageSize = pageSize
+    pagination.value.page = 1
+  }
+});
 
 const columns = computed(() => {
   return [
@@ -117,6 +127,13 @@ const columns = computed(() => {
       sorter: (row1, row2) => Date.parse(row1.time) - Date.parse(row2.time),
       ellipsis: {
         tooltip: true
+      },
+      filterOptions: viewStore.sharesByMonth.map(item => ({
+        label: item.month,
+        value: item.month
+      })),
+      filter(value, row) {
+        return formatDateTime(Date.parse(row.time), 'YYYY-MM') === value;
       }
     },
     {

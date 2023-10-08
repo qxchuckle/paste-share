@@ -26,8 +26,18 @@ const getData = async () => {
 }
 
 const pagination = ref({
-  pageSize: 20
-},);
+  page: 1,
+  pageSize: 20,
+  showSizePicker: true,
+  pageSizes: [10, 20, 30, 40, 50, 60],
+  onChange: (page) => {
+    pagination.value.page = page
+  },
+  onUpdatePageSize: (pageSize) => {
+    pagination.value.pageSize = pageSize
+    pagination.value.page = 1
+  }
+});
 
 const columns = computed(() => {
   return [
