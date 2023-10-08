@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme="theme">
+  <n-config-provider :theme="theme" :locale="zhCN">
     <n-layout>
       <n-loading-bar-provider>
         <n-spin :show="!userStore.isCompleteLogin">
@@ -54,6 +54,7 @@ const router = useRouter()
 const route = useRoute()
 import useUserStore from './stores/UserStore';
 const userStore = useUserStore();
+import { zhCN } from 'naive-ui'
 
 const toHome = () => {
   router.push({
