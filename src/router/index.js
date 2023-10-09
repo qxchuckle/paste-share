@@ -27,7 +27,11 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: {
-      title: '主页'
+      title: '主页',
+      breadcrumb: {
+        click: true,
+        type: "tag"
+      }
     },
   },
   {
@@ -35,7 +39,11 @@ const routes = [
     name: 'Share',
     component: Share,
     meta: {
-      title: '分享详情'
+      title: '分享详情',
+      breadcrumb: {
+        click: true,
+        type: "tag"
+      }
     },
   },
   {
@@ -43,7 +51,11 @@ const routes = [
     name: 'Login',
     component: Login,
     meta: {
-      title: '登陆'
+      title: '登陆',
+      breadcrumb: {
+        click: true,
+        type: "tag"
+      }
     },
   },
   {
@@ -51,7 +63,11 @@ const routes = [
     name: 'Register',
     component: Register,
     meta: {
-      title: '注册'
+      title: '注册',
+      breadcrumb: {
+        click: true,
+        type: "tag"
+      }
     },
   },
   {
@@ -59,7 +75,11 @@ const routes = [
     name: 'List',
     component: List,
     meta: {
-      title: '分享列表'
+      title: '分享列表',
+      breadcrumb: {
+        click: true,
+        type: "tag"
+      }
     },
   },
   {
@@ -67,7 +87,11 @@ const routes = [
     name: 'Modify',
     component: Modify,
     meta: {
-      title: '修改分享'
+      title: '修改分享',
+      breadcrumb: {
+        click: true,
+        type: "tag"
+      }
     },
   },
   {
@@ -75,7 +99,11 @@ const routes = [
     name: 'Admin',
     component: Admin,
     meta: {
-      title: '管理后台'
+      title: '管理后台',
+      breadcrumb: {
+        click: false,
+        type: "text"
+      }
     },
     beforeEnter: async (to, from) => {
       const userType = await autoLogin();
@@ -96,7 +124,11 @@ const routes = [
         name: 'Overview',
         component: Overview,
         meta: {
-          title: '概览'
+          title: '概览',
+          breadcrumb: {
+            click: true,
+            type: "text"
+          }
         },
       },
       {
@@ -104,7 +136,11 @@ const routes = [
         name: 'ShareList',
         component: ShareList,
         meta: {
-          title: '分享列表'
+          title: '分享列表',
+          breadcrumb: {
+            click: true,
+            type: "text"
+          }
         },
       },
       {
@@ -112,7 +148,11 @@ const routes = [
         name: 'UserList',
         component: UserList,
         meta: {
-          title: '用户列表'
+          title: '用户列表',
+          breadcrumb: {
+            click: true,
+            type: "text"
+          }
         },
       }
     ]
@@ -122,7 +162,8 @@ const routes = [
     name: 'NotFount',
     component: NotFount,
     meta: {
-      title: '404'
+      title: '404',
+      breadcrumb: true
     },
   }
 ];

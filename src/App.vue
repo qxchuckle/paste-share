@@ -9,9 +9,7 @@
                 <div id="nav">
                   <n-space class="title-box">
                     <n-gradient-text class="title" type="info" @click="toHome()">粘贴分享</n-gradient-text>
-                    <n-tag :bordered="false" type="info">
-                      {{ route.meta.title }}
-                    </n-tag>
+                    <Breadcrumb></Breadcrumb>
                   </n-space>
                   <div class="login-reg" v-if="!userStore.isLogin">
                     <n-button class="btn" @click="toLogin()">登陆</n-button>
@@ -46,13 +44,14 @@
 
 <script setup>
 import { ref } from "vue";
-import RightSide from "./components/RightSide.vue";
-import Menu from "./components/Menu.vue";
+import RightSide from "@/components/RightSide.vue";
+import Menu from "@/components/Menu.vue";
+import Breadcrumb from "@/components/Breadcrumb.vue";
 // 导入路由器和路由
 import { useRouter, useRoute } from "vue-router"
 const router = useRouter()
 const route = useRoute()
-import useUserStore from './stores/UserStore';
+import useUserStore from '@/stores/UserStore';
 const userStore = useUserStore();
 import { zhCN } from 'naive-ui'
 
