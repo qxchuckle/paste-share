@@ -213,7 +213,7 @@ const data = computed(() => {
     username: item.username,
     type: userTypeMap[item.userType] || '未知类型',
     createTime: formatDateTime(item.createTime),
-    lastLoginTime: formatDateTime(item.lastLoginTime),
+    lastLoginTime: item.lastLoginTime ? formatDateTime(item.lastLoginTime) : "从未登录",
   }));
 });
 

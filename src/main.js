@@ -11,7 +11,7 @@ const userStore = useUserStore();
 
 // axios
 import axios from 'axios';
-axios.defaults.baseURL = 'http://127.0.0.1:3000';
+axios.defaults.baseURL = 'https://share.qcqx.cn';
 // 拦截器
 axios.interceptors.request.use((config)=>{
   config.headers.token = userStore.token;
