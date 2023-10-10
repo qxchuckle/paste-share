@@ -123,9 +123,7 @@ const columns = computed(() => {
         const deleteAction = h(
           NPopconfirm,
           {
-            positiveText: "确认",
             onPositiveClick: () => deleteUser(row),
-            negativeText: null,
           },
           {
             default: () => "是否删除该用户",
@@ -142,9 +140,7 @@ const columns = computed(() => {
         const setAdminAction = h(
           NPopconfirm,
           {
-            positiveText: "确认",
             onPositiveClick: () => setAdmin(row),
-            negativeText: null,
           },
           {
             default: () => "是否设置该用户为管理员",
@@ -161,9 +157,7 @@ const columns = computed(() => {
         const removeAdminAction = h(
           NPopconfirm,
           {
-            positiveText: "确认",
             onPositiveClick: () => removeAdmin(row),
-            negativeText: null,
           },
           {
             default: () => "是否移除该管理员",

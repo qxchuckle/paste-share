@@ -6,7 +6,7 @@
       <n-tag type="info"> 访问量 {{ visits }} </n-tag>
     </n-space>
     <n-space justify="center">
-      <n-popconfirm :negative-text="null" @positive-click="deleteShare" positive-text="确认" v-if="allowControl || allowDelete">
+      <n-popconfirm @positive-click="deleteShare" v-if="allowControl || allowDelete">
         <template #trigger>
           <div>
             <n-button type="error" size="small">删除</n-button>
@@ -14,7 +14,7 @@
         </template>
         是否删除该分享
       </n-popconfirm>
-      <n-popconfirm :negative-text="null" @positive-click="modifyShare" positive-text="确认" v-if="allowControl">
+      <n-popconfirm @positive-click="modifyShare" v-if="allowControl">
         <template #trigger>
           <div>
             <n-button type="warning" size="small">修改</n-button>

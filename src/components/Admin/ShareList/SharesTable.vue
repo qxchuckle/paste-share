@@ -143,9 +143,7 @@ const columns = computed(() => {
         const deleteAction = h(
           NPopconfirm,
           {
-            positiveText: "确认",
             onPositiveClick: () => deleteShare(row.id),
-            negativeText: null,
           },
           {
             default: () => "是否删除该分享",
