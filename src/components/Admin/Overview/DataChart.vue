@@ -1,5 +1,5 @@
 <template>
-  <n-scrollbar x-scrollable>
+  <n-scrollbar x-scrollable trigger="none">
     <v-chart class="chart" :option="option" autoresize/>
   </n-scrollbar>
 </template>
