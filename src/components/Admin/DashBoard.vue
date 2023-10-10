@@ -1,10 +1,10 @@
 <template>
   <div class="dash-board-panel">
     <n-layout has-sider>
-      <n-layout-sider bordered collapse-mode="width" :collapsed-width="60" :width="200" :collapsed="collapsed"
+      <n-layout-sider bordered collapse-mode="width" :collapsed-width="collapsedWidth" :width="200" :collapsed="collapsed"
         show-trigger="bar" @collapse="collapsed = true" @expand="collapsed = false" style="padding-top:5px">
-        <n-menu :collapsed="collapsed" :collapsed-width="60" :collapsed-icon-size="22" :options="menuOptions"
-          :default-value="route.name" />
+        <n-menu :collapsed="collapsed" :collapsed-width="collapsedWidth" :collapsed-icon-size="collapsedIconSize"
+          :options="menuOptions" :default-value="route.name" />
       </n-layout-sider>
       <n-layout-content class="main">
         <n-scrollbar style="max-height: calc(100vh - 100px)" trigger="none" :x-scrollable="false">
@@ -24,10 +24,20 @@ import { useRouter, useRoute, RouterLink } from "vue-router"
 const router = useRouter()
 const route = useRoute()
 
+const collapsedWidth = ref(60);
+const collapsedIconSize = ref(22);
+
 function handleWindowSizeChange() {
   const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   if (screenWidth < 800) {
     collapsed.value = true;
+    if (screenWidth < 500) {
+      collapsedWidth.value = 40;
+      collapsedIconSize.value = 20;
+    }else{
+      collapsedWidth.value = 60;
+      collapsedIconSize.value = 22;
+    }
   } else {
     collapsed.value = false;
   }
