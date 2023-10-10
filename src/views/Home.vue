@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import PasteForm from '../components/PasteForm.vue';
+import PasteForm from '@/components/PasteForm.vue';
 
 const config = {
   type: "create",

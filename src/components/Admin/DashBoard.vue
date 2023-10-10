@@ -4,7 +4,7 @@
       <n-layout-sider bordered collapse-mode="width" :collapsed-width="collapsedWidth" :width="200" :collapsed="collapsed"
         show-trigger="bar" @collapse="collapsed = true" @expand="collapsed = false" style="padding-top:5px">
         <n-menu :collapsed="collapsed" :collapsed-width="collapsedWidth" :collapsed-icon-size="collapsedIconSize"
-          :options="menuOptions" :default-value="route.name" />
+          :options="menuOptions" :default-value="$route.name" />
       </n-layout-sider>
       <n-layout-content class="main">
         <n-scrollbar style="max-height: calc(100vh - 100px)" trigger="none" :x-scrollable="false">
@@ -20,9 +20,7 @@ import { ref, onMounted, h, onBeforeUnmount } from "vue"
 let collapsed = ref(false);
 import { NIcon } from "naive-ui";
 import { BarChartOutline, List, PeopleOutline } from "@vicons/ionicons5";
-import { useRouter, useRoute, RouterLink } from "vue-router"
-const router = useRouter()
-const route = useRoute()
+import { RouterLink } from "vue-router"
 
 const collapsedWidth = ref(60);
 const collapsedIconSize = ref(22);

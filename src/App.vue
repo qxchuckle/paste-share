@@ -48,9 +48,8 @@ import RightSide from "@/components/RightSide.vue";
 import Menu from "@/components/Menu.vue";
 import Breadcrumb from "@/components/Breadcrumb.vue";
 // 导入路由器和路由
-import { useRouter, useRoute } from "vue-router"
+import { useRouter } from "vue-router"
 const router = useRouter()
-const route = useRoute()
 import useUserStore from '@/stores/UserStore';
 const userStore = useUserStore();
 import { zhCN } from 'naive-ui'

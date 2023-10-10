@@ -4,7 +4,7 @@
 
 <script setup>
 import { inject } from "vue";
-import AuthForm from "../components/AuthForm.vue";
+import AuthForm from "@/components/AuthForm.vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
 const message = inject('message');

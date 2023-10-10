@@ -5,8 +5,8 @@
 </template>
 
 <script setup>
-import PasteForm from '../components/PasteForm.vue';
-import useShareStore from '../stores/ShareStore'
+import PasteForm from '@/components/PasteForm.vue';
+import useShareStore from '@/stores/ShareStore'
 const shareStore = useShareStore();
 
 const config = {
