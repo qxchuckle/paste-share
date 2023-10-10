@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 5px 10px">
-    <OverviewCards></OverviewCards>
+    <OverviewCards class="overview-cards"></OverviewCards>
     <OverviewCharts></OverviewCharts>
   </div>
 </template>
@@ -26,4 +26,10 @@ const getData = async () => {
 
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@media screen and (min-width:500px) {
+  .overview-cards {
+    margin-right: 6px;
+  }
+}
+</style>
