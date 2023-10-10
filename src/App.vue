@@ -21,7 +21,7 @@
                 </div>
               </n-layout-header>
               <div class="router-view-box">
-                <router-view></router-view>
+                <router-view :key="$route.fullPath"></router-view>
               </div>
               <n-layout-footer style="width: 100%;" bordered>
                 <div id="footer">
