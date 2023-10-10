@@ -1,8 +1,9 @@
 <template>
   <div class="dash-board-panel">
     <n-layout has-sider>
-      <n-layout-sider bordered collapse-mode="width" :collapsed-width="collapsedWidth" :width="200" :collapsed="collapsed"
-        show-trigger="bar" @collapse="collapsed = true" @expand="collapsed = false" style="padding-top:5px">
+      <n-layout-sider bordered collapse-mode="width" :collapsed-width="collapsedWidth" :width="siderWidth"
+        :collapsed="collapsed" show-trigger="bar" @collapse="collapsed = true" @expand="collapsed = false"
+        style="padding-top:5px">
         <n-menu :collapsed="collapsed" :collapsed-width="collapsedWidth" :collapsed-icon-size="collapsedIconSize"
           :options="menuOptions" :default-value="$route.name" />
       </n-layout-sider>
@@ -22,6 +23,7 @@ import { NIcon } from "naive-ui";
 import { BarChartOutline, List, PeopleOutline } from "@vicons/ionicons5";
 import { RouterLink } from "vue-router"
 
+const siderWidth = ref(200);
 const collapsedWidth = ref(60);
 const collapsedIconSize = ref(22);
 
@@ -29,15 +31,17 @@ function handleWindowSizeChange() {
   const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   if (screenWidth < 800) {
     collapsed.value = true;
+    siderWidth.value = 150;
     if (screenWidth < 500) {
       collapsedWidth.value = 40;
       collapsedIconSize.value = 20;
-    }else{
+    } else {
       collapsedWidth.value = 60;
       collapsedIconSize.value = 22;
     }
   } else {
     collapsed.value = false;
+    siderWidth.value = 200;
   }
 }
 
