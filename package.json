@@ -22,8 +22,10 @@
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
+    "@vitejs/plugin-legacy": "^4.1.1",
     "@vitejs/plugin-vue": "^4.2.3",
     "naive-ui": "^2.34.4",
+    "terser": "^5.21.0",
     "unplugin-auto-import": "^0.16.6",
     "unplugin-vue-components": "^0.25.1",
     "vfonts": "^0.0.3",
