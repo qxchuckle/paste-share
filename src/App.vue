@@ -21,7 +21,16 @@
                 </div>
               </n-layout-header>
               <div class="router-view-box">
-                <router-view :key="$route.fullPath"></router-view>
+                <n-space vertical class="router-load" v-if="!userStore.isCompleteLogin">
+                  <n-alert title="提示" type="info" style="margin: 0 0 10px;">
+                    自动登录中，请稍等
+                  </n-alert>
+                  <n-skeleton text height="30px" :sharp="false" width="33%" />
+                  <n-skeleton text height="35px" :sharp="false" width="60%" />
+                  <n-skeleton text :repeat="3" :sharp="false" />
+                  <n-skeleton text :repeat="1" :sharp="false" width="80%" />
+                </n-space>
+                <router-view v-else :key="$route.fullPath"></router-view>
               </div>
               <n-layout-footer style="width: 100%;" bordered>
                 <div id="footer">
@@ -96,6 +105,13 @@ function rightSideEmit(value) {
     height: 100%;
     flex-direction: row;
     justify-content: center;
+
+    .router-load {
+      width: 100%;
+      max-width: 600px;
+      padding: 0 10px;
+      margin-top: 20px;
+    }
   }
 
   #nav {
