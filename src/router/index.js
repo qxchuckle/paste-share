@@ -2,9 +2,10 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import { sendRequest } from '@/utils'
 import { createDiscreteApi } from 'naive-ui'
-const { message } = createDiscreteApi(
-  ['message']
+const { message, loadingBar } = createDiscreteApi(
+  ['message', 'loadingBar']
 )
+
 import useUserStore from '@/stores/UserStore'
 
 // 路由懒加载
@@ -177,6 +178,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
+  loadingBar.start();
   await autoLogin();
 })
 
@@ -184,6 +186,7 @@ router.afterEach((to, from) => {
   if (to.meta.title) {
     document.title = `粘贴分享|${to.meta.title}`;
   }
+  loadingBar.finish();
 })
 
 const autoLogin = async () => {
