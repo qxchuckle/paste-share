@@ -11,7 +11,8 @@ const userStore = useUserStore();
 
 // axios
 import axios from 'axios';
-axios.defaults.baseURL = 'https://share.qcqx.cn';
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:3000';
+
 // 拦截器
 axios.interceptors.request.use((config)=>{
   config.headers.token = userStore.token;
