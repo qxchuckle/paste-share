@@ -5,11 +5,17 @@
         <n-form :rules="rules" :model="user" ref="formRef">
           <n-form-item path="username" label="用户名">
             <n-input v-model:value="user.username" placeholder="输入用户名" @keydown.enter.prevent maxlength="15" show-count
-              clearable />
+              clearable :allow-input="noSpace" />
           </n-form-item>
           <n-form-item path="password" label="密码">
             <n-input v-model:value="user.password" placeholder="输入密码" type="password" show-password-on="click"
-              @keydown.enter.prevent maxlength="18" show-count clearable />
+              @keydown.enter.prevent maxlength="18" show-count clearable :allow-input="onlyNumbersAndLettersAllowed"
+              @input="handlePasswordInput" />
+          </n-form-item>
+          <n-form-item ref="rPasswordFormItemRef" first path="reenteredPassword" label="重复密码"
+            v-if="config.type === 'reg'">
+            <n-input v-model:value="user.reenteredPassword" :disabled="!user.password" type="password" show-password-on="click"
+              @keydown.enter.prevent maxlength="18" show-count clearable :allow-input="onlyNumbersAndLettersAllowed" />
           </n-form-item>
         </n-form>
         <template #footer>
@@ -33,7 +39,15 @@ import { ref, reactive, inject } from "vue";
 const message = inject('message');
 import { sendRequest } from '@/utils'
 
-let rules = {
+const rPasswordFormItemRef = ref(null);
+const user = reactive({
+  username: localStorage.getItem("username") || "",
+  password: "",
+  remember: localStorage.getItem("remember") == 1,
+  reenteredPassword: null,
+})
+
+let rules = reactive({
   username: [
     { required: true, message: "请输入用户名", trigger: "blur" },
     { min: 2, max: 15, message: "用户名长度2到15", trigger: "blur" }
@@ -42,16 +56,41 @@ let rules = {
     { required: true, message: "请输入密码", trigger: "blur" },
     { min: 6, max: 18, message: "密码长度6到18", trigger: "blur" }
   ]
+})
+
+const handlePasswordInput = () => {
+  if (user.reenteredPassword) {
+    rPasswordFormItemRef.value?.validate({ trigger: "password-input" });
+  }
+}
+
+if (config.type === 'reg') {
+  rules.reenteredPassword = [
+    {
+      required: true,
+      message: "请再次输入密码",
+      trigger: ["input", "blur"]
+    },
+    {
+      validator(rule, value) {
+        return !!user.password && user.password.startsWith(value) && user.password.length >= value.length;
+      },
+      message: "两次密码输入不一致",
+      trigger: "input"
+    },
+    {
+      validator(rule, value) {
+        return value === user.password;
+      },
+      message: "两次密码输入不一致",
+      trigger: ["blur", "password-input"]
+    }
+  ]
 }
 
 const formRef = ref(null);
 
-const user = reactive({
-  username: localStorage.getItem("username") || "",
-  password: "",
-  remember: localStorage.getItem("remember") == 1,
-})
-let spinShow = ref(false);
+const spinShow = ref(false);
 // 提交
 const submit = async () => {
   let formAble = true;
@@ -79,9 +118,18 @@ const submit = async () => {
     }
   } catch (error) {
     spinShow.value = false;
+    // console.error(error)
     message.error("请检查输入框");
   }
 };
+
+const noSpace = (value) => {
+  return !/\s/.test(value);
+}
+
+const onlyNumbersAndLettersAllowed = (value) => {
+  return /^\w*$/.test(value);
+}
 
 </script>
 
