@@ -14,8 +14,9 @@
           </n-form-item>
           <n-form-item ref="rPasswordFormItemRef" first path="reenteredPassword" label="重复密码"
             v-if="config.type === 'reg'">
-            <n-input v-model:value="user.reenteredPassword" :disabled="!user.password" type="password" show-password-on="click"
-              @keydown.enter.prevent maxlength="18" show-count clearable :allow-input="onlyNumbersAndLettersAllowed" />
+            <n-input v-model:value="user.reenteredPassword" :disabled="!user.password" type="password"
+              show-password-on="click" @keydown.enter.prevent maxlength="18" show-count clearable
+              :allow-input="onlyNumbersAndLettersAllowed" />
           </n-form-item>
         </n-form>
         <template #footer>
