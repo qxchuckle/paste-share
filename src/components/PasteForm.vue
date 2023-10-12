@@ -3,7 +3,7 @@
     <n-form class="info_form" :rules="rules" :model="info" ref="formRef" label-placement="left" label-width="auto"
       require-mark-placement="right-hanging" autocomplete="off">
       <n-form-item path="title" label="标题" size="large">
-        <n-input v-model:value="info.title" placeholder="请输入标题" @keydown.enter.prevent maxlength="20" show-count
+        <n-input v-model:value="info.title" placeholder="请输入标题" @keydown.enter.prevent maxlength="60" show-count
           clearable />
       </n-form-item>
       <n-form-item path="language" label="语言" size="large">
@@ -78,7 +78,7 @@ onMounted(() => {
 const rules = computed(() => {
   return {
     title: [
-      { min: 0, max: 20, message: "标题长度0到20", trigger: "blur" }
+      { min: 0, max: 60, message: "标题长度0到60", trigger: "blur" }
     ],
     password: [
       { required: password_switch.value, message: "请输入密码", trigger: "blur" },
