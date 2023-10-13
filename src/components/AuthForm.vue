@@ -104,18 +104,22 @@ const submit = async () => {
     })
     // 发送请求
     spinShow.value = true;
-    const result = await sendRequest.post(config.apiPath, {
-      username: user.username,
-      password: user.password
-    });
-    spinShow.value = false;
-    // console.log(result);
-
-    if (result.code === '0000') {
-      // 处理结果
-      config.resultHandle(result, user);
-    } else {
-      message.error(result.msg);
+    try {
+      const result = await sendRequest.post(config.apiPath, {
+        username: user.username,
+        password: user.password
+      });
+      spinShow.value = false;
+      // console.log(result);
+      if (result.code === '0000') {
+        // 处理结果
+        config.resultHandle(result, user);
+      } else {
+        message.error(result.msg);
+      }
+    } catch (error) {
+      spinShow.value = false;
+      message.error("网络错误");
     }
   } catch (error) {
     spinShow.value = false;
