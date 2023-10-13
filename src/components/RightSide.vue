@@ -55,7 +55,7 @@ function switchDark() {
 onMounted(() => {
   const currentHour = new Date().getHours();
   // 检查当前小时是否在晚上6点到第二天6点之间
-  if (localStorage.getItem("theme") === "dark" || (autoSwitchTheme.value && (currentHour >= 18 || currentHour < 6))) {
+  if ((!autoSwitchTheme.value && localStorage.getItem("theme") === "dark") || (autoSwitchTheme.value && (currentHour >= 18 || currentHour < 6))) {
     switchDark();
   }
 })
