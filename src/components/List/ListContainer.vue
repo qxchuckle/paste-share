@@ -14,10 +14,15 @@
             </n-button>
           </template>
         </n-empty>
-        <ShareCards :shareList="shareList" :pageNum="page" :shareNum="shareNum"></ShareCards>
+        <n-scrollbar style="max-height: calc(100vh - 172px);width: calc(100% + 12px);" trigger="none">
+          <ShareCards :shareList="shareList" :pageNum="page" :shareNum="shareNum" style="padding-right: 12px;">
+          </ShareCards>
+        </n-scrollbar>
       </div>
-      <n-space justify="center" style="margin-bottom: 10px;" v-if="shareList.length">
-        <n-pagination @update:page="loadShareList" v-model:page="page" :page-count="pageCount" />
+      <n-space justify="center" v-if="shareList.length">
+        <n-pagination @update:page="loadShareList" v-model:page="page" :page-count="pageCount"
+          :show-size-picker="showSizePicker" :page-sizes="[10, 20, 30]" v-model:page-size="shareNum"
+          @update:page-size="loadShareList(page)" :show-quick-jumper="showQuickJumper" />
       </n-space>
     </n-layout>
     <template #description>
@@ -27,7 +32,7 @@
 </template>
 
 <script setup>
-import { ref, inject, onMounted, computed } from "vue"
+import { ref, inject, onMounted, computed, onBeforeUnmount } from "vue"
 import { sendRequest } from '@/utils'
 const message = inject('message');
 import { useRouter } from "vue-router"
@@ -39,8 +44,31 @@ import ShareCards from '@/components/List/ShareCards.vue'
 const loadList = ref(false);
 const shareList = ref([]);
 
+const showQuickJumper = ref(true);
+const showSizePicker = ref(true);
+
+function handleWindowSizeChange() {
+  const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  if (screenWidth < 600) {
+    showQuickJumper.value = false;
+    if(screenWidth < 300){
+      showSizePicker.value = false;
+    }else{
+      showSizePicker.value = true;
+    }
+  } else {
+    showQuickJumper.value = true;
+  }
+}
+
 onMounted(() => {
   loadShareList();
+  handleWindowSizeChange();
+  window.addEventListener("resize", handleWindowSizeChange);
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", handleWindowSizeChange);
 })
 
 const toHome = () => {
