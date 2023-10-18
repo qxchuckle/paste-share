@@ -26,12 +26,14 @@ NodeJS后端：Express + MongoDB + Mongoose + shortid + jsonwebtoken
 
 ## 效果截图
 
-
-
-
-
-
-
+![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/1.webp)
+![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/2.webp)
+![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/3.webp)
+![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/4.webp)
+![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/5.webp)
+![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/6.webp)
+![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/7.webp)
+![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/8.webp)
 
 
 
