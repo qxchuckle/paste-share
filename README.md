@@ -4,23 +4,28 @@
 
 在线演示：[粘贴分享](https://s.qcqx.cn/)
 
-Vue3前端：Vue3 + Vite + Vue Router + Pinia + Naive UI + axios + sass + highlight.js + vue-clipboard3  
+Vue3前端：Vue3 + Vite + Vue Router + Pinia + Naive UI + Echarts + axios + sass + highlight.js + vue-clipboard3 + qrcode.vue 
 NodeJS后端：Express + MongoDB + Mongoose + shortid + jsonwebtoken
 
 前端:[paste-share](https://github.com/qxchuckle/paste-share)，后端：[paste-share-server](https://github.com/qxchuckle/paste-share-server)
 
 ## 功能
-1. 注册、登录、自动登录，区分多用户和游客，Token控制会话  
-2. 游客也能粘贴分享内容，注册登录后能查看自己所分享的所有内容  
-3. 粘贴内容7天后自动过期销毁  
-4. 分享内容可选加密  
-5. 代码高亮展示  
+1. 注册、登录、自动登录，区分多用户和游客，Token控制会话
+2. 游客也能粘贴分享内容，注册登录后能查看自己所分享的所有内容
+3. 分享内容可选加密
+4. 删除、修改分享内容
+5. 搜索及分页展示
+6. 多种语言可选，代码高亮展示
+7. 分享链接、分享内容快速复制及二维码分享
+8. 权限管理，分为超级管理员、普通管理员、普通用户
+9. Echarts可视化展示后台数据
+10. 完整的后台管理系统
+11. 可选深、浅主题色，支持按时间自动切换
+12. 必要的加载动画、进度条及消息小弹窗提示
+13. 移动端窄屏适配
 
 ## 效果截图
-![image](https://github.com/qxchuckle/paste-share/assets/55614189/08e11651-dfae-41d0-8107-97cffd5ed930)
-![image](https://github.com/qxchuckle/paste-share/assets/55614189/0657def0-68c8-42e8-b9f7-a85e86fb7399)
-![image](https://github.com/qxchuckle/paste-share/assets/55614189/f2b979ac-d351-42a9-9221-d498d8cd9f41)
-![image](https://github.com/qxchuckle/paste-share/assets/55614189/ff310e34-6d1c-453e-a9be-21a4fb04a1a3)
+
 
 
 
