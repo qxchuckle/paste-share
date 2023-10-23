@@ -14,7 +14,7 @@
             </n-button>
           </template>
         </n-empty>
-        <n-scrollbar style="max-height: calc(100vh - 172px);width: calc(100% + 12px);" trigger="none">
+        <n-scrollbar style="max-height: calc(100vh - 180px);width: calc(100% + 12px);" trigger="none">
           <ShareCards :shareList="shareList" :pageNum="page" :shareNum="shareNum" style="padding-right: 12px;">
           </ShareCards>
         </n-scrollbar>
@@ -128,9 +128,13 @@ const reLoad = () => {
 .list-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 0 10px;
+  padding: 0 10px 6px;
   height: 100%;
   margin-top: 10px;
+
+  :nth-last-of-type(1), :nth-last-of-type(2){
+    margin-bottom: 0px;
+  }
 
   .search {
     margin-bottom: 10px;
