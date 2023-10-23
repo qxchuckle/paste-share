@@ -1,12 +1,15 @@
 <template>
   <n-scrollbar x-scrollable trigger="none">
-    <v-chart class="chart" :option="option" autoresize/>
+    <v-chart class="chart" :option="option" autoresize theme="echartsTheme"/>
   </n-scrollbar>
 </template>
 
 <script setup>
 import VChart from "vue-echarts";
 const { option } = defineProps(['option']);
+import { registerTheme } from 'echarts/core';
+import theme from "@/assets/echartsTheme.json";
+registerTheme("echartsTheme", theme);
 
 </script>
 

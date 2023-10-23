@@ -7,7 +7,7 @@ import { computed } from "vue"
 import useViewStore from '@/stores/ViewStore'
 const viewStore = useViewStore();
 import DataChart from "@/components/Admin/Overview/DataChart.vue";
-import * as echarts from 'echarts/core';
+import { use, graphic } from 'echarts/core';
 import {
   TitleComponent,
   ToolboxComponent,
@@ -19,7 +19,7 @@ import { LineChart } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 
-echarts.use([
+use([
   TitleComponent,
   ToolboxComponent,
   TooltipComponent,
@@ -81,7 +81,7 @@ const option = computed(() => {
           color: 'rgb(255, 70, 131)'
         },
         areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          color: new graphic.LinearGradient(0, 0, 0, 1, [
             {
               offset: 0,
               color: 'rgb(255, 158, 68)'

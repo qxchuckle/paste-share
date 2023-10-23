@@ -4,11 +4,11 @@
 
 <script setup>
 import { computed } from "vue"
-import * as echarts from 'echarts/core';
+import { use } from 'echarts/core';
 import { TooltipComponent, GridComponent } from 'echarts/components';
 import { BarChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
-echarts.use([TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
+use([TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
 import useViewStore from '@/stores/ViewStore'
 const viewStore = useViewStore();
 

@@ -7,12 +7,12 @@ import { computed } from "vue"
 import useViewStore from '@/stores/ViewStore'
 const viewStore = useViewStore();
 import DataChart from "@/components/Admin/Overview/DataChart.vue";
-import * as echarts from 'echarts/core';
+import { use } from 'echarts/core';
 import { GridComponent } from 'echarts/components';
 import { LineChart } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
-echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition]);
+use([GridComponent, LineChart, CanvasRenderer, UniversalTransition]);
 
 const option = computed(() => {
   return {
