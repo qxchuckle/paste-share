@@ -21,7 +21,7 @@
 import { h, computed, onMounted, inject } from "vue";
 import { NAvatar, NIcon, NText } from "naive-ui";
 const message = inject('message');
-import useUserStore from '../stores/UserStore';
+import useUserStore from '@/stores/UserStore';
 const userStore = useUserStore();
 import { useRouter } from "vue-router";
 const router = useRouter();
