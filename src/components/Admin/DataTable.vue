@@ -1,6 +1,6 @@
 <template>
-  <n-data-table :columns="columns" :bordered="false" :single-line="false" :data="data" :pagination="pagination"
-    size="small" :max-height="maxHeight" :scroll-x="1000" />
+  <n-data-table :columns="columns" :single-line="false" :data="data" :pagination="pagination" size="small"
+    :max-height="maxHeight" :scroll-x="1000"/>
 </template>
 
 <script setup>
@@ -12,7 +12,7 @@ const maxHeight = ref(500);
 function changeTableSize() {
   nextTick(() => {
     const screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-    maxHeight.value = screenHeight - 172;
+    maxHeight.value = screenHeight - 168;
   });
 }
 
