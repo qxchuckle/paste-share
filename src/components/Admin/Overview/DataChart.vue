@@ -1,5 +1,5 @@
 <template>
-  <n-card class="card">
+  <n-card class="card" content-style="padding: 10px 0;">
     <n-scrollbar x-scrollable trigger="none">
       <v-chart class="chart" :option="option" autoresize theme="echartsTheme" />
     </n-scrollbar>

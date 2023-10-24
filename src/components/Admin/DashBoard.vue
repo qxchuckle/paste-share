@@ -42,6 +42,8 @@ function handleWindowSizeChange() {
   } else {
     collapsed.value = false;
     siderWidth.value = 200;
+    collapsedWidth.value = 60;
+    collapsedIconSize.value = 22;
   }
 }
 
