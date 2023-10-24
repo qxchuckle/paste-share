@@ -5,12 +5,16 @@
 <script setup>
 import { computed } from "vue"
 import { use } from 'echarts/core';
-import { TooltipComponent, GridComponent } from 'echarts/components';
+import { TooltipComponent, GridComponent, MarkLineComponent } from 'echarts/components';
 import { BarChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
-use([TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
+use([TooltipComponent, GridComponent, BarChart, CanvasRenderer, MarkLineComponent]);
 import useViewStore from '@/stores/ViewStore'
 const viewStore = useViewStore();
+
+const sharesByLanguage = computed(() => {
+  return viewStore.sharesByLanguage.sort((a, b) => b.shares.length - a.shares.length);
+});
 
 const option = computed(() => {
   return {
@@ -33,7 +37,7 @@ const option = computed(() => {
     xAxis: [
       {
         type: 'category',
-        data: viewStore.sharesByLanguage.map(item => item.language === "text" ? "纯文本" : item.language),
+        data: sharesByLanguage.value.map(item => item.language === "text" ? "纯文本" : item.language),
         axisTick: {
           alignWithLabel: true
         }
@@ -49,7 +53,14 @@ const option = computed(() => {
         name: '分享数',
         type: 'bar',
         barWidth: '60%',
-        data: viewStore.sharesByLanguage.map(item => item.shares.length)
+        label: {
+          show: true,
+          position: 'inside'
+        },
+        markLine: {
+          data: [{ type: 'average', name: 'Avg' }]
+        },
+        data: sharesByLanguage.value.map(item => item.shares.length)
       }
     ]
   }

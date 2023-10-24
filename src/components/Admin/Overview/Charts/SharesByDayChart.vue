@@ -13,7 +13,9 @@ import {
   ToolboxComponent,
   TooltipComponent,
   GridComponent,
-  DataZoomComponent
+  DataZoomComponent,
+  MarkLineComponent,
+  MarkPointComponent
 } from 'echarts/components';
 import { LineChart } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
@@ -27,7 +29,9 @@ use([
   DataZoomComponent,
   LineChart,
   CanvasRenderer,
-  UniversalTransition
+  UniversalTransition,
+  MarkLineComponent,
+  MarkPointComponent
 ]);
 
 const option = computed(() => {
@@ -79,6 +83,15 @@ const option = computed(() => {
         sampling: 'lttb',
         itemStyle: {
           color: 'rgb(255, 70, 131)'
+        },
+        markPoint: {
+          data: [
+            { type: 'max', name: 'Max' },
+            { type: 'min', name: 'Min' }
+          ]
+        },
+        markLine: {
+          data: [{ type: 'average', name: 'Avg' }]
         },
         areaStyle: {
           color: new graphic.LinearGradient(0, 0, 0, 1, [

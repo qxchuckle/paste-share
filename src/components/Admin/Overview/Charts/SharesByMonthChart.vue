@@ -8,11 +8,15 @@ import useViewStore from '@/stores/ViewStore'
 const viewStore = useViewStore();
 import DataChart from "@/components/Admin/Overview/DataChart.vue";
 import { use } from 'echarts/core';
-import { GridComponent } from 'echarts/components';
+import {
+  GridComponent,
+  MarkLineComponent,
+  MarkPointComponent
+} from 'echarts/components';
 import { LineChart } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
-use([GridComponent, LineChart, CanvasRenderer, UniversalTransition]);
+use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, MarkLineComponent, MarkPointComponent]);
 
 const option = computed(() => {
   return {
@@ -41,8 +45,17 @@ const option = computed(() => {
       {
         name: '分享数',
         data: viewStore.sharesByMonth.map(item => item.shares.length).reverse(),
+        markPoint: {
+          data: [
+            { type: 'max', name: 'Max' },
+            { type: 'min', name: 'Min' }
+          ]
+        },
+        markLine: {
+          data: [{ type: 'average', name: 'Avg' }]
+        },
         type: 'line',
-        areaStyle: {}
+        areaStyle: {},
       }
     ]
   }
