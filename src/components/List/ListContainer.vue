@@ -7,7 +7,7 @@
           <n-button type="primary" ghost @click="search" style="margin-left: 10px;">搜索</n-button>
           <n-button type="primary" ghost @click="reLoad" style="margin-left: 10px;">重置</n-button>
         </div>
-        <n-empty description="你什么也找不到" v-if="!shareList.length" style="padding: 30px 0;">
+        <n-empty description="你什么也找不到" v-if="!shareList.length" style="padding: 30px 0;" size="large">
           <template #extra>
             <n-button @click="toHome">
               去创建分享

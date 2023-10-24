@@ -3,7 +3,13 @@
     <n-layout>
       <div class="share-container">
         <ShareContent :share_info="share_info" :isShare="isShare" :isShow="isShow"></ShareContent>
-        <n-empty description="没有该分享" v-if="!isShow && !isShare"></n-empty>
+        <n-empty description="没有该分享" v-if="!isShow && !isShare" style="margin-top: 30px;" size="large">
+          <template #extra>
+            <n-button @click="toHome">
+              去创建分享
+            </n-button>
+          </template>
+        </n-empty>
         <n-form class="info_form" :rules="rules" :model="info" ref="formRef" label-placement="left" label-width="auto"
           require-mark-placement="right-hanging" v-if="!isShow && isShare" autocomplete="off">
           <n-form-item path="password">
@@ -25,8 +31,9 @@
 <script setup>
 import { ref, inject, onMounted, computed } from "vue";
 const message = inject('message');
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
+const router = useRouter()
 import ShareContent from '@/components/Share/ShareContent.vue';
 import { sendRequest } from '@/utils'
 
@@ -115,6 +122,12 @@ function submit() {
     });
   }).catch(() => {
     message.error("请检查输入框");
+  })
+}
+
+const toHome = () => {
+  router.push({
+    name: 'Home',
   })
 }
 
