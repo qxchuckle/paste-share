@@ -12,7 +12,7 @@ const maxHeight = ref(500);
 function changeTableSize() {
   nextTick(() => {
     const screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-    maxHeight.value = screenHeight - 180;
+    maxHeight.value = screenHeight - 172;
   });
 }
 

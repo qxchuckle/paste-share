@@ -33,5 +33,6 @@ import SharesByMonthChart from "@/components/Admin/Overview/Charts/SharesByMonth
   flex-direction: column;
   flex-wrap: wrap;
   align-content: center;
+  width: calc(100% - 5px);
 }
 </style>

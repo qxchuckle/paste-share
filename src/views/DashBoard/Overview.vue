@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 5px 10px">
+  <div style="padding: 10px 10px 0">
     <OverviewCards class="overview-cards"></OverviewCards>
     <OverviewCharts></OverviewCharts>
   </div>
