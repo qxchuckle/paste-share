@@ -2,14 +2,14 @@
   <n-spin :show="loadList" style="width: 100%;">
     <n-layout>
       <div class="list-container">
-        <div class="search" v-if="shareList.length">
+        <div class="search" v-if="shareList.length || keyword">
           <n-input v-model:value="keyword" placeholder="请输入关键字，可搜索标题、内容" style="flex: 1;"></n-input>
           <n-button type="primary" ghost @click="search" style="margin-left: 10px;">搜索</n-button>
           <n-button type="primary" ghost @click="reLoad" style="margin-left: 10px;">重置</n-button>
         </div>
         <n-empty description="你什么也找不到" v-if="!shareList.length" style="padding: 30px 0;" size="large">
           <template #extra>
-            <n-button @click="toHome">
+            <n-button @click="toHome" v-if="!keyword">
               去创建分享
             </n-button>
           </template>
