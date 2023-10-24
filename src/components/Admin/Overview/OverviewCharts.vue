@@ -8,6 +8,7 @@
     <n-skeleton text height="40px" :sharp="false" width="100%" />
   </n-space>
   <div class="charts-box" v-else>
+    <!-- <SharesCalendarChart></SharesCalendarChart> -->
     <SharesByDayChart></SharesByDayChart>
     <SharesByMonthChart></SharesByMonthChart>
     <SharesByLanguageChart></SharesByLanguageChart>
@@ -20,6 +21,7 @@ const viewStore = useViewStore();
 import SharesByDayChart from "@/components/Admin/Overview/Charts/SharesByDayChart.vue"
 import SharesByLanguageChart from "@/components/Admin/Overview/Charts/SharesByLanguageChart.vue";
 import SharesByMonthChart from "@/components/Admin/Overview/Charts/SharesByMonthChart.vue";
+// import SharesCalendarChart from "@/components/Admin/Overview/Charts/SharesCalendarChart.vue";
 </script>
 
 <style lang="scss" scoped>

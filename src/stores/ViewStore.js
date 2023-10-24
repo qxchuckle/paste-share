@@ -21,7 +21,7 @@ export default defineStore('ViewStore', {
         if (result.code === '0000') {
           this.shares = result.data.shares;
           this.users = result.data.users;
-        }else{
+        } else {
           message.error(result.msg);
         }
       } catch (err) {
@@ -33,7 +33,7 @@ export default defineStore('ViewStore', {
         const result = await sendRequest.get('/api/view/shares');
         if (result.code === '0000') {
           this.shares = result.data.shares;
-        }else{
+        } else {
           message.error(result.msg);
         }
       } catch (err) {
@@ -45,7 +45,7 @@ export default defineStore('ViewStore', {
         const result = await sendRequest.get('/api/view/users');
         if (result.code === '0000') {
           this.users = result.data.users;
-        }else{
+        } else {
           message.error(result.msg);
         }
       } catch (err) {
@@ -117,7 +117,7 @@ export default defineStore('ViewStore', {
       }, []);
     },
     // 以天为基准，分类所有分享
-    sharesByDay(state) {
+    sharesCalendar(state) {
       const categorizedShares = {};
       state.shares.forEach((share) => {
         const formattedDate = formatDateTime(share.time, 'YYYY-MM-DD');
@@ -129,7 +129,11 @@ export default defineStore('ViewStore', {
         }
         categorizedShares[formattedDate].shares.push(share);
       })
-      return Object.values(categorizedShares);
+      return categorizedShares;
+    },
+    // 数组形式
+    sharesByDay(state) {
+      return Object.values(state.sharesCalendar);
     },
     // 以月为基准，分类所有分享
     sharesByMonth(state) {
