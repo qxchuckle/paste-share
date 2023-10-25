@@ -2,24 +2,34 @@
   <n-spin :show="loadList" style="width: 100%;">
     <n-layout>
       <div class="list-container">
-        <div class="search" v-if="shareList.length || keyword">
+        <div class="search" v-if="shareList.length || keyword || loadList">
           <n-input v-model:value="keyword" placeholder="请输入关键字，可搜索标题、内容" style="flex: 1;"></n-input>
           <n-button type="primary" ghost @click="search" style="margin-left: 10px;">搜索</n-button>
           <n-button type="primary" ghost @click="reLoad" style="margin-left: 10px;">重置</n-button>
         </div>
-        <n-empty description="你什么也找不到" v-if="!shareList.length" style="padding: 30px 0;" size="large">
+        <n-empty description="你什么也找不到" v-if="!shareList.length && !loadList" style="padding: 30px 0;" size="large">
           <template #extra>
             <n-button @click="toHome" v-if="!keyword">
               去创建分享
             </n-button>
           </template>
         </n-empty>
-        <n-scrollbar style="max-height: calc(100vh - 180px);width: calc(100% + 12px);" trigger="none">
-          <ShareCards :shareList="shareList" :pageNum="page" :shareNum="shareNum" style="padding-right: 12px;">
+        <n-scrollbar style="height: calc(100vh - 180px);width: calc(100% + 12px);" trigger="none">
+          <n-space v-if="loadList" vertical class="charts-load">
+            <n-skeleton text height="20px" :sharp="false" width="60%" style="margin-top: 5px;" />
+            <n-skeleton text height="30px" :sharp="false" width="80%" />
+            <n-skeleton text height="30px" :sharp="false" width="100%" />
+            <n-skeleton text height="30px" :sharp="false" width="100%" />
+            <n-skeleton text height="20px" :sharp="false" width="60%" style="margin-top: 20px;" />
+            <n-skeleton text height="30px" :sharp="false" width="80%" />
+            <n-skeleton text height="30px" :sharp="false" width="100%" />
+            <n-skeleton text height="30px" :sharp="false" width="100%" style="margin-bottom: 10px;" />
+          </n-space>
+          <ShareCards v-else :shareList="shareList" :pageNum="page" :shareNum="shareNum" style="padding-right: 12px;">
           </ShareCards>
         </n-scrollbar>
       </div>
-      <n-space justify="center" v-if="shareList.length">
+      <n-space justify="center" v-if="shareList.length || loadList">
         <n-pagination @update:page="loadShareList" v-model:page="page" :page-count="pageCount"
           :show-size-picker="showSizePicker" :page-sizes="[10, 20, 30]" v-model:page-size="shareNum"
           @update:page-size="loadShareList(page)" :show-quick-jumper="showQuickJumper" />
@@ -51,9 +61,9 @@ function handleWindowSizeChange() {
   const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   if (screenWidth < 600) {
     showQuickJumper.value = false;
-    if(screenWidth < 300){
+    if (screenWidth < 300) {
       showSizePicker.value = false;
-    }else{
+    } else {
       showSizePicker.value = true;
     }
   } else {
@@ -132,7 +142,8 @@ const reLoad = () => {
   height: 100%;
   margin-top: 10px;
 
-  :nth-last-of-type(1), :nth-last-of-type(2){
+  :nth-last-of-type(1),
+  :nth-last-of-type(2) {
     margin-bottom: 0px;
   }
 
