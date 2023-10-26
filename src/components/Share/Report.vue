@@ -27,6 +27,7 @@ const reportShare = () => {
   color: #FF5151;
   font-size: 14px;
   margin-top: 5px;
+  cursor: pointer;
 
   .report-txt {
     display: flex;
