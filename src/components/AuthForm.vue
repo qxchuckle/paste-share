@@ -18,20 +18,7 @@
               show-password-on="click" @keydown.enter.prevent maxlength="18" show-count clearable
               :allow-input="onlyNumbersAndLettersAllowed" />
           </n-form-item>
-          <div class="captcha-box" v-if="config.type === 'reg'">
-            <n-form-item first path="captchaText" label="输入验证码" style="flex: 1;">
-              <n-input v-model:value="user.captchaText" @keydown.enter.prevent maxlength="4" show-count clearable
-                :allow-input="onlyNumbersAndLettersAllowed" placeholder="不区分大小写" />
-            </n-form-item>
-            <n-spin :show="captchaLoad">
-              <n-popover trigger="hover">
-                <template #trigger>
-                  <div class="captcha-img" v-html="captcha.svg" @click="getCaptcha"></div>
-                </template>
-                <span>点击刷新验证码</span>
-              </n-popover>
-            </n-spin>
-          </div>
+          <Captcha ref="captchaRef" v-if="config.type === 'reg'"></Captcha>
         </n-form>
         <template #footer>
           <n-checkbox v-model:checked="user.remember" label="记住并自动登录" v-if="config.type === 'login'" />
@@ -49,52 +36,19 @@
 
 <script setup>
 const { config } = defineProps(['config']);
-import { ref, reactive, inject, onMounted } from "vue";
+import { ref, reactive, inject } from "vue";
 // 注入
 const message = inject('message');
 import { sendRequest } from '@/utils'
-
-const captcha = reactive({
-  id: null,
-  svg: null,
-})
-const captchaLoad = ref(true);
-const getCaptcha = async () => {
-  captchaLoad.value = true;
-  try {
-    const result = await sendRequest.get('/api/captcha', {
-      params: { id: captcha.id, height: 50, width: 150 }
-    });
-    if (result.code === '0000') {
-      // 处理结果
-      if (!captcha.id || result.data.id !== sessionStorage.getItem('captcha_id')) {
-        captcha.id = result.data.id;
-        sessionStorage.setItem('captcha_id', result.data.id);
-      }
-      captcha.svg = result.data.svg;
-    } else {
-      message.error(result.msg);
-    }
-  } catch (error) {
-    message.error("网络错误");
-  }
-  captchaLoad.value = false;
-}
-
-onMounted(async () => {
-  if (config.type === 'reg') {
-    captcha.id = sessionStorage.getItem('captcha_id');
-    await getCaptcha();
-  }
-})
+import Captcha from "@/components/Captcha.vue";
 
 const rPasswordFormItemRef = ref(null);
+const captchaRef = ref(null);
 const user = reactive({
   username: localStorage.getItem("username") || "",
   password: "",
   remember: localStorage.getItem("remember") == 1,
-  reenteredPassword: null,
-  captchaText: "",
+  reenteredPassword: null
 })
 
 let rules = reactive({
@@ -136,13 +90,6 @@ if (config.type === 'reg') {
       trigger: ["blur", "password-input"]
     }
   ]
-  rules.captchaText = [
-    {
-      required: true,
-      message: "请输入验证码",
-      trigger: "blur",
-    }
-  ];
 }
 
 const formRef = ref(null);
@@ -158,49 +105,33 @@ const submit = async () => {
         formAble = false;
       }
     })
+    await captchaRef.value?.validate();
     // 发送请求
     spinShow.value = true;
     try {
-      const parameter = (() => {
-        if (config.type === 'reg') {
-          return {
-            username: user.username,
-            password: user.password,
-            captcha_id: captcha.id,
-            captcha_text: user.captchaText
-          }
-        } else {
-          return {
-            username: user.username,
-            password: user.password
-          }
-        }
-      })();
+      const parameter = {
+        username: user.username,
+        password: user.password,
+      };
+      if (config.type === 'reg') {
+        parameter.captcha_id = captchaRef.value.captcha.id;
+        parameter.captcha_text = captchaRef.value.captcha.text;
+      }
       const result = await sendRequest.post(config.apiPath, parameter);
       spinShow.value = false;
-      // console.log(result);
       if (result.code === '0000') {
         // 处理结果
         config.resultHandle(result, user);
       } else {
         message.error(result.msg);
-        if (config.type === 'reg') {
-          getCaptcha();
-        }
+        captchaRef.value?.getCaptcha();
       }
     } catch (error) {
       spinShow.value = false;
-      if (config.type === 'reg') {
-        getCaptcha();
-      }
       message.error("网络错误");
     }
   } catch (error) {
     spinShow.value = false;
-    if (config.type === 'reg') {
-      getCaptcha();
-    }
-    // console.error(error)
     message.error("请检查输入框");
   }
 };
