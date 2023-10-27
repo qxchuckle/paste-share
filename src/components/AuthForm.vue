@@ -154,17 +154,4 @@ const onlyNumbersAndLettersAllowed = (value) => {
   width: 100%;
   margin-top: 20px;
 }
-
-.captcha-box {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-
-  .captcha-img {
-    margin-left: 5px;
-    min-width: 150px;
-  }
-}
 </style>
