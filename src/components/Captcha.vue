@@ -23,6 +23,12 @@ import { ref, reactive, inject, onMounted } from "vue";
 const message = inject('message');
 import { sendRequest } from '@/utils'
 
+const captcha = reactive({
+  id: null,
+  svg: null,
+  text: null
+})
+
 onMounted(async () => {
   captcha.id = sessionStorage.getItem('captcha_id');
   await getCaptcha();
@@ -42,11 +48,6 @@ let rules = reactive({
 const onlyNumbersAndLettersAllowed = (value) => {
   return /^\w*$/.test(value);
 }
-const captcha = reactive({
-  id: null,
-  svg: null,
-  text: null
-})
 const captchaLoad = ref(true);
 const getCaptcha = async () => {
   captchaLoad.value = true;
