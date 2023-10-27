@@ -66,7 +66,7 @@ const allowControl = computed(() => {
 })
 
 const allowDelete = computed(() => {
-  if(userStore.userType === "super" || userStore.userType === "admin"){
+  if (userStore.userType === "super" || userStore.userType === "admin") {
     return true;
   }
   return false;
@@ -98,9 +98,9 @@ const deleteShare = async () => {
     if (result.code === '0000') {
       // 处理结果
       message.success(result.msg);
-      if(router.options.history.state.back.includes("admin")){
+      if (router.options.history.state.back.includes("admin")) {
         router.go(-1);
-      }else{
+      } else {
         toList();
       }
     } else {

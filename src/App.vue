@@ -30,7 +30,9 @@
                   <n-skeleton text :repeat="3" :sharp="false" />
                   <n-skeleton text :repeat="1" :sharp="false" width="80%" />
                 </n-space>
-                <router-view v-else :key="$route.fullPath"></router-view>
+                <n-scrollbar style="height: calc(100vh - 80px);" trigger="none" v-else>
+                  <router-view :key="$route.fullPath"></router-view>
+                </n-scrollbar>
               </div>
               <n-layout-footer bordered id="footer">
                 <div style="margin-right: 8px;">@轻笑Chuckle</div>
@@ -115,9 +117,9 @@ function rightSideEmit(value) {
     width: 100%;
     flex: 1;
     display: flex;
-    height: 100%;
     flex-direction: row;
     justify-content: center;
+    height: 100%;
 
     .router-load {
       width: 100%;
