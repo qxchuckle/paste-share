@@ -14,7 +14,7 @@
             </n-button>
           </template>
         </n-empty>
-        <n-scrollbar style="height: calc(100vh - 180px);width: calc(100% + 12px);" trigger="none">
+        <n-scrollbar style="height: calc(100vh - 175px);width: calc(100% + 12px);" trigger="none">
           <n-space v-if="loadList" vertical class="charts-load">
             <n-skeleton text height="20px" :sharp="false" width="60%" style="margin-top: 5px;" />
             <n-skeleton text height="30px" :sharp="false" width="80%" />
@@ -141,11 +141,6 @@ const reLoad = () => {
   padding: 0 10px 6px;
   height: 100%;
   margin-top: 10px;
-
-  :nth-last-of-type(1),
-  :nth-last-of-type(2) {
-    margin-bottom: 0px;
-  }
 
   .search {
     margin-bottom: 10px;

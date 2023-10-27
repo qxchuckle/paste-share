@@ -8,7 +8,7 @@
           :options="menuOptions" :default-value="$route.name" />
       </n-layout-sider>
       <n-layout-content class="main">
-        <n-scrollbar style="max-height: calc(100vh - 83px)" trigger="none" :x-scrollable="false">
+        <n-scrollbar style="max-height: calc(100vh - 80px)" trigger="none" :x-scrollable="false">
           <router-view :key="$route.fullPath"></router-view>
         </n-scrollbar>
       </n-layout-content>

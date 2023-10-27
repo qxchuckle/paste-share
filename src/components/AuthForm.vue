@@ -149,9 +149,8 @@ const onlyNumbersAndLettersAllowed = (value) => {
 <style lang="scss" scoped>
 #auth-panel {
   max-width: 510px;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 0 5px;
   width: 100%;
-  margin-top: 20px;
 }
 </style>

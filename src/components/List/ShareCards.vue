@@ -67,9 +67,18 @@ const toShare = (item) => {
     }
   }
 
+  .share-card:nth-last-child(2),
+  .share-card:nth-last-child(1) {
+    margin-bottom: 3px;
+  }
+
   @media screen and (max-width:800px) {
     .share-card {
       width: 100%;
+    }
+
+    .share-card:nth-last-child(2) {
+      margin-bottom: 10px;
     }
   }
 }

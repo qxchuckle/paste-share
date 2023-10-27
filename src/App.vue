@@ -5,7 +5,7 @@
         <n-spin :show="!userStore.isCompleteLogin">
           <n-layout>
             <div class="main">
-              <n-layout-header bordered>
+              <n-layout-header bordered style="height: 50px;">
                 <div id="nav">
                   <n-space class="title-box">
                     <n-gradient-text class="title" type="info" @click="toHome()">粘贴分享</n-gradient-text>
@@ -32,11 +32,9 @@
                 </n-space>
                 <router-view v-else :key="$route.fullPath"></router-view>
               </div>
-              <n-layout-footer style="width: 100%;" bordered>
-                <div id="footer">
-                  <div style="margin-right: 8px;">@轻笑Chuckle</div>
-                  <div>项目: <a href="https://github.com/qxchuckle/paste-share" target='_blank'>qxchuckle/paste-share</a>
-                  </div>
+              <n-layout-footer bordered id="footer">
+                <div style="margin-right: 8px;">@轻笑Chuckle</div>
+                <div>项目: <a href="https://github.com/qxchuckle/paste-share" target='_blank'>qxchuckle/paste-share</a>
                 </div>
               </n-layout-footer>
             </div>
@@ -161,13 +159,13 @@ function rightSideEmit(value) {
     color: rgb(150, 150, 150);
     font-size: 14px;
     line-height: 20px;
-    padding-bottom: 5px;
     transition: all 0.2s;
-    padding-top: 6px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
+    height: 30px;
+    align-items: center;
 
     a {
       color: rgb(150, 150, 150);
