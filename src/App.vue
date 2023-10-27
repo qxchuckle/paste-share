@@ -20,7 +20,7 @@
                   </n-space>
                 </div>
               </n-layout-header>
-              <n-scrollbar style="height: calc(100vh - 80px);" trigger="none" content-style="height: 100%;">
+              <n-scrollbar style="height: calc(100vh - 80px);" trigger="none">
                 <div class="router-view-box">
                   <n-space vertical class="router-load" v-if="!userStore.isCompleteLogin">
                     <n-alert title="提示" type="info" style="margin: 0 0 10px;">

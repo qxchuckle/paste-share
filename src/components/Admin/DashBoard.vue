@@ -111,6 +111,7 @@ const menuOptions = [
   position: relative;
   flex: 1;
   width: 100%;
+  height: calc(100vh - 80px);
 
   .main {
     width: 100%;
