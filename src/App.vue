@@ -20,20 +20,20 @@
                   </n-space>
                 </div>
               </n-layout-header>
-              <div class="router-view-box">
-                <n-space vertical class="router-load" v-if="!userStore.isCompleteLogin">
-                  <n-alert title="提示" type="info" style="margin: 0 0 10px;">
-                    自动登录中，请稍等
-                  </n-alert>
-                  <n-skeleton text height="30px" :sharp="false" width="33%" />
-                  <n-skeleton text height="35px" :sharp="false" width="60%" />
-                  <n-skeleton text :repeat="3" :sharp="false" />
-                  <n-skeleton text :repeat="1" :sharp="false" width="80%" />
-                </n-space>
-                <n-scrollbar style="height: calc(100vh - 80px);" trigger="none" v-else>
-                  <router-view :key="$route.fullPath"></router-view>
-                </n-scrollbar>
-              </div>
+              <n-scrollbar style="height: calc(100vh - 80px);" trigger="none" content-style="height: 100%;">
+                <div class="router-view-box">
+                  <n-space vertical class="router-load" v-if="!userStore.isCompleteLogin">
+                    <n-alert title="提示" type="info" style="margin: 0 0 10px;">
+                      自动登录中，请稍等
+                    </n-alert>
+                    <n-skeleton text height="30px" :sharp="false" width="33%" />
+                    <n-skeleton text height="35px" :sharp="false" width="60%" />
+                    <n-skeleton text :repeat="3" :sharp="false" />
+                    <n-skeleton text :repeat="1" :sharp="false" width="80%" />
+                  </n-space>
+                  <router-view v-else :key="$route.fullPath"></router-view>
+                </div>
+              </n-scrollbar>
               <n-layout-footer bordered id="footer">
                 <div style="margin-right: 8px;">@轻笑Chuckle</div>
                 <div>项目: <a href="https://github.com/qxchuckle/paste-share" target='_blank'>qxchuckle/paste-share</a>
