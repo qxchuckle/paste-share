@@ -10,7 +10,17 @@
       <n-skeleton v-if="captchaLoad" style="margin-left: 5px;" :width="150" :height="50" :sharp="false" />
       <n-popover v-else trigger="hover">
         <template #trigger>
-          <div class="captcha-img" v-html="captcha.svg" @click="getCaptcha"></div>
+          <div class="captcha-img">
+            <div v-if="!captchaLoadError" v-html="captcha.svg" @click="getCaptcha"></div>
+            <n-space v-else justify="center">
+              <n-tag @click="getCaptcha" type="error">
+                <template #icon>
+                  <n-icon :component="CloseCircleOutline" />
+                </template>
+                出错，点击重载
+              </n-tag>
+            </n-space>
+          </div>
         </template>
         <span>点击刷新验证码</span>
       </n-popover>
@@ -22,6 +32,7 @@
 import { ref, reactive, inject, onMounted } from "vue";
 const message = inject('message');
 import { sendRequest } from '@/utils'
+import { CloseCircleOutline } from '@vicons/ionicons5'
 
 const captcha = reactive({
   id: null,
@@ -49,8 +60,10 @@ const onlyNumbersAndLettersAllowed = (value) => {
   return /^\w*$/.test(value);
 }
 const captchaLoad = ref(true);
+const captchaLoadError = ref(false);
 const getCaptcha = async () => {
   captchaLoad.value = true;
+  captchaLoadError.value = false;
   clearValue();
   try {
     const result = await sendRequest.get('/api/captcha', {
@@ -65,9 +78,11 @@ const getCaptcha = async () => {
       captcha.svg = result.data.svg;
     } else {
       message.error(result.msg);
+      captchaLoadError.value = true;
     }
   } catch (error) {
     message.error("网络错误");
+    captchaLoadError.value = true;
   }
   captchaLoad.value = false;
 }
@@ -99,6 +114,8 @@ defineExpose({ getCaptcha, captcha, validate, clearValue })
   .captcha-img {
     margin-left: 5px;
     min-width: 150px;
+    width: 150;
+    height: 50;
   }
 }
 </style>
