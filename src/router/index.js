@@ -2,11 +2,8 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import { sendRequest } from '@/utils'
 import { createDiscreteApi } from 'naive-ui'
-const { message, loadingBar } = createDiscreteApi(
-  ['message', 'loadingBar']
-)
-
 import useUserStore from '@/stores/UserStore'
+import { computed } from 'vue'
 
 // 路由懒加载
 const NotFount = () => import('@/views/NotFount.vue');
@@ -109,10 +106,15 @@ const routes = [
     beforeEnter: async (to, from) => {
       const userType = await autoLogin();
       if (userType === 'admin' || userType === 'super') {
-        // const viewStore = useViewStore();
-        // viewStore.getView();
         return true;
       } else {
+        const userStore = useUserStore();
+        const { message } = createDiscreteApi(
+          ['message'],
+          {
+            configProviderProps: computed(() => userStore.themeConfigProviderProps)
+          }
+        );
         message.error(`${localStorage.getItem("username") || "游客"}没有权限访问管理后台!`);
         return { name: 'Home' }
       }
@@ -178,15 +180,22 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
+  const userStore = useUserStore();
+  const { loadingBar } = createDiscreteApi(
+    ['loadingBar'],
+    {
+      configProviderProps: computed(() => userStore.themeConfigProviderProps)
+    }
+  );
+  window.$loadingBar = loadingBar;
   loadingBar.start();
   await autoLogin();
 })
 
 router.afterEach((to, from) => {
-  if (to.meta.title) {
-    document.title = `粘贴分享|${to.meta.title}`;
+  if (window.$loadingBar) {
+    window.$loadingBar.finish();
   }
-  loadingBar.finish();
 })
 
 const autoLogin = async () => {

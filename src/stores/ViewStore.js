@@ -1,9 +1,15 @@
 import { defineStore } from 'pinia'
 import { formatDateTime, sendRequest } from '@/utils'
 import { createDiscreteApi } from 'naive-ui'
+import useUserStore from '@/stores/UserStore'
+import { computed } from 'vue'
+const userStore = useUserStore();
 const { message } = createDiscreteApi(
-  ['message']
-)
+  ['message'],
+  {
+    configProviderProps: computed(() => userStore.themeConfigProviderProps)
+  }
+);
 
 export default defineStore('ViewStore', {
   // 状态

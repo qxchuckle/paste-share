@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme="theme" :locale="zhCN">
+  <n-config-provider :theme="userStore.themeConfig" :locale="zhCN">
     <n-layout>
       <n-loading-bar-provider>
         <n-spin :show="!userStore.isCompleteLogin">
@@ -45,14 +45,13 @@
             加载中
           </template>
         </n-spin>
-        <RightSide @emit="rightSideEmit"></RightSide>
+        <RightSide></RightSide>
       </n-loading-bar-provider>
     </n-layout>
   </n-config-provider>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import RightSide from "@/components/RightSide.vue";
 import Menu from "@/components/Menu.vue";
 import Breadcrumb from "@/components/Breadcrumb.vue";
@@ -79,11 +78,6 @@ const toReg = () => {
   router.push({
     name: 'Register',
   })
-}
-
-const theme = ref(null);
-function rightSideEmit(value) {
-  theme.value = value;
 }
 
 !(function (t) {

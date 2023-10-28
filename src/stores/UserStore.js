@@ -1,4 +1,9 @@
 import { defineStore } from 'pinia'
+import {
+  darkTheme,
+  lightTheme
+} from "naive-ui";
+
 // 创建并暴露一个store
 export default defineStore('UserStore', {
   // 状态
@@ -9,6 +14,15 @@ export default defineStore('UserStore', {
       userType: "",
       isLogin: false,
       isCompleteLogin: false,
+      theme: (() => {
+        const autoSwitchTheme = JSON.parse(localStorage.getItem("autoSwitchTheme")) ?? true
+        const currentHour = new Date().getHours();
+        if ((!autoSwitchTheme && localStorage.getItem("theme") === "dark") || (autoSwitchTheme && (currentHour >= 18 || currentHour < 6))) {
+          return "dark"
+        } else {
+          return "light"
+        }
+      })()
     }
   },
   // 对状态的操作
@@ -20,8 +34,35 @@ export default defineStore('UserStore', {
       this.isLogin = false;
       localStorage.removeItem("token");
       localStorage.removeItem("username");
+    },
+    handleTheme(theme = null) {
+      if (theme) {
+        this.theme = theme;
+        return;
+      }
+      if (this.theme === "light")
+        this.theme = "dark";
+      else
+        this.theme = "light";
+    },
+    handleThemeByTime() {
+      const currentHour = new Date().getHours();
+      if (currentHour >= 18 || currentHour < 6) {
+        this.handleTheme('dark');
+      } else {
+        this.handleTheme('light');
+      }
     }
   },
   // 相当于计算属性，传入一个store的state作为参数
-  getters: {}
+  getters: {
+    themeConfig(state) {
+      return state.theme === "light" ? lightTheme : darkTheme
+    },
+    themeConfigProviderProps(state) {
+      return {
+        theme: state.themeConfig
+      }
+    }
+  }
 });

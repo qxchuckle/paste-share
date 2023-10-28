@@ -21,7 +21,7 @@
       <n-scrollbar style="max-height: 200px">
         <n-space vertical align="center">
           自动切换
-          <n-switch v-model:value="autoSwitchTheme" @update:value="themeSwitch" />
+          <n-switch v-model:value="autoSwitchTheme" @update:value="themeAutoSwitch" />
           <n-button @click="darkBtn">
             深色
           </n-button>
@@ -35,34 +35,25 @@
 </template>
 
 <script setup>
-import { onMounted, inject } from "vue";
-const handleTheme = inject('handleTheme');
-// 主题色控制
-import { darkTheme } from "naive-ui";
-const theme = ref(null);
-const emit = defineEmits(['emit']);
+import useUserStore from '@/stores/UserStore'
+const userStore = useUserStore();
 
 const autoSwitchTheme = ref(JSON.parse(localStorage.getItem("autoSwitchTheme")) ?? true);
-function themeSwitch() {
+function themeAutoSwitch() {
   localStorage.setItem("autoSwitchTheme", autoSwitchTheme.value);
+  if (autoSwitchTheme.value) {
+    userStore.handleThemeByTime();
+  }
 }
 
 // 切换为黑夜模式
 function switchDark() {
-  theme.value = darkTheme;
-  emit('emit', theme.value);
-  handleTheme("dark");
+  userStore.handleTheme("dark");
 }
 
-onMounted(() => {
-  const currentHour = new Date().getHours();
-  // 检查当前小时是否在晚上6点到第二天6点之间
-  if ((!autoSwitchTheme.value && localStorage.getItem("theme") === "dark") || (autoSwitchTheme.value && (currentHour >= 18 || currentHour < 6))) {
-    switchDark();
-  }else{
-    handleTheme("light");
-  }
-})
+function switchLight() {
+  userStore.handleTheme("light");
+}
 
 function darkBtn() {
   switchDark()
@@ -70,10 +61,8 @@ function darkBtn() {
 }
 
 function lightBtn() {
-  theme.value = null;
+  switchLight();
   localStorage.setItem("theme", "light");
-  emit('emit', theme.value);
-  handleTheme("light");
 }
 
 </script>

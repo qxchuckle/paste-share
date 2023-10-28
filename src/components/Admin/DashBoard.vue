@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, h, onBeforeUnmount } from "vue"
+import { ref, onMounted, h, onBeforeUnmount, onBeforeMount } from "vue"
 let collapsed = ref(false);
 import { NIcon } from "naive-ui";
 import { BarChartOutline, List, PeopleOutline } from "@vicons/ionicons5";
@@ -47,8 +47,11 @@ function handleWindowSizeChange() {
   }
 }
 
-onMounted(() => {
+onBeforeMount(()=>{
   handleWindowSizeChange();
+})
+
+onMounted(() => {
   window.addEventListener("resize", handleWindowSizeChange);
 })
 
