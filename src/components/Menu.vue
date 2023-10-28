@@ -21,6 +21,7 @@
 import { h, computed, onMounted, inject } from "vue";
 import { NAvatar, NIcon, NText } from "naive-ui";
 const message = inject('message');
+const dialog = inject('dialog');
 import useUserStore from '@/stores/UserStore';
 const userStore = useUserStore();
 import { useRouter } from "vue-router";
@@ -162,9 +163,20 @@ const activate = (place) => {
 };
 
 const logout = () => {
-  userStore.logout();
-  toHome();
-  message.success("已登出");
+  dialog.error({
+    title: '登出确认',
+    content: `是否登出${userStore.username}`,
+    positiveText: '登出',
+    negativeText: '取消',
+    transformOrigin: 'center',
+    icon: renderIcon(LogOutOutline),
+    onPositiveClick: () => {
+      userStore.logout();
+      toHome();
+      message.success("已登出");
+    },
+    onNegativeClick: () => { }
+  })
 }
 
 </script>
