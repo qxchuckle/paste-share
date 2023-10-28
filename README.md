@@ -4,7 +4,8 @@
 
 在线演示：[粘贴分享](https://s.qcqx.cn/)
 
-Vue3前端：Vue3 + Vite + Vue Router + Pinia + Naive UI + Echarts + axios + sass + highlight.js + vue-clipboard3 + qrcode.vue 
+Vue3前端：Vue3 + Vite + Vue Router + Pinia + Naive UI + Echarts + axios + sass + highlight.js + vue-clipboard3 + qrcode.vue
+
 NodeJS后端：Express + MongoDB + Mongoose + shortid + jsonwebtoken
 
 前端:[paste-share](https://github.com/qxchuckle/paste-share)，后端：[paste-share-server](https://github.com/qxchuckle/paste-share-server)

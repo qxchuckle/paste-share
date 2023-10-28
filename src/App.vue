@@ -168,6 +168,7 @@ function rightSideEmit(value) {
     flex-wrap: wrap;
     height: 30px;
     align-items: center;
+    min-width: max-content;
 
     a {
       color: rgb(150, 150, 150);
