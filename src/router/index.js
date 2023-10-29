@@ -180,6 +180,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
+  window.$loadingBar?.finish();
   const userStore = useUserStore();
   const { loadingBar } = createDiscreteApi(
     ['loadingBar'],
@@ -193,9 +194,7 @@ router.beforeEach(async (to) => {
 })
 
 router.afterEach((to, from) => {
-  if (window.$loadingBar) {
-    window.$loadingBar.finish();
-  }
+  window.$loadingBar?.finish();
 })
 
 const autoLogin = async () => {
