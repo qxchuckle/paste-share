@@ -7,10 +7,11 @@
             <div class="main">
               <n-layout-header bordered style="height: 50px;">
                 <div id="nav">
-                  <n-space class="title-box">
+                  <div class="title-box">
                     <n-gradient-text class="title" type="info" @click="toHome()">粘贴分享</n-gradient-text>
-                    <Breadcrumb></Breadcrumb>
-                  </n-space>
+                    <Navigation class="navigation"></Navigation>
+                    <Breadcrumb class="breadcrumb"></Breadcrumb>
+                  </div>
                   <div class="login-reg" v-if="!userStore.isLogin">
                     <n-button class="btn" @click="toLogin()">登陆</n-button>
                     <n-button class="btn" @click="toReg()">注册</n-button>
@@ -55,6 +56,7 @@
 import RightSide from "@/components/RightSide.vue";
 import Menu from "@/components/Menu.vue";
 import Breadcrumb from "@/components/Breadcrumb.vue";
+import Navigation from "@/components/Navigation.vue";
 // 导入路由器和路由
 import { useRouter } from "vue-router"
 const router = useRouter()
@@ -134,7 +136,27 @@ const toReg = () => {
     box-sizing: border-box;
 
     .title-box {
+      display: flex;
+      flex-flow: wrap;
+      gap: 6px 6px;
+      align-content: center;
       align-items: center;
+
+      .navigation {
+        margin-left: 1px;
+      }
+
+      @media screen and (max-width:500px) {
+        .navigation {
+          display: none;
+        }
+      }
+
+      @media screen and (max-width:290px) {
+        .breadcrumb {
+          display: none;
+        }
+      }
     }
 
     .title {
