@@ -200,6 +200,12 @@ router.afterEach((to, from) => {
 
 const autoLogin = async () => {
   const userStore = useUserStore();
+  const { message } = createDiscreteApi(
+    ['message'],
+    {
+      configProviderProps: computed(() => userStore.themeConfigProviderProps)
+    }
+  );
   if (userStore.token && !userStore.isLogin && localStorage.getItem("remember") == '1') {
     // 当没有处于登陆状态且有token，且之前登陆时勾选了记住并自动登录，则进行自动登录
     try {
@@ -211,14 +217,20 @@ const autoLogin = async () => {
         if (localStorage.getItem("username") !== userStore.username) {
           localStorage.setItem("username", userStore.username);
         }
+        message.success(`欢迎 ${userStore.username}`);
       } else {
         // 如果出错则删除本地token
         if (localStorage.getItem("token")) {
           localStorage.removeItem("token");
           userStore.token = "";
+          message.warning('token已过期，请重新登录');
+        } else {
+          message.error('自动登录失败，请刷新重试');
         }
       }
-    } catch (err) { } finally {
+    } catch (err) {
+      message.error('自动登录失败，请刷新重试');
+    } finally {
       userStore.isCompleteLogin = true;
     }
   } else {
