@@ -1,6 +1,6 @@
 <template>
   <n-dropdown trigger="click" :options="options" :show-arrow="true" @select="handleSelect">
-    <n-badge value="菜单" class="badge">
+    <n-badge value="菜单" class="badge" type="info">
       <n-avatar>{{ userStore.username }}</n-avatar>
     </n-badge>
   </n-dropdown>
