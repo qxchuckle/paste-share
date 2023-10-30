@@ -40,4 +40,8 @@ app.provide('notification', notification);
 app.provide('dialog', dialog);
 app.provide('loadingBar', loadingBar);
 
+// 国际化
+import i18n from '@/i18n'
+app.use(i18n)
+
 app.mount('#app')

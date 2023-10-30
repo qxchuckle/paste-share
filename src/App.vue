@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme="userStore.themeConfig" :locale="zhCN">
+  <n-config-provider :theme="userStore.themeConfig" :locale="userStore.languageConfig">
     <n-layout>
       <n-loading-bar-provider>
         <n-spin :show="!userStore.isCompleteLogin">
@@ -8,7 +8,7 @@
               <n-layout-header bordered style="height: 50px;">
                 <div id="nav">
                   <div class="title-box">
-                    <n-gradient-text class="title" type="info" @click="toHome()">粘贴分享</n-gradient-text>
+                    <n-gradient-text class="title" type="info" @click="toHome()">{{ $t('title') }}</n-gradient-text>
                     <Navigation class="navigation"></Navigation>
                     <Breadcrumb class="breadcrumb"></Breadcrumb>
                   </div>
@@ -62,7 +62,6 @@ import { useRouter } from "vue-router"
 const router = useRouter()
 import useUserStore from '@/stores/UserStore';
 const userStore = useUserStore();
-import { zhCN } from 'naive-ui'
 
 const toHome = () => {
   router.push({

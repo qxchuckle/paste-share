@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia'
 import {
   darkTheme,
-  lightTheme
+  lightTheme,
+  zhCN,
+  enUS
 } from "naive-ui";
 
 // 创建并暴露一个store
@@ -22,7 +24,8 @@ export default defineStore('UserStore', {
         } else {
           return "light"
         }
-      })()
+      })(),
+      language: localStorage.getItem("language") || "zh"
     }
   },
   // 对状态的操作
@@ -52,6 +55,9 @@ export default defineStore('UserStore', {
       } else {
         this.handleTheme('light');
       }
+    },
+    handleLanguage(lang) {
+      this.language = lang || "zh";
     }
   },
   // 相当于计算属性，传入一个store的state作为参数
@@ -63,6 +69,13 @@ export default defineStore('UserStore', {
       return {
         theme: state.themeConfig
       }
+    },
+    languageConfig(state) {
+      const langList = {
+        zh: zhCN,
+        en: enUS,
+      }
+      return langList[state.language] || zhCN
     }
   }
 });

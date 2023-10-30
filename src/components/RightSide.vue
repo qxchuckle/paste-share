@@ -18,7 +18,7 @@
           </svg>
         </n-icon>
       </template>
-      <n-scrollbar style="max-height: 200px">
+      <n-scrollbar style="max-height: fit-content">
         <n-space vertical align="center">
           自动切换
           <n-switch v-model:value="autoSwitchTheme" @update:value="themeAutoSwitch" />
@@ -28,6 +28,9 @@
           <n-button @click="lightBtn">
             浅色
           </n-button>
+          国际化
+          <n-select v-model:value="userStore.language" :options="languageOptions" @update:value="handleUpdateLanguage"
+            style="width: 80px;" />
         </n-space>
       </n-scrollbar>
     </n-popover>
@@ -37,6 +40,8 @@
 <script setup>
 import useUserStore from '@/stores/UserStore'
 const userStore = useUserStore();
+import { useI18n } from 'vue-i18n'
+const { locale } = useI18n()
 
 const autoSwitchTheme = ref(JSON.parse(localStorage.getItem("autoSwitchTheme")) ?? true);
 function themeAutoSwitch() {
@@ -63,6 +68,23 @@ function darkBtn() {
 function lightBtn() {
   switchLight();
   localStorage.setItem("theme", "light");
+}
+
+const languageOptions = [
+  {
+    label: '汉语',
+    value: 'zh'
+  },
+  {
+    label: '英语',
+    value: 'en'
+  },
+]
+
+function handleUpdateLanguage(value) {
+  localStorage.setItem("language", value);
+  locale.value = value;
+  userStore.handleLanguage(value);
 }
 
 </script>

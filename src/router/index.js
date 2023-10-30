@@ -179,33 +179,36 @@ const router = createRouter({
   routes
 })
 
+let theLoadingBar = null;
+
 router.beforeEach(async (to) => {
-  window.$loadingBar?.finish();
-  const userStore = useUserStore();
-  const { loadingBar } = createDiscreteApi(
-    ['loadingBar'],
-    {
-      configProviderProps: computed(() => userStore.themeConfigProviderProps)
-    }
-  );
-  window.$loadingBar = loadingBar;
-  loadingBar.start();
+  if (!theLoadingBar) {
+    const userStore = useUserStore();
+    const { loadingBar } = createDiscreteApi(
+      ['loadingBar'],
+      {
+        configProviderProps: computed(() => userStore.themeConfigProviderProps)
+      }
+    );
+    theLoadingBar = loadingBar;
+  }
+  theLoadingBar?.start();
   await autoLogin();
 })
 
 router.afterEach((to, from) => {
-  window.$loadingBar?.finish();
+  theLoadingBar?.finish();
 })
 
 const autoLogin = async () => {
   const userStore = useUserStore();
-  const { message } = createDiscreteApi(
-    ['message'],
-    {
-      configProviderProps: computed(() => userStore.themeConfigProviderProps)
-    }
-  );
   if (userStore.token && !userStore.isLogin && localStorage.getItem("remember") == '1') {
+    const { message } = createDiscreteApi(
+      ['message'],
+      {
+        configProviderProps: computed(() => userStore.themeConfigProviderProps)
+      }
+    );
     // 当没有处于登陆状态且有token，且之前登陆时勾选了记住并自动登录，则进行自动登录
     try {
       const result = await sendRequest.post('/api/autoLogin');
