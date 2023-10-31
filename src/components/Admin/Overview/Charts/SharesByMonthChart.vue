@@ -4,6 +4,8 @@
 
 <script setup>
 import { computed } from "vue"
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 import useViewStore from '@/stores/ViewStore'
 const viewStore = useViewStore();
 import DataChart from "@/components/Admin/Overview/DataChart.vue";
@@ -25,7 +27,7 @@ const option = computed(() => {
     },
     title: {
       left: 'center',
-      text: '分享统计图/月'
+      text: t('title.monthlySharedStatisticalChart')
     },
     xAxis: {
       type: 'category',
@@ -43,7 +45,7 @@ const option = computed(() => {
     },
     series: [
       {
-        name: '分享数',
+        name: t('title.numOfShares'),
         data: viewStore.sharesByMonth.map(item => item.shares.length).reverse(),
         markPoint: {
           data: [

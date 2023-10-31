@@ -13,6 +13,8 @@ import { useLoadingBar, NButton, NPopconfirm, NSpace, NTag } from 'naive-ui'
 const loadingBar = useLoadingBar();
 import { formatDateTime, sendRequest } from '@/utils'
 import DataTable from "@/components/Admin/DataTable.vue";
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
 onBeforeMount(async () => {
   await getData();
@@ -24,11 +26,11 @@ const getData = async () => {
   loadingBar.finish();
 }
 
-const userTypeMap = {
-  admin: '管理员',
-  super: '超级管理员',
-  user: '普通用户',
-};
+const userTypeMap = computed(() => ({
+  admin: t('type.admin'),
+  super: t('type.super'),
+  user: t('type.user'),
+}));
 
 const pagination = ref({
   page: 1,
@@ -47,7 +49,7 @@ const pagination = ref({
 const columns = computed(() => {
   return [
     {
-      title: "序号",
+      title: t('title.serialNumber'),
       key: "num",
       width: 80,
       fixed: 'left',
@@ -57,23 +59,23 @@ const columns = computed(() => {
       sorter: (row1, row2) => row1.num - row2.num,
     },
     {
-      title: "用户名",
+      title: t('title.username'),
       key: "username",
       ellipsis: {
         tooltip: true
       },
     },
     {
-      title: "类型",
+      title: t('title.type'),
       key: "type",
       ellipsis: {
         tooltip: true
       },
       render(row) {
         let type = "";
-        if (row.type === userTypeMap["super"]) {
+        if (row.type === userTypeMap.value["super"]) {
           type = "info";
-        } else if (row.type === userTypeMap["admin"]) {
+        } else if (row.type === userTypeMap.value["admin"]) {
           type = "success";
         }
         return h(
@@ -100,7 +102,7 @@ const columns = computed(() => {
       }
     },
     {
-      title: "创建时间",
+      title: t('title.creationTime'),
       key: "createTime",
       sorter: (row1, row2) => Date.parse(row1.createTime) - Date.parse(row2.createTime),
       ellipsis: {
@@ -108,7 +110,7 @@ const columns = computed(() => {
       }
     },
     {
-      title: "最后登录时间",
+      title: t('title.lastLoginTime'),
       key: "lastLoginTime",
       sorter: (row1, row2) => Date.parse(row1.lastLoginTime) - Date.parse(row2.lastLoginTime),
       ellipsis: {
@@ -116,9 +118,9 @@ const columns = computed(() => {
       }
     },
     {
-      title: "操作",
+      title: t('title.action'),
       key: "actions",
-      width: 160,
+      width: userStore.language === "zh" ? 155 : 210,
       render(row) {
         const deleteAction = h(
           NPopconfirm,
@@ -126,14 +128,14 @@ const columns = computed(() => {
             onPositiveClick: () => deleteUser(row),
           },
           {
-            default: () => "是否删除该用户",
+            default: () => t('text.deleteUserOrNot'),
             trigger: () =>
               h(NButton, {
                 type: "error",
                 size: "small",
                 secondary: true,
               }, {
-                default: () => "删除",
+                default: () => t('btn.delete'),
               })
           }
         );
@@ -143,14 +145,14 @@ const columns = computed(() => {
             onPositiveClick: () => setAdmin(row),
           },
           {
-            default: () => "是否设置该用户为管理员",
+            default: () => t('text.setAdminOrNot'),
             trigger: () =>
               h(NButton, {
                 type: "success",
                 size: "small",
                 secondary: true,
               }, {
-                default: () => "设置管理",
+                default: () => t("btn.setAdmin"),
               })
           }
         );
@@ -160,25 +162,25 @@ const columns = computed(() => {
             onPositiveClick: () => removeAdmin(row),
           },
           {
-            default: () => "是否移除该管理员",
+            default: () => t('text.removeAdminOrNot'),
             trigger: () =>
               h(NButton, {
                 type: "warning",
                 size: "small",
                 secondary: true,
               }, {
-                default: () => "移除管理",
+                default: () => t('btn.removeAdmin'),
               })
           }
         );
         let assembly = [];
-        if ((row.type !== userTypeMap["super"]) && ((userStore.userType === "super") || (userStore.userType === "admin" && row.type !== userTypeMap["admin"]))) {
+        if ((row.type !== userTypeMap.value["super"]) && ((userStore.userType === "super") || (userStore.userType === "admin" && row.type !== userTypeMap.value["admin"]))) {
           assembly = [
             deleteAction
           ]
         }
-        if (userStore.userType === "super" && row.type !== userTypeMap["super"]) {
-          if (row.type === userTypeMap["admin"]) {
+        if (userStore.userType === "super" && row.type !== userTypeMap.value["super"]) {
+          if (row.type === userTypeMap.value["admin"]) {
             assembly.push(removeAdminAction)
           } else {
             assembly.push(setAdminAction)
@@ -205,9 +207,9 @@ const data = computed(() => {
   }).map((item, index) => ({
     num: index + 1,
     username: item.username,
-    type: userTypeMap[item.userType] || '未知类型',
+    type: userTypeMap.value[item.userType] || t('text.unknownType'),
     createTime: formatDateTime(item.createTime),
-    lastLoginTime: item.lastLoginTime ? formatDateTime(item.lastLoginTime) : "从未登录",
+    lastLoginTime: item.lastLoginTime ? formatDateTime(item.lastLoginTime) : t('text.neverLoggedIn'),
   }));
 });
 
@@ -223,7 +225,7 @@ const deleteUser = (user) => {
       message.error(result.msg);
     }
   }).catch((err) => {
-    message.error("删除失败");
+    message.error(t('message.error.delete'));
   });
 }
 
@@ -239,7 +241,7 @@ const setAdmin = (user) => {
       message.error(result.msg);
     }
   }).catch((err) => {
-    message.error("设置失败");
+    message.error(t('message.error.set'));
   });
 }
 
@@ -255,7 +257,7 @@ const removeAdmin = (user) => {
       message.error(result.msg);
     }
   }).catch((err) => {
-    message.error("移除失败");
+    message.error(t('message.error.remove'));
   });
 }
 

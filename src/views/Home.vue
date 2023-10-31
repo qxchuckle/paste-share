@@ -6,14 +6,17 @@
 
 <script setup>
 import PasteForm from '@/components/PasteForm.vue';
+import { computed } from "vue";
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
-const config = {
+const config = computed(()=>({
   type: "create",
-  buttonText: "创建 提交 分享",
-  descriptionText: "创建中",
+  buttonText: t('btn.createShare'),
+  descriptionText: t('description.createShareLoad'),
   apiPath: "/api/share/add",
   shareInfo: null,
-}
+}));
 
 </script>
 

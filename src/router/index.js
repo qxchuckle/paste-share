@@ -18,6 +18,8 @@ const Overview = () => import('@/views/DashBoard/Overview.vue');
 const ShareList = () => import('@/views/DashBoard/ShareList.vue');
 const UserList = () => import('@/views/DashBoard/UserList.vue');
 
+import { i18nGlobal as i18n } from '@/i18n'
+
 // 路由配置
 const routes = [
   {
@@ -25,7 +27,7 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: {
-      title: '主页',
+      title: i18n.t('router.Home'),
       breadcrumb: {
         click: true,
         type: "tag"
@@ -37,7 +39,7 @@ const routes = [
     name: 'Share',
     component: Share,
     meta: {
-      title: '分享详情',
+      title: i18n.t('router.Share'),
       breadcrumb: {
         click: true,
         type: "tag"
@@ -49,7 +51,7 @@ const routes = [
     name: 'Login',
     component: Login,
     meta: {
-      title: '登陆',
+      title: i18n.t('router.Login'),
       breadcrumb: {
         click: true,
         type: "tag"
@@ -61,7 +63,7 @@ const routes = [
     name: 'Register',
     component: Register,
     meta: {
-      title: '注册',
+      title: i18n.t('router.Register'),
       breadcrumb: {
         click: true,
         type: "tag"
@@ -73,7 +75,7 @@ const routes = [
     name: 'List',
     component: List,
     meta: {
-      title: '分享列表',
+      title: i18n.t('router.List'),
       breadcrumb: {
         click: true,
         type: "tag"
@@ -85,7 +87,7 @@ const routes = [
     name: 'Modify',
     component: Modify,
     meta: {
-      title: '修改分享',
+      title: i18n.t('router.Modify'),
       breadcrumb: {
         click: true,
         type: "tag"
@@ -97,7 +99,7 @@ const routes = [
     name: 'Admin',
     component: Admin,
     meta: {
-      title: '管理后台',
+      title: i18n.t('router.Admin'),
       breadcrumb: {
         click: false,
         type: "text"
@@ -115,7 +117,7 @@ const routes = [
             configProviderProps: computed(() => userStore.themeConfigProviderProps)
           }
         );
-        message.error(`${localStorage.getItem("username") || "游客"}没有权限访问管理后台!`);
+        message.error(`${localStorage.getItem("username") || i18n.t('type.tourist')}${i18n.t('message.error.unableAccessAdmin')}`);
         return { name: 'Home' }
       }
     },
@@ -127,7 +129,7 @@ const routes = [
         name: 'Overview',
         component: Overview,
         meta: {
-          title: '概览',
+          title: i18n.t('router.Overview'),
           breadcrumb: {
             click: true,
             type: "text"
@@ -139,7 +141,7 @@ const routes = [
         name: 'ShareList',
         component: ShareList,
         meta: {
-          title: '分享列表',
+          title: i18n.t('router.ShareList'),
           breadcrumb: {
             click: true,
             type: "text"
@@ -151,7 +153,7 @@ const routes = [
         name: 'UserList',
         component: UserList,
         meta: {
-          title: '用户列表',
+          title: i18n.t('router.UserList'),
           breadcrumb: {
             click: true,
             type: "text"
@@ -165,7 +167,7 @@ const routes = [
     name: 'NotFount',
     component: NotFount,
     meta: {
-      title: '404',
+      title: i18n.t('router.NotFount'),
       breadcrumb: true
     },
   }
@@ -198,6 +200,11 @@ router.beforeEach(async (to) => {
 
 router.afterEach((to, from) => {
   theLoadingBar?.finish();
+  if (to.meta.title) {
+    document.title = `${i18n.t('projectName')}|${i18n.t(`router.${to.name}`)}`;
+  } else {
+    document.title = i18n.t('projectName');
+  }
 })
 
 const autoLogin = async () => {
@@ -219,19 +226,19 @@ const autoLogin = async () => {
         if (localStorage.getItem("username") !== userStore.username) {
           localStorage.setItem("username", userStore.username);
         }
-        message.success(`欢迎 ${userStore.username}`);
+        message.success(`${i18n.t('message.success.welcome')} ${userStore.username}`);
       } else {
         // 如果出错则删除本地token
         if (localStorage.getItem("token")) {
           localStorage.removeItem("token");
           userStore.token = "";
-          message.warning('token已过期，请重新登录');
+          message.warning(i18n.t('message.error.tokenOverdue'));
         } else {
-          message.error('自动登录失败，请刷新重试');
+          message.error(i18n.t('message.error.autoLoginFailed'));
         }
       }
     } catch (err) {
-      message.error('自动登录失败，请刷新重试');
+      message.error(i18n.t('message.error.autoLoginFailed'));
     } finally {
       userStore.isCompleteLogin = true;
     }
@@ -242,11 +249,6 @@ const autoLogin = async () => {
   }
   return userStore.userType;
 }
-
-
-
-
-
 
 
 export default router

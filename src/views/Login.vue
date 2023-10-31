@@ -3,21 +3,23 @@
 </template>
 
 <script setup>
-import { inject } from "vue";
+import { inject, computed } from "vue";
 import AuthForm from "@/components/AuthForm.vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
 import useUserStore from '@/stores/UserStore';
 const userStore = useUserStore();
 const message = inject('message');
-const config = {
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
+const config = computed(() => ({
   type: "login",
-  title: "登陆",
-  buttonText: "登陆",
-  descriptionText: "登陆中",
+  title: t('title.login'),
+  buttonText: t('btn.login'),
+  descriptionText: t('description.loginLoad'),
   apiPath: "/api/login",
   resultHandle: loginResultHandle
-}
+}));
 function loginResultHandle(result, user) {
   message.success(result.msg);
   userStore.$patch(state => {

@@ -1,30 +1,30 @@
 <template>
   <n-space justify="center">
     <n-space justify="center">
-      <n-tag type="success">{{ share_info.language ? share_info.language : "Text" }}</n-tag>
+      <n-tag type="success">{{ share_info.language ? share_info.language : t('label.text') }}</n-tag>
       <n-tag> {{ formatDateTime(share_info.time) }} </n-tag>
-      <n-tag type="info"> 访问量 {{ visits }} </n-tag>
+      <n-tag type="info">{{ `${t('text.visits')} ${visits}` }}</n-tag>
     </n-space>
     <n-space justify="center">
       <n-popconfirm @positive-click="deleteShare" v-if="allowControl || allowDelete">
         <template #trigger>
           <div>
-            <n-button type="error" size="small">删除</n-button>
+            <n-button type="error" size="small">{{ t('btn.delete') }}</n-button>
           </div>
         </template>
-        是否删除该分享
+        {{ t('text.deleteShareOrNot') }}
       </n-popconfirm>
       <n-popconfirm @positive-click="modifyShare" v-if="allowControl">
         <template #trigger>
           <div>
-            <n-button type="warning" size="small">修改</n-button>
+            <n-button type="warning" size="small">{{ t('btn.modify') }}</n-button>
           </div>
         </template>
-        是否修改该分享
+        {{ t('text.modifyShareOrNot') }}
       </n-popconfirm>
-      <n-button type="primary" size="small" @click="copy()">复制</n-button>
-      <n-button type="info" size="small" @click="shareFun()">分享</n-button>
-      <n-button type="success" size="small" @click="showModal = true">二维码</n-button>
+      <n-button type="primary" size="small" @click="copy()">{{ t('btn.copy') }}</n-button>
+      <n-button type="info" size="small" @click="shareFun()">{{ t('btn.share') }}</n-button>
+      <n-button type="success" size="small" @click="showModal = true">{{ t('btn.qrCode') }}</n-button>
     </n-space>
     <QRCode v-model:showModal="showModal" :title="share_info.title"></QRCode>
   </n-space>
@@ -46,6 +46,8 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 import useShareStore from '@/stores/ShareStore'
 const shareStore = useShareStore();
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
 // 访问量，大于1000则显示K
 const visits = computed(() => {
@@ -75,18 +77,18 @@ const allowDelete = computed(() => {
 const copy = async () => {
   try {
     await toClipboard(share_info.value.content);
-    message.success("复制成功");
+    message.success(t('message.success.copyContent'));
   } catch (e) {
-    message.error("复制失败");
+    message.error(t('message.error.copyContent'));
   }
 }
 
 const shareFun = async () => {
   try {
     await toClipboard(`${share_info.value.title} ${window.location.href}`);
-    message.success("分享链接已复制");
+    message.success(t('message.success.copyLink'));
   } catch (e) {
-    message.error("分享链接复制失败");
+    message.error(t('message.error.copyLink'));
   }
 }
 

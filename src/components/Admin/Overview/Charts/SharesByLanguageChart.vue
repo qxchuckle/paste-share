@@ -4,6 +4,8 @@
 
 <script setup>
 import { computed } from "vue"
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 import { use } from 'echarts/core';
 import { TooltipComponent, GridComponent, MarkLineComponent } from 'echarts/components';
 import { BarChart } from 'echarts/charts';
@@ -26,7 +28,7 @@ const option = computed(() => {
     },
     title: {
       left: 'center',
-      text: '语言类型统计'
+      text: t('title.languageTypeStatistics')
     },
     grid: {
       left: '3%',
@@ -37,7 +39,7 @@ const option = computed(() => {
     xAxis: [
       {
         type: 'category',
-        data: sharesByLanguage.value.map(item => item.language === "text" ? "纯文本" : item.language),
+        data: sharesByLanguage.value.map(item => item.language === "text" ? t('label.text') : item.language),
         axisTick: {
           alignWithLabel: true
         }
@@ -50,7 +52,7 @@ const option = computed(() => {
     ],
     series: [
       {
-        name: '分享数',
+        name: t('title.numOfShares'),
         type: 'bar',
         barWidth: '60%',
         label: {

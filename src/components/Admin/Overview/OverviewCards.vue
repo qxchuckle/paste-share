@@ -1,11 +1,18 @@
 <template>
   <div class="overview-box">
-    <DataCard class="card" title="用户总数" suffix="位用户" :number="viewStore.users.length"></DataCard>
-    <DataCard class="card" title="分享总数" suffix="个分享" :number="viewStore.shares.length"></DataCard>
-    <DataCard class="card" title="总访问量" suffix="次访问" :number="viewStore.totalVisits"></DataCard>
-    <DataCard class="card" title="活跃用户数" suffix="位活跃用户" :number="viewStore.activeUsers.length"></DataCard>
-    <DataCard class="card" title="游客分享数" suffix="个游客分享" :number="viewStore.numberOfTouristShares"></DataCard>
-    <DataCard class="card" title="最近创建的分享" suffix="个近期分享" :number="viewStore.activeShares.length"></DataCard>
+    <DataCard class="card" :title="t('title.totalNumOfUsers')" :suffix="t('suffix.users')"
+      :number="viewStore.users.length"></DataCard>
+    <DataCard class="card" :title="t('title.totalNumOfShares')" :suffix="t('suffix.shares')"
+      :number="viewStore.shares.length"></DataCard>
+    <DataCard class="card" :title="t('title.totalNumOfVisits')" :suffix="t('suffix.visits')"
+      :number="viewStore.totalVisits"></DataCard>
+    <DataCard class="card" :title="t('title.numOfActiveUsers')" :suffix="t('suffix.activeUsers')"
+      :number="viewStore.activeUsers.length">
+    </DataCard>
+    <DataCard class="card" :title="t('title.numOfTouristShares')" :suffix="t('suffix.touristSharing')"
+      :number="viewStore.numberOfTouristShares"></DataCard>
+    <DataCard class="card" :title="t('title.recentlyCreatedShares')" :suffix="t('suffix.recentSharing')"
+      :number="viewStore.activeShares.length"></DataCard>
   </div>
 </template>
 
@@ -13,6 +20,8 @@
 import DataCard from "@/components/Admin/Overview/DataCard.vue";
 import useViewStore from '@/stores/ViewStore'
 const viewStore = useViewStore();
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
 </script>
 

@@ -3,14 +3,16 @@
     <n-layout>
       <div class="list-container">
         <div class="search" v-if="shareList.length || keyword || loadList">
-          <n-input v-model:value="keyword" placeholder="请输入关键字，可搜索标题、内容" style="flex: 1;"></n-input>
-          <n-button type="primary" ghost @click="search" style="margin-left: 10px;">搜索</n-button>
-          <n-button type="primary" ghost @click="reLoad" style="margin-left: 10px;">重置</n-button>
+          <n-input v-model:value="keyword" :placeholder="t('placeholder.input.shareListSearch')"
+            style="flex: 1;"></n-input>
+          <n-button type="primary" ghost @click="search" style="margin-left: 10px;">{{ t('btn.search') }}</n-button>
+          <n-button type="primary" ghost @click="reLoad" style="margin-left: 10px;">{{ t('btn.reset') }}</n-button>
         </div>
-        <n-empty description="你什么也找不到" v-if="!shareList.length && !loadList" style="padding: 30px 0;" size="large">
+        <n-empty :description="t('description.none')" v-if="!shareList.length && !loadList" style="padding: 30px 0;"
+          size="large">
           <template #extra>
             <n-button @click="toHome" v-if="!keyword">
-              去创建分享
+              {{ t('btn.toCreateShare') }}
             </n-button>
           </template>
         </n-empty>
@@ -36,7 +38,7 @@
       </n-space>
     </n-layout>
     <template #description>
-      加载中
+      {{ t('description.load') }}
     </template>
   </n-spin>
 </template>
@@ -50,6 +52,8 @@ const router = useRouter()
 import useUserStore from '@/stores/UserStore'
 const userStore = useUserStore();
 import ShareCards from '@/components/List/ShareCards.vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
 const loadList = ref(false);
 const shareList = ref([]);
@@ -109,14 +113,14 @@ const loadShareList = (newPage) => {
       shareList.value = result.data.shareList;
       shareSize.value = result.data.shareSize;
     } else {
-      message.error("身份校验失败，请重新登陆");
+      message.error(t('message.error.identityVerificationFailed'));
       userStore.logout();
       router.push({
         name: 'Login',
       })
     }
   }).catch(() => {
-    message.error("获取列表出错");
+    message.error(t('message.error.errGetData'));
   });
 }
 

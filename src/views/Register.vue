@@ -3,19 +3,21 @@
 </template>
 
 <script setup>
-import { inject } from "vue";
+import { inject, computed } from "vue";
 import AuthForm from "@/components/AuthForm.vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
 const message = inject('message');
-const config = {
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
+const config = computed(() => ({
   type: "reg",
-  title: "注册",
-  buttonText: "注册",
-  descriptionText: "注册中",
+  title: t('title.register'),
+  buttonText: t('btn.register'),
+  descriptionText: t('description.registerLoad'),
   apiPath: "/api/reg",
   resultHandle: regResultHandle
-}
+}));
 function regResultHandle(result, user) {
   message.success(result.msg);
   router.push({

@@ -4,6 +4,8 @@
 
 <script setup>
 import { computed } from "vue"
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 import { formatDateTime } from '@/utils'
 import useViewStore from '@/stores/ViewStore'
 const viewStore = useViewStore();
@@ -46,7 +48,7 @@ const option = computed(() => {
   return {
     title: {
       left: 'center',
-      text: '分享数日历'
+      text: t('title.sharingCalendar')
     },
     tooltip: {},
     visualMap: {

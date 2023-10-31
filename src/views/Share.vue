@@ -3,10 +3,11 @@
     <n-layout>
       <div class="share-container">
         <ShareContent :share_info="share_info" :isShare="isShare" :isShow="isShow"></ShareContent>
-        <n-empty description="没有该分享" v-if="!isShow && !isShare" style="margin-top: 30px;" size="large">
+        <n-empty :description="t('description.noThisShare')" v-if="!isShow && !isShare" style="margin-top: 30px;"
+          size="large">
           <template #extra>
             <n-button @click="toHome">
-              去创建分享
+              {{ t('btn.toCreateShare') }}
             </n-button>
           </template>
         </n-empty>
@@ -14,16 +15,17 @@
           require-mark-placement="right-hanging" v-if="!isShow && isShare" autocomplete="off">
           <n-form-item path="password">
             <n-input class="password" size="large" type="password" show-password-on="click" v-model:value="info.password"
-              placeholder="请输入密码" autosize @keydown.enter.prevent maxlength="15" show-count clearable />
+              :placeholder="t('placeholder.input.password')" autosize @keydown.enter.prevent maxlength="15" show-count
+              clearable />
           </n-form-item>
         </n-form>
         <n-space justify="center" v-if="!isShow && isShare">
-          <n-button @click="submit()" size="large">提交密码</n-button>
+          <n-button @click="submit()" size="large">{{ t('btn.submitPassword') }}</n-button>
         </n-space>
       </div>
     </n-layout>
     <template #description>
-      加载中
+      {{ t('description.load') }}
     </template>
   </n-spin>
 </template>
@@ -36,6 +38,8 @@ const route = useRoute();
 const router = useRouter()
 import ShareContent from '@/components/Share/ShareContent.vue';
 import { sendRequest } from '@/utils'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
 const loadShare = ref(true);
 const isShare = ref(true);

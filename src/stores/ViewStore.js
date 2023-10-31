@@ -10,6 +10,13 @@ const { message } = createDiscreteApi(
     configProviderProps: computed(() => userStore.themeConfigProviderProps)
   }
 );
+import { i18nGlobal as i18n } from '@/i18n'
+
+const typeMap = computed(()=>({
+  admin: i18n.t('type.admin'),
+  super: i18n.t('type.super'),
+  user: i18n.t('type.user'),
+}));
 
 export default defineStore('ViewStore', {
   // 状态
@@ -31,7 +38,7 @@ export default defineStore('ViewStore', {
           message.error(result.msg);
         }
       } catch (err) {
-        message.error("获取数据出错");
+        message.error(i18n.t('message.error.errGetData'));
       }
     },
     async getShares() {
@@ -43,7 +50,7 @@ export default defineStore('ViewStore', {
           message.error(result.msg);
         }
       } catch (err) {
-        message.error("获取数据出错");
+        message.error(i18n.t('message.error.errGetData'));
       }
     },
     async getUsers() {
@@ -55,7 +62,7 @@ export default defineStore('ViewStore', {
           message.error(result.msg);
         }
       } catch (err) {
-        message.error("获取数据出错");
+        message.error(i18n.t('message.error.errGetData'));
       }
     }
   },
@@ -109,13 +116,9 @@ export default defineStore('ViewStore', {
     },
     // 获取存在的用户类型
     userTypes(state) {
-      const typeMap = {
-        'admin': '管理员',
-        'super': '超级管理员',
-        'user': '普通用户',
-      };
+      
       return state.users.reduce((result, item) => {
-        const userType = typeMap[item.userType];
+        const userType = typeMap.value[item.userType];
         if (userType && !result.includes(userType)) {
           result.push(userType);
         }

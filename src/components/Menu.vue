@@ -1,11 +1,11 @@
 <template>
   <n-dropdown trigger="click" :options="options" :show-arrow="true" @select="handleSelect">
-    <n-badge value="菜单" class="badge" type="info">
+    <n-badge :value="t('value.menu')" class="badge" type="info">
       <n-avatar>{{ userStore.username }}</n-avatar>
     </n-badge>
   </n-dropdown>
   <n-drawer v-model:show="drawer_active" :default-height="230" :placement="placement">
-    <n-drawer-content title="关于本站">
+    <n-drawer-content :title="t('title.about')">
       <n-space vertical>
         <span>本站是快捷方便的文本、代码粘贴分享平台</span>
         <span>1、目的：跨设备、远程进行文本、代码的传输与展示</span>
@@ -27,18 +27,20 @@ const userStore = useUserStore();
 import { useRouter } from "vue-router";
 const router = useRouter();
 import { ReaderOutline, HomeOutline, NavigateOutline, LogOutOutline, SettingsOutline } from '@vicons/ionicons5';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
 const userType = computed(() => {
-  let type = "游客";
+  let type = t('type.tourist');
   switch (userStore.userType) {
     case 'user':
-      type = "普通用户";
+      type = t('type.user');
       break;
     case 'admin':
-      type = "普通管理员";
+      type = t('type.admin');
       break;
     case 'super':
-      type = "超级管理员";
+      type = t('type.super');
       break;
   }
   return type;
@@ -73,49 +75,49 @@ function renderCustomHeader() {
     ]
   );
 }
-const options = ref([
-  {
-    key: "header",
-    type: "render",
-    render: renderCustomHeader
-  },
-  {
-    key: "header-divider",
-    type: "divider"
-  },
-  {
-    label: "主页",
-    icon: renderIcon(HomeOutline),
-    key: "home"
-  },
-  {
-    label: "我的分享",
-    icon: renderIcon(ReaderOutline),
-    key: "list"
-  },
-  {
-    label: "关于本站",
-    icon: renderIcon(NavigateOutline),
-    key: "about"
-  },
-  {
-    label: "登出",
-    icon: renderIcon(LogOutOutline),
-    key: "logout"
-  }
-])
 
-onMounted(() => {
+const options = computed(() => {
+  const options = [
+    {
+      key: "header",
+      type: "render",
+      render: renderCustomHeader
+    },
+    {
+      key: "header-divider",
+      type: "divider"
+    },
+    {
+      label: t('label.home'),
+      icon: renderIcon(HomeOutline),
+      key: "home"
+    },
+    {
+      label: t('label.myShare'),
+      icon: renderIcon(ReaderOutline),
+      key: "list"
+    },
+    {
+      label: t('label.about'),
+      icon: renderIcon(NavigateOutline),
+      key: "about"
+    },
+    {
+      label: t('label.logout'),
+      icon: renderIcon(LogOutOutline),
+      key: "logout"
+    }
+  ];
   if (userStore.userType === 'admin' || userStore.userType === 'super') {
     const e = {
-      label: "管理后台",
+      label: t('label.admin'),
       icon: renderIcon(SettingsOutline),
       key: "admin"
     }
-    options.value.splice(-1, 0, e);
+    options.splice(-1, 0, e);
   }
-})
-
+  return options;
+});
 
 function handleSelect(key) {
   switch (key) {
@@ -164,16 +166,16 @@ const activate = (place) => {
 
 const logout = () => {
   dialog.error({
-    title: '登出确认',
-    content: `是否登出${userStore.username}`,
-    positiveText: '登出',
-    negativeText: '取消',
+    title: t('title.confirmLogout'),
+    content: `${t('text.whetherLogout')}${userStore.username}`,
+    positiveText: t('text.logout'),
+    negativeText: t('text.cancel'),
     transformOrigin: 'center',
     icon: renderIcon(LogOutOutline),
     onPositiveClick: () => {
       userStore.logout();
       toHome();
-      message.success("已登出");
+      message.success(t('message.success.loggedOut'));
     },
     onNegativeClick: () => { }
   })

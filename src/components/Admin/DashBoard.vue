@@ -17,11 +17,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, h, onBeforeUnmount, onBeforeMount } from "vue"
+import { ref, onMounted, h, onBeforeUnmount, onBeforeMount, computed } from "vue"
 let collapsed = ref(false);
 import { NIcon } from "naive-ui";
 import { BarChartOutline, List, PeopleOutline } from "@vicons/ionicons5";
 import { RouterLink } from "vue-router"
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
 const siderWidth = ref(200);
 const collapsedWidth = ref(60);
@@ -47,7 +49,7 @@ function handleWindowSizeChange() {
   }
 }
 
-onBeforeMount(()=>{
+onBeforeMount(() => {
   handleWindowSizeChange();
 })
 
@@ -63,7 +65,7 @@ function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
 
-const menuOptions = [
+const menuOptions = computed(() => ([
   {
     label: () => h(
       RouterLink,
@@ -72,7 +74,7 @@ const menuOptions = [
           name: "Overview"
         }
       },
-      { default: () => "数据概览" }
+      { default: () => t('label.overview') }
     ),
     key: "Overview",
     icon: renderIcon(BarChartOutline)
@@ -85,7 +87,7 @@ const menuOptions = [
           name: "ShareList"
         }
       },
-      { default: () => "分享列表" }
+      { default: () => t('label.shareList') }
     ),
     key: "ShareList",
     icon: renderIcon(List)
@@ -98,12 +100,12 @@ const menuOptions = [
           name: "UserList"
         }
       },
-      { default: () => "用户列表" }
+      { default: () => t('label.userList') }
     ),
     key: "UserList",
     icon: renderIcon(PeopleOutline)
   }
-];
+]));
 
 </script>
 

@@ -4,6 +4,8 @@
 
 <script setup>
 import { computed } from "vue"
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 import useViewStore from '@/stores/ViewStore'
 const viewStore = useViewStore();
 import DataChart from "@/components/Admin/Overview/DataChart.vue";
@@ -44,7 +46,7 @@ const option = computed(() => {
     },
     title: {
       left: 'center',
-      text: '分享统计图/天'
+      text: t('title.daySharingStatisticsChart')
     },
     toolbox: {
       feature: {
@@ -77,7 +79,7 @@ const option = computed(() => {
     ],
     series: [
       {
-        name: '分享数',
+        name: t('title.numOfShares'),
         type: 'line',
         symbol: 'none',
         sampling: 'lttb',

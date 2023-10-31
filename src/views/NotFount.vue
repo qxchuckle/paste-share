@@ -1,8 +1,8 @@
 <template>
   <div class="not-found">
-    <n-result status="info" title="404" description="总有找不到的时候">
+    <n-result status="info" title="404" :description="t('description.NotFount')">
       <template #footer>
-        <n-button @click="toHome">返回首页</n-button>
+        <n-button @click="toHome">{{ t('btn.backHome') }}</n-button>
       </template>
     </n-result>
   </div>
@@ -11,6 +11,8 @@
 <script setup>
 import { useRouter } from "vue-router"
 const router = useRouter()
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 function toHome() {
   router.push({
     name: "Home",

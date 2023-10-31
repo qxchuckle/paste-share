@@ -20,15 +20,15 @@
       </template>
       <n-scrollbar style="max-height: fit-content">
         <n-space vertical align="center">
-          自动切换
+          {{ t('text.autoChange') }}
           <n-switch v-model:value="autoSwitchTheme" @update:value="themeAutoSwitch" />
           <n-button @click="darkBtn">
-            深色
+            {{ t('btn.dark') }}
           </n-button>
           <n-button @click="lightBtn">
-            浅色
+            {{ t('btn.light') }}
           </n-button>
-          国际化
+          {{ t('text.i18n') }}
           <n-select v-model:value="userStore.language" :options="languageOptions" @update:value="handleUpdateLanguage"
             style="width: 80px;" />
         </n-space>
@@ -41,7 +41,10 @@
 import useUserStore from '@/stores/UserStore'
 const userStore = useUserStore();
 import { useI18n } from 'vue-i18n'
-const { locale } = useI18n()
+const { locale, t } = useI18n();
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+const route = useRoute();
 
 const autoSwitchTheme = ref(JSON.parse(localStorage.getItem("autoSwitchTheme")) ?? true);
 function themeAutoSwitch() {
@@ -70,21 +73,26 @@ function lightBtn() {
   localStorage.setItem("theme", "light");
 }
 
-const languageOptions = [
+const languageOptions = computed(() => ([
   {
-    label: '汉语',
+    label: t('label.zh'),
     value: 'zh'
   },
   {
-    label: '英语',
+    label: t('label.en'),
     value: 'en'
   },
-]
+]));
 
 function handleUpdateLanguage(value) {
   localStorage.setItem("language", value);
   locale.value = value;
   userStore.handleLanguage(value);
+  if (route.meta.title) {
+    document.title = `${t('projectName')}|${t(`router.${route.name}`)}`;
+  } else {
+    document.title = t('projectName');
+  }
 }
 
 </script>

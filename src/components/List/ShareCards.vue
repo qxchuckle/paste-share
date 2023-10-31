@@ -1,11 +1,11 @@
 <template>
   <div class="card-box" v-if="shareList.length">
     <n-card v-for="(item, index) in shareList" class="share-card" @click="toShare(item)" size="small" hoverable>
-      <div class="title">标题：{{ item.title ? item.title : '无' }}</div>
-      <div class="content">内容：{{ item.content }}</div>
+      <div class="title">{{ t('label.title') }}：{{ item.title ? item.title : t('text.none') }}</div>
+      <div class="content">{{ t('label.content') }}：{{ item.content }}</div>
       <n-space align="center" class="info">
-        <div>语言：{{ item.language ? item.language : 'Text' }}</div>
-        <div>时间：{{ formatDateTime(item.time) }}</div>
+        <div>{{ t('label.language') }}：{{ item.language ? item.language : t('label.text') }}</div>
+        <div>{{ t('label.time') }}：{{ formatDateTime(item.time) }}</div>
       </n-space>
       <div class="floor">{{ (index + 1) + (shareNum * (pageNum - 1)) }}</div>
     </n-card>
@@ -16,7 +16,9 @@
 import { formatDateTime } from '@/utils'
 const { shareList, pageNum, shareNum } = defineProps(['shareList', 'pageNum', 'shareNum']);
 import { useRouter } from "vue-router"
-const router = useRouter()
+const router = useRouter();
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
 const toShare = (item) => {
   router.push({

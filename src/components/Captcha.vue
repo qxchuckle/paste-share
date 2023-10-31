@@ -1,9 +1,9 @@
 <template>
   <div class="captcha-box">
     <n-form :rules="rules" :model="captcha" ref="formRef" style="flex: 1;">
-      <n-form-item first path="text" label="输入验证码">
+      <n-form-item first path="text" :label="t('label.captcha')">
         <n-input v-model:value="captcha.text" @keydown.enter.prevent maxlength="4" show-count clearable
-          :allow-input="onlyNumbersAndLettersAllowed" placeholder="不区分大小写" />
+          :allow-input="onlyNumbersAndLettersAllowed" :placeholder="t('placeholder.input.captcha')" />
       </n-form-item>
     </n-form>
     <n-spin :show="captchaLoad">
@@ -17,22 +17,24 @@
                 <template #icon>
                   <n-icon :component="CloseCircleOutline" />
                 </template>
-                出错，点击重载
+                {{ t('text.clickToReload') }}
               </n-tag>
             </n-space>
           </div>
         </template>
-        <span>点击刷新验证码</span>
+        <span>{{ t('text.clickToReloadCaptcha') }}</span>
       </n-popover>
     </n-spin>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, inject, onMounted } from "vue";
+import { ref, reactive, inject, onMounted, computed } from "vue";
 const message = inject('message');
 import { sendRequest } from '@/utils'
 import { CloseCircleOutline } from '@vicons/ionicons5'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
 const captcha = reactive({
   id: null,
@@ -46,16 +48,16 @@ onMounted(async () => {
 })
 
 const formRef = ref(null);
-let rules = reactive({
+let rules = computed(() => ({
   text: [
     {
       required: true,
-      message: "请输入验证码",
+      message: t('tip.rules.required.captcha'),
       trigger: "blur",
     },
-    { min: 4, max: 4, message: "验证码为4位", trigger: "blur" }
+    { min: 4, max: 4, message: t('tip.rules.length.captcha'), trigger: "blur" }
   ]
-})
+}));
 const onlyNumbersAndLettersAllowed = (value) => {
   return /^\w*$/.test(value);
 }
@@ -81,7 +83,7 @@ const getCaptcha = async () => {
       captchaLoadError.value = true;
     }
   } catch (error) {
-    message.error("网络错误");
+    message.error(t('message.error.networkError'));
     captchaLoadError.value = true;
   }
   captchaLoad.value = false;
@@ -91,7 +93,7 @@ const validate = async () => {
   try {
     await formRef.value?.validate((errors) => { })
   } catch (err) {
-    throw new Error('验证码输入不符合规则');
+    throw new Error(t('message.error.nonCompliantRules'));
   }
 }
 

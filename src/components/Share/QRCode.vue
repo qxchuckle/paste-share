@@ -1,7 +1,7 @@
 <template>
   <n-modal v-model:show="localShowModal" preset="dialog" transform-origin="center">
     <template #header>
-      <div>{{ props.title || '当前分享' }}的二维码</div>
+      <div>{{ t('text.qrCode') }}</div>
     </template>
     <n-space justify="center">
       <div class="qrcode">
@@ -17,12 +17,14 @@ import QrcodeVue from 'qrcode.vue';
 const props = defineProps(['showModal', 'title']);
 const currentURL = window.location.href;
 const emit = defineEmits(['update:showModal']);
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
 const localShowModal = computed({
-  get(){
+  get() {
     return props.showModal;
   },
-  set(value){
+  set(value) {
     emit('update:showModal', value);
   }
 });

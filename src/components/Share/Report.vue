@@ -4,10 +4,10 @@
       <template #trigger>
         <div class="report-txt">
           <n-icon :component="ShieldHalf" :depth="1" color="#FF5151" />
-          <span style="margin-left: 2px;">非法内容举报</span>
+          <span style="margin-left: 2px;">{{ t('text.reportContent') }}</span>
         </div>
       </template>
-      是否举报该分享
+      {{ t('text.reportOrNot') }}
     </n-popconfirm>
   </n-space>
 </template>
@@ -16,9 +16,11 @@
 import { ShieldHalf } from "@vicons/ionicons5";
 const message = inject('message');
 const props = defineProps(['share_id']);
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
 const reportShare = () => {
-  message.success(`举报${props.share_id}成功`);
+  message.success(`${t('text.report')} ${props.share_id} ${t('text.success')}`);
 }
 </script>
 

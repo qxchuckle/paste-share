@@ -8,14 +8,17 @@
 import PasteForm from '@/components/PasteForm.vue';
 import useShareStore from '@/stores/ShareStore'
 const shareStore = useShareStore();
+import { computed } from "vue";
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
-const config = {
+const config = computed(() => ({
   type: "modify",
-  buttonText: "确认修改",
-  descriptionText: "修改中",
+  buttonText: t('btn.confirmModify'),
+  descriptionText: t('description.modifyLoad'),
   apiPath: "/api/share/modify",
   shareInfo: shareStore.share_info
-}
+}));
 
 </script>
 

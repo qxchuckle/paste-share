@@ -8,13 +8,13 @@
               <n-layout-header bordered style="height: 50px;">
                 <div id="nav">
                   <div class="title-box">
-                    <n-gradient-text class="title" type="info" @click="toHome()">{{ $t('title') }}</n-gradient-text>
+                    <n-gradient-text class="title" type="info" @click="toHome()">{{ t('projectName') }}</n-gradient-text>
                     <Navigation class="navigation"></Navigation>
                     <Breadcrumb class="breadcrumb"></Breadcrumb>
                   </div>
                   <div class="login-reg" v-if="!userStore.isLogin">
-                    <n-button class="btn" @click="toLogin()">登陆</n-button>
-                    <n-button class="btn" @click="toReg()">注册</n-button>
+                    <n-button class="btn" @click="toLogin()">{{ t('btn.login') }}</n-button>
+                    <n-button class="btn" @click="toReg()">{{ t('btn.register') }}</n-button>
                   </div>
                   <n-space v-if="userStore.isLogin">
                     <Menu></Menu>
@@ -24,8 +24,8 @@
               <n-scrollbar style="height: calc(100vh - 80px);" trigger="none">
                 <div class="router-view-box">
                   <n-space vertical class="router-load" v-if="!userStore.isCompleteLogin">
-                    <n-alert title="提示" type="info" style="margin: 0 0 10px;">
-                      自动登录中，请稍等
+                    <n-alert :title="t('title.tip')" type="info" style="margin: 0 0 10px;">
+                      {{ t('text.autoLogin') }}
                     </n-alert>
                     <n-skeleton text height="30px" :sharp="false" width="33%" />
                     <n-skeleton text height="35px" :sharp="false" width="60%" />
@@ -37,13 +37,13 @@
               </n-scrollbar>
               <n-layout-footer bordered id="footer">
                 <div style="margin-right: 8px;">@轻笑Chuckle</div>
-                <div>项目: <a href="https://github.com/qxchuckle/paste-share" target='_blank'>qxchuckle/paste-share</a>
+                <div>Github: <a href="https://github.com/qxchuckle/paste-share" target='_blank'>qxchuckle/paste-share</a>
                 </div>
               </n-layout-footer>
             </div>
           </n-layout>
           <template #description>
-            加载中
+            {{ t('description.load') }}
           </template>
         </n-spin>
         <RightSide></RightSide>
@@ -62,6 +62,8 @@ import { useRouter } from "vue-router"
 const router = useRouter()
 import useUserStore from '@/stores/UserStore';
 const userStore = useUserStore();
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
 const toHome = () => {
   router.push({
@@ -107,6 +109,7 @@ const toReg = () => {
   min-height: 100vh;
   color: var(--n-text-color);
   align-items: center;
+  overflow: hidden;
 
   .router-view-box {
     width: 100%;
@@ -146,12 +149,6 @@ const toReg = () => {
       }
 
       @media screen and (max-width:500px) {
-        .navigation {
-          display: none;
-        }
-      }
-
-      @media screen and (max-width:290px) {
         .breadcrumb {
           display: none;
         }

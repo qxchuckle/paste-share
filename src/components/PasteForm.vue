@@ -1,33 +1,35 @@
 <template>
   <n-spin :show="loadAddShare">
-    <n-form class="info_form" :rules="rules" :model="info" ref="formRef" label-placement="left" label-width="auto"
+    <n-form class="info_form" :rules="rules" :model="info" ref="formRef" :label-placement="placement" label-width="auto"
       require-mark-placement="right-hanging" autocomplete="off">
-      <n-form-item path="title" label="标题" size="large">
-        <n-input v-model:value="info.title" placeholder="请输入标题" @keydown.enter.prevent maxlength="60" show-count
-          clearable />
+      <n-form-item path="title" :label="t('label.title')" size="large">
+        <n-input v-model:value="info.title" :placeholder="t('placeholder.input.title')" @keydown.enter.prevent
+          maxlength="60" show-count clearable />
       </n-form-item>
-      <n-form-item path="language" label="语言" size="large">
+      <n-form-item path="language" :label="t('label.language')" size="large">
         <n-select class="select" v-model:value="info.language" :options="select_options" />
       </n-form-item>
       <div class="password-box">
-        <n-form-item path="password_switch" label="加密" size="large">
+        <n-form-item path="password_switch" :label="t('label.encryption')" size="large">
           <n-switch :rail-style="railStyle" v-model:value="password_switch" size="large">
             <template #checked>
-              有密码
+              {{ t('text.withPassword') }}
             </template>
             <template #unchecked>
-              无密码
+              {{ t('text.noPassword') }}
             </template>
           </n-switch>
         </n-form-item>
-        <n-form-item class="password-label" path="password" label="密码" size="large" v-show="password_switch">
+        <n-form-item class="password-label" path="password" :label="t('label.password')" size="large"
+          v-show="password_switch">
           <n-input class="password" type="password" show-password-on="click" v-model:value="info.password"
-            placeholder="请输入密码" autosize @keydown.enter.prevent maxlength="15" show-count clearable />
+            :placeholder="t('placeholder.input.password')" autosize @keydown.enter.prevent maxlength="15" show-count
+            clearable />
         </n-form-item>
       </div>
-      <n-form-item path="content" label="内容" size="large">
-        <n-input v-model:value="info.content" type="textarea" @keydown.tab.prevent="addTab" placeholder="粘贴或输入文本、代码"
-          :autosize="{
+      <n-form-item path="content" :label="t('label.content')" size="large">
+        <n-input v-model:value="info.content" type="textarea" @keydown.tab.prevent="addTab"
+          :placeholder="t('placeholder.input.pasteContent')" :autosize="{
             minRows: 9
           }" maxlength="9999" show-count />
       </n-form-item>
@@ -52,6 +54,8 @@ const shareStore = useShareStore();
 import useUserStore from '@/stores/UserStore';
 const userStore = useUserStore();
 import { sendRequest } from '@/utils'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
 const loadAddShare = ref(false);
 const formRef = ref(null);
@@ -78,15 +82,15 @@ onMounted(() => {
 const rules = computed(() => {
   return {
     title: [
-      { min: 0, max: 60, message: "标题长度0到60", trigger: "blur" }
+      { min: 0, max: 60, message: t('tip.rules.length.title'), trigger: "blur" }
     ],
     password: [
-      { required: password_switch.value, message: "请输入密码", trigger: "blur" },
-      { min: 1, max: 15, message: "密码长度1到15", trigger: "blur" }
+      { required: password_switch.value, message: t('tip.rules.required.password'), trigger: "blur" },
+      { min: 1, max: 15, message: t('tip.rules.length.password'), trigger: "blur" }
     ],
     content: [
-      { required: true, message: "请输入内容", trigger: "blur" },
-      { min: 1, max: 9999, message: "内容长度1到9999", trigger: "blur" }
+      { required: true, message: t('tip.rules.required.content'), trigger: "blur" },
+      { min: 1, max: 9999, message: t('tip.rules.length.content'), trigger: "blur" }
     ],
   }
 })
@@ -110,9 +114,9 @@ function railStyle({
   return style;
 }
 
-const select_options = [
+const select_options = computed(() => ([
   {
-    label: "纯文本",
+    label: t('label.text'),
     value: "",
   },
   {
@@ -159,12 +163,12 @@ const select_options = [
     label: "Yaml",
     value: "yaml",
   },
-]
+]))
 
 function submit() {
   // 如果是修改模式，要判断分享的修改权限
   if (config.type === "modify" && shareStore.share_info.owner_name !== userStore.username) {
-    message.error("没有修改权限");
+    message.error(t('message.error.noPermissionToModify'));
     toList();
     return;
   }
@@ -197,11 +201,11 @@ function submit() {
         message.error(result.msg);
       }
     }).catch(err => {
-      message.error("出错了");
+      message.error(t('message.error.default'));
       loadAddShare.value = false;
     })
   }).catch(() => {
-    message.error("请检查输入框");
+    message.error(t('message.error.checkInput'));
   })
 }
 
@@ -227,6 +231,10 @@ const toList = () => {
     name: 'List',
   })
 }
+
+const placement = computed(() => {
+  return userStore.language === "zh" ? "left" : "top";
+})
 
 </script>
 
