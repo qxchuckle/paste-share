@@ -30,7 +30,7 @@
           </n-button>
           {{ t('text.i18n') }}
           <n-select v-model:value="userStore.language" :options="languageOptions" @update:value="handleUpdateLanguage"
-            style="width: 80px;" />
+            style="width: 90px;" />
         </n-space>
       </n-scrollbar>
     </n-popover>

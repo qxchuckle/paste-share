@@ -162,7 +162,8 @@ export default {
       identityVerificationFailed: "身份校验失败，请重新登陆",
       delete: "删除失败",
       set: "设置失败",
-      remove: "移除失败"
+      remove: "移除失败",
+      password: "密码错误",
     },
     success: {
       welcome: "欢迎",

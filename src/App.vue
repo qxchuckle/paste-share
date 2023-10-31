@@ -153,6 +153,12 @@ const toReg = () => {
           display: none;
         }
       }
+
+      @media screen and (max-width:350px) {
+        .navigation {
+          display: none;
+        }
+      }
     }
 
     .title {

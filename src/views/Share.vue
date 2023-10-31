@@ -80,15 +80,15 @@ onMounted(() => {
       isShow.value = false;
     }
   }).catch(() => {
-    message.error("获取分享出错");
+    message.error(t('message.error.errGetData'));
   });
 })
 
 const rules = computed(() => {
   return {
     password: [
-      { required: true, message: "请输入密码", trigger: "blur" },
-      { min: 1, max: 15, message: "密码长度1到15", trigger: "blur" }
+      { required: true, message: t('tip.rules.required.password'), trigger: "blur" },
+      { min: 1, max: 15, message: t('tip.rules.length.password'), trigger: "blur" }
     ]
   }
 })
@@ -117,15 +117,15 @@ function submit() {
         isShow.value = true;
       } else {
         loadShare.value = false;
-        message.error("密码错误");
+        message.error(t('message.error.password'));
         isShow.value = false;
       }
     }).catch(() => {
-      message.error("出错了");
+      message.error(t('message.error.default'));
       loadShare.value = false;
     });
   }).catch(() => {
-    message.error("请检查输入框");
+    message.error(t('message.error.checkInput'));
   })
 }
 

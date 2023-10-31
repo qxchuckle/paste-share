@@ -55,7 +55,7 @@ export default {
   text: {
     autoLogin: "Auto-Login in Progress, Please Wait",
     project: "Project",
-    autoChange: "Auto Change",
+    autoChange: "AutoChange",
     i18n: "i18n",
     withPassword: "With Password",
     noPassword: "No Password",
@@ -100,8 +100,8 @@ export default {
     }
   },
   label: {
-    zh: "Chinese",
-    en: "English",
+    zh: "zhCN",
+    en: "enUS",
     title: "Title",
     language: "Language",
     encryption: "Encryption",
@@ -162,7 +162,8 @@ export default {
       identityVerificationFailed: "Identity Verification Failed, Please Re-Login",
       delete: "Deletion Failed",
       set: "Setting Failed",
-      remove: "Removal Failed"
+      remove: "Removal Failed",
+      password: "password Error",
     },
     success: {
       welcome: "Welcome",
