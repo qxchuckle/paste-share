@@ -4,7 +4,7 @@
 
 在线演示：[粘贴分享](https://s.qcqx.cn/)
 
-Vue3前端：Vue3 + Vite + Vue Router + Pinia + Naive UI + Echarts + axios + sass + highlight.js + vue-clipboard3 + qrcode.vue
+Vue3前端：Vue3 + Vite + Vue Router + Pinia + Naive UI + Echarts + axios + sass + highlight.js + vue-clipboard3 + qrcode.vue + vue-i18n
 
 NodeJS后端：Express + MongoDB + Mongoose + shortid + jsonwebtoken
 
@@ -24,6 +24,7 @@ NodeJS后端：Express + MongoDB + Mongoose + shortid + jsonwebtoken
 11. 可选深、浅主题色，支持按时间自动切换
 12. 必要的加载动画、进度条及消息小弹窗提示
 13. 移动端窄屏适配
+14. i18n国际化适配
 
 ## 效果截图
 
