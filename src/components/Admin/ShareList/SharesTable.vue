@@ -11,8 +11,8 @@ import useViewStore from '@/stores/ViewStore'
 const viewStore = useViewStore();
 import useUserStore from "@/stores/UserStore";
 const userStore = useUserStore();
-import { useLoadingBar, NButton, NPopconfirm, NSpace } from 'naive-ui'
-const loadingBar = useLoadingBar();
+import { NButton, NPopconfirm, NSpace } from 'naive-ui'
+const loadingBar = inject('loadingBar');
 import { formatDateTime, sendRequest } from '@/utils'
 import DataTable from "@/components/Admin/DataTable.vue";
 import { useI18n } from 'vue-i18n'

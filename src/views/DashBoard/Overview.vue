@@ -6,11 +6,10 @@
 </template>
 
 <script setup>
-import { onBeforeMount } from "vue"
+import { onBeforeMount, inject } from "vue"
 import useViewStore from '@/stores/ViewStore'
 const viewStore = useViewStore();
-import { useLoadingBar } from 'naive-ui'
-const loadingBar = useLoadingBar();
+const loadingBar = inject('loadingBar');
 import OverviewCards from '@/components/Admin/Overview/OverviewCards.vue';
 import OverviewCharts from '@/components/Admin/Overview/OverviewCharts.vue';
 

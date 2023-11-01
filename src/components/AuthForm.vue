@@ -61,7 +61,7 @@ const rules = computed(() => {
     ],
     password: [
       { required: true, message: t('tip.rules.required.password'), trigger: "blur" },
-      { min: 6, max: 18, message: t('tip.rules.required.userPassword'), trigger: "blur" }
+      { min: 6, max: 18, message: t('tip.rules.length.userPassword'), trigger: "blur" }
     ]
   }
   if (config.type === 'reg') {
