@@ -51,7 +51,7 @@ const share_info = ref({
   content: '',
   language: '',
   share_id: '',
-  visits: '',
+  visits: 0,
   owner_name: '', // 记录当前分享所有者
   password: '',
 });
