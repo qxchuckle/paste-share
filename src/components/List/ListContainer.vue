@@ -126,7 +126,6 @@ const loadShareList = () => {
 }
 
 const search = () => {
-  page.value = 1;
   router.push({
     query: {
       page: 1,
