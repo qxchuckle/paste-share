@@ -92,24 +92,19 @@ const toHome = () => {
   })
 }
 
-onUpdated(() => {
-  page.value = Number(route.query?.page) || 1;
-  shareNum.value = Number(route.query?.size) || 20
-})
-
 const page = ref(Number(route.query?.page) || 1); // 当前受控页
 const shareSize = ref(1); // 分享总数
 const pageCount = computed(() => {
   return Math.ceil(shareSize.value / shareNum.value);
 }); // 总页数
 const shareNum = ref(Number(route.query?.size) || 20); // 每页显示的分享数量
-const keyword = ref(""); // 搜索关键字
+const keyword = ref(route.query?.keyword || ""); // 搜索关键字
 
-const loadShareList = (newPage) => {
+const loadShareList = () => {
   loadList.value = true;
   sendRequest.get('/api/share', {
     params: {
-      page: newPage || 1,
+      page: page.value,
       shareNum: shareNum.value,
       keyword: keyword.value,
     },
@@ -132,41 +127,53 @@ const loadShareList = (newPage) => {
 
 const search = () => {
   page.value = 1;
-  loadShareList();
+  router.push({
+    query: {
+      page: 1,
+      size: shareNum.value,
+      keyword: keyword.value
+    }
+  })
 }
 
 const reLoad = () => {
-  keyword.value = "";
-  page.value = 1;
-  loadShareList();
+  router.push({
+    query: {
+      page: 1,
+      size: 20,
+      keyword: ""
+    }
+  })
 }
 
 const updatePage = (value) => {
   router.push({
     query: {
       page: value,
-      size: shareNum.value
+      size: shareNum.value,
+      keyword: keyword.value
     }
   })
 }
 
 const updatePageSize = (value) => {
-  page.value = 1;
   router.push({
     query: {
-      page: page.value,
-      size: value
+      page: 1,
+      size: value,
+      keyword: keyword.value
     }
   })
 }
 
 watch(() => route.query, () => {
+  page.value = Number(route.query?.page) || 1;
+  shareNum.value = Number(route.query?.size) || 20
+  keyword.value = route.query?.keyword || "";
   if (route.name === "List") {
     loadShareList();
   }
 })
-
-
 
 </script>
 
