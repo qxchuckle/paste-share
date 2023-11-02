@@ -32,7 +32,7 @@
                     <n-skeleton text :repeat="3" :sharp="false" />
                     <n-skeleton text :repeat="1" :sharp="false" width="80%" />
                   </n-space>
-                  <router-view v-else :key="$route.fullPath"></router-view>
+                  <router-view v-else :key="$route.name"></router-view>
                 </div>
               </n-scrollbar>
               <n-layout-footer bordered id="footer">

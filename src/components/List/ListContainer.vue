@@ -32,9 +32,9 @@
         </n-scrollbar>
       </div>
       <n-space justify="center" v-if="shareList.length || loadList">
-        <n-pagination @update:page="loadShareList" v-model:page="page" :page-count="pageCount"
+        <n-pagination @update:page="updatePage" v-model:page="page" :page-count="pageCount"
           :show-size-picker="showSizePicker" :page-sizes="[10, 20, 30]" v-model:page-size="shareNum"
-          @update:page-size="loadShareList(page)" :show-quick-jumper="showQuickJumper" />
+          @update:page-size="updatePageSize" :show-quick-jumper="showQuickJumper" :page-slot="7" />
       </n-space>
     </n-layout>
     <template #description>
@@ -44,11 +44,12 @@
 </template>
 
 <script setup>
-import { ref, inject, onMounted, computed, onBeforeUnmount } from "vue"
+import { ref, inject, onMounted, computed, onBeforeUnmount, onUpdated } from "vue"
 import { sendRequest } from '@/utils'
 const message = inject('message');
-import { useRouter } from "vue-router"
+import { useRouter, useRoute } from "vue-router"
 const router = useRouter()
+const route = useRoute()
 import useUserStore from '@/stores/UserStore'
 const userStore = useUserStore();
 import ShareCards from '@/components/List/ShareCards.vue'
@@ -91,12 +92,17 @@ const toHome = () => {
   })
 }
 
-const page = ref(1); // 当前受控页
+onUpdated(() => {
+  page.value = Number(route.query?.page) || 1;
+  shareNum.value = Number(route.query?.size) || 20
+})
+
+const page = ref(Number(route.query?.page) || 1); // 当前受控页
 const shareSize = ref(1); // 分享总数
 const pageCount = computed(() => {
   return Math.ceil(shareSize.value / shareNum.value);
 }); // 总页数
-const shareNum = ref(20); // 每页显示的分享数量
+const shareNum = ref(Number(route.query?.size) || 20); // 每页显示的分享数量
 const keyword = ref(""); // 搜索关键字
 
 const loadShareList = (newPage) => {
@@ -125,6 +131,7 @@ const loadShareList = (newPage) => {
 }
 
 const search = () => {
+  page.value = 1;
   loadShareList();
 }
 
@@ -133,6 +140,31 @@ const reLoad = () => {
   page.value = 1;
   loadShareList();
 }
+
+const updatePage = (value) => {
+  router.push({
+    query: {
+      page: value,
+      size: shareNum.value
+    }
+  })
+}
+
+const updatePageSize = (value) => {
+  page.value = 1;
+  router.push({
+    query: {
+      page: page.value,
+      size: value
+    }
+  })
+}
+
+watch(() => route.query, () => {
+  if (route.name === "List") {
+    loadShareList();
+  }
+})
 
 
 

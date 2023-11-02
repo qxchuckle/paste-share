@@ -22,7 +22,7 @@ const router = useRouter();
 const backAble = ref(true);
 const forwardAble = ref(true);
 
-watch(() => router.currentRoute.value.path, (newValue, oldValue) => {
+watch(() => router.currentRoute.value.fullPath, (newValue, oldValue) => {
   backAble.value = !router.options.history.state.back;
   forwardAble.value = !router.options.history.state.forward;
 }, { immediate: true });
