@@ -121,7 +121,8 @@
     "overview": "数据概览",
     "shareList": "分享列表",
     "userList": "用户列表",
-    "greaterThan": "大于"
+    "greaterThan": "大于",
+    "aboutMe": "关于我"
   },
   "tip": {
     "rules": {
@@ -140,7 +141,9 @@
         "username": "用户名长度2到15",
         "captcha": "验证码为4位"
       },
-      "error": { "passwordInconsistency": "两次密码输入不一致" }
+      "error": {
+        "passwordInconsistency": "两次密码输入不一致"
+      }
     }
   },
   "message": {
@@ -181,7 +184,8 @@
     "Overview": "概览",
     "ShareList": "分享列表",
     "UserList": "用户列表",
-    "NotFount": "404"
+    "NotFount": "404",
+    "AboutMe": "关于我"
   },
   "type": {
     "admin": "管理员",
@@ -189,7 +193,9 @@
     "user": "普通用户",
     "tourist": "游客"
   },
-  "value": { "menu": "菜单" },
+  "value": {
+    "menu": "菜单"
+  },
   "suffix": {
     "users": "位用户",
     "shares": "个分享",

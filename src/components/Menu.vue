@@ -26,7 +26,7 @@ import useUserStore from '@/stores/UserStore';
 const userStore = useUserStore();
 import { useRouter } from "vue-router";
 const router = useRouter();
-import { ReaderOutline, HomeOutline, NavigateOutline, LogOutOutline, SettingsOutline } from '@vicons/ionicons5';
+import { ReaderOutline, HomeOutline, NavigateOutline, LogOutOutline, SettingsOutline, AtOutline } from '@vicons/ionicons5';
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n();
 
@@ -103,6 +103,11 @@ const options = computed(() => {
       key: "about"
     },
     {
+      label: t('label.aboutMe'),
+      icon: renderIcon(AtOutline),
+      key: "aboutMe"
+    },
+    {
       label: t('label.logout'),
       icon: renderIcon(LogOutOutline),
       key: "logout"
@@ -130,6 +135,9 @@ function handleSelect(key) {
     case 'about':
       activate('bottom');
       break;
+    case 'aboutMe':
+      toAboutMe();
+      break;
     case 'admin':
       toAdmin();
       break;
@@ -154,6 +162,12 @@ const toList = () => {
 const toAdmin = () => {
   router.push({
     name: 'Admin',
+  })
+}
+
+const toAboutMe = () => {
+  router.push({
+    name: 'AboutMe',
   })
 }
 

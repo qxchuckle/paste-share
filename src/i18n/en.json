@@ -121,7 +121,8 @@
     "overview": "Data Overview",
     "shareList": "Share List",
     "userList": "User List",
-    "greaterThan": "Greater Than"
+    "greaterThan": "Greater Than",
+    "aboutMe": "About Me"
   },
   "tip": {
     "rules": {
@@ -140,7 +141,9 @@
         "username": "Username Length: 2 to 15",
         "captcha": "Captcha is 4 characters"
       },
-      "error": { "passwordInconsistency": "Passwords Do Not Match" }
+      "error": {
+        "passwordInconsistency": "Passwords Do Not Match"
+      }
     }
   },
   "message": {
@@ -181,7 +184,8 @@
     "Overview": "Overview",
     "ShareList": "Share List",
     "UserList": "User List",
-    "NotFount": "404"
+    "NotFount": "404",
+    "AboutMe": "AboutMe"
   },
   "type": {
     "admin": "Administrator",
@@ -189,7 +193,9 @@
     "user": "Normal User",
     "tourist": "Tourist"
   },
-  "value": { "menu": "Menu" },
+  "value": {
+    "menu": "Menu"
+  },
   "suffix": {
     "users": " Users",
     "shares": " Shares",

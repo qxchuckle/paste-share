@@ -13,6 +13,7 @@ const Login = () => import('@/views/Login.vue');
 const Register = () => import('@/views/Register.vue');
 const List = () => import('@/views/List.vue');
 const Modify = () => import('@/views/Modify.vue');
+const AboutMe = () => import('@/views/AboutMe.vue');
 const Admin = () => import('@/views/Admin.vue');
 const Overview = () => import('@/views/DashBoard/Overview.vue');
 const ShareList = () => import('@/views/DashBoard/ShareList.vue');
@@ -88,6 +89,18 @@ const routes = [
     component: Modify,
     meta: {
       title: i18n.t('router.Modify'),
+      breadcrumb: {
+        click: true,
+        type: "tag"
+      }
+    },
+  },
+  {
+    path: '/aboutMe',
+    name: 'AboutMe',
+    component: AboutMe,
+    meta: {
+      title: i18n.t('router.AboutMe'),
       breadcrumb: {
         click: true,
         type: "tag"

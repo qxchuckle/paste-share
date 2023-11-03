@@ -37,7 +37,7 @@
               </n-scrollbar>
               <n-layout-footer bordered id="footer">
                 <div style="margin-right: 8px;">@轻笑Chuckle</div>
-                <div>Github: <a href="https://github.com/qxchuckle/paste-share" target='_blank'>qxchuckle/paste-share</a>
+                <div>GitHub: <a href="https://github.com/qxchuckle/paste-share" target='_blank'>qxchuckle/paste-share</a>
                 </div>
               </n-layout-footer>
             </div>
