@@ -3,7 +3,8 @@
     <div class="introduce">
       <h1>Hello,</h1>
       <h1>I'm
-        <span class="name">{{ info.name + "." }}</span>
+        <span class="name">{{ info.name }}</span>
+        <span>.</span>
       </h1>
       <p class="jobs">
         <span v-for="(item, index) in info.jobs">
@@ -16,7 +17,7 @@
       <button v-for="item in info.button" :class="item.type" @click="item.fun()">{{ item.name }}</button>
     </div>
     <div class="footer">
-      <span>© 2023 - 2023</span>
+      <span>© {{ info.startYear }} - {{ new Date().getFullYear() }}</span>
       <span>{{ " " + info.name + ". " }}</span>
       <span>All rights reserved.</span>
     </div>
@@ -30,6 +31,7 @@ const userStore = useUserStore();
 const info = ref({
   name: "Chuckle",
   jobs: ["University Student", "Front-end Developer", "Blogger"],
+  startYear: "2023",
   button: [
     {
       type: "blue",
