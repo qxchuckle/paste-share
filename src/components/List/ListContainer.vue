@@ -180,12 +180,11 @@ watch(() => route.query, () => {
 .list-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 0 10px 6px;
+  padding: 10px 10px 6px;
   height: 100%;
-  margin-top: 10px;
 
   .search {
-    margin-bottom: 10px;
+    padding-bottom: 10px;
     width: 100%;
     display: flex;
   }

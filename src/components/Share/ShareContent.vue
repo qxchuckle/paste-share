@@ -29,7 +29,7 @@ import Report from '@/components/Share/Report.vue'
 <style lang="scss" scoped>
 .content {
   width: 100%;
-  margin: 10px 0 15px;
+  padding: 10px 0 15px;
 
   .title {
     font-size: 24px;
