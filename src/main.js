@@ -9,17 +9,6 @@ app.use(createPinia())
 import useUserStore from '@/stores/UserStore'
 const userStore = useUserStore();
 
-// axios
-import axios from 'axios';
-axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:3000';
-
-// 拦截器
-axios.interceptors.request.use((config) => {
-  config.headers.token = userStore.token;
-  return config;
-})
-app.provide('axios', axios);
-
 // 导入路由
 import router from '@/router'
 app.use(router)

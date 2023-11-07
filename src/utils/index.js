@@ -1,4 +1,5 @@
 import axios from 'axios';
+import useUserStore from '@/stores/UserStore'
 
 export function formatDateTime(timestamp, format = 'YYYY-MM-DD HH:MM', precision = 'minute') {
   // 将时间戳转换为日期对象
@@ -42,24 +43,62 @@ export function formatDateTime(timestamp, format = 'YYYY-MM-DD HH:MM', precision
   return formattedDate;
 }
 
+
+// axios封装
+const request = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:3000'
+})
+request.interceptors.request.use((config) => {
+  const userStore = useUserStore();
+  config.headers.token = userStore.token;
+  return config;
+})
+request.defaults.timeout = 5000;
+
 export const sendRequest = {
-  async get(url, option = { timeout: 5000 }) {
+  async get(url, option = {}) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(url, option);
+        const res = await request.get(url, option);
         resolve(res.data);
       } catch (error) {
-        reject(error);
+        // 出错重试
+        if (option.retry && option.retry > 0) {
+          try {
+            const result = await sendRequest.get(url, {
+              ...option,
+              retry: option.retry - 1
+            });
+            resolve(result);
+          } catch (error) {
+            reject(error);
+          }
+        } else {
+          reject(error);
+        }
       }
     });
   },
-  async post(url, data = {}, option = { timeout: 5000 }) {
+  async post(url, data = {}, option = {}) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(url, data, option);
+        const res = await request.post(url, data, option);
         resolve(res.data);
       } catch (error) {
-        reject(error);
+        // 出错重试
+        if (option.retry && option.retry > 0) {
+          try {
+            const result = await sendRequest.post(url, data, {
+              ...option,
+              retry: option.retry - 1
+            });
+            resolve(result);
+          } catch (error) {
+            reject(error);
+          }
+        } else {
+          reject(error);
+        }
       }
     });
   }

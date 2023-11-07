@@ -231,7 +231,7 @@ const autoLogin = async () => {
     );
     // 当没有处于登陆状态且有token，且之前登陆时勾选了记住并自动登录，则进行自动登录
     try {
-      const result = await sendRequest.post('/api/autoLogin');
+      const result = await sendRequest.post('/api/autoLogin', {}, { retry: 1 });
       if (result.code === '0000' && result.data.username) {
         userStore.username = result.data.username;
         userStore.userType = result.data.userType;
