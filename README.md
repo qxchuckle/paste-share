@@ -35,6 +35,7 @@ NodeJS后端：Express + MongoDB + Mongoose + shortid + jsonwebtoken
 ![image](https://github.com/qxchuckle/paste-share/assets/55614189/1abe15ab-5cd3-48c1-9658-40cae8c39e52)
 ![image](https://github.com/qxchuckle/paste-share/assets/55614189/7fee651c-75df-4c96-905e-74bccc3fb60e)
 ![image](https://github.com/qxchuckle/paste-share/assets/55614189/2c3aa537-7ae2-4a3e-9bbf-d05a34dc74a7)
+![image](https://github.com/qxchuckle/paste-share/assets/55614189/3a5d34fa-c7f2-4ccd-ae93-0b74fca46c22)
 
 
 
