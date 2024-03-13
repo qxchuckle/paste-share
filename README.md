@@ -26,16 +26,16 @@ NodeJS后端：Express + MongoDB + Mongoose + shortid + jsonwebtoken
 13. 移动端窄屏适配
 14. i18n国际化适配
 
-## 效果截图
+## 截图
 
-![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/1.webp)
-![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/2.webp)
-![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/3.webp)
-![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/4.webp)
-![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/5.webp)
-![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/6.webp)
-![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/7.webp)
-![image](https://raw.githubusercontent.com/qxchuckle/paste-share/master/screenshot/8.webp)
+![image](https://github.com/qxchuckle/paste-share/assets/55614189/90f3820b-9495-4f78-a7ea-8488251f0a49)
+![image](https://github.com/qxchuckle/paste-share/assets/55614189/0f44c290-1327-48de-976c-149fdc1360fc)
+![image](https://github.com/qxchuckle/paste-share/assets/55614189/1a6606cd-7689-4521-b5cd-0dfc8f9865c0)
+![image](https://github.com/qxchuckle/paste-share/assets/55614189/82437256-8fd8-45ca-83e5-b239dcc1c2a0)
+![image](https://github.com/qxchuckle/paste-share/assets/55614189/1abe15ab-5cd3-48c1-9658-40cae8c39e52)
+![image](https://github.com/qxchuckle/paste-share/assets/55614189/7fee651c-75df-4c96-905e-74bccc3fb60e)
+![image](https://github.com/qxchuckle/paste-share/assets/55614189/2c3aa537-7ae2-4a3e-9bbf-d05a34dc74a7)
+
 
 
 
